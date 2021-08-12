@@ -10,8 +10,8 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: module name here
-      url: core.html
+      title: Preparing Free Recall Data
+      url: Preparing_Free_Recall_Data.html
     output: web
     title: compmemlearn
   output: web

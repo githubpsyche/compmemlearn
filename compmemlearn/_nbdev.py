@@ -2,9 +2,12 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"say_hello": "00_core.ipynb"}
+index = {"prepare_murdock1962_data": "00_Preparing_Free_Recall_Data.ipynb",
+         "prepare_murdock1970_data": "00_Preparing_Free_Recall_Data.ipynb",
+         "prepare_lohnas2014_data": "00_Preparing_Free_Recall_Data.ipynb",
+         "simulate_data": "00_Preparing_Free_Recall_Data.ipynb"}
 
-modules = ["core.py"]
+modules = ["datasets.py"]
 
 doc_url = "https://githubpsyche.github.io/compmemlearn/"
 
