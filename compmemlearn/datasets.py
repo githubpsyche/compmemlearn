@@ -64,11 +64,6 @@ def prepare_murdock1962_data(path, dataset_index=0):
 
 # Cell
 
-import scipy.io as sio
-import numpy as np
-import pandas as pd
-from psifr import fr
-
 def prepare_murdock1970_data(path):
     """
     Prepares data formatted like `data/MurdData_clean.mat` for fitting.
@@ -155,11 +150,6 @@ def prepare_murdock1970_data(path):
     return trials, merged, list_length
 
 # Cell
-
-import scipy.io as sio
-import numpy as np
-import pandas as pd
-from psifr import fr
 
 def prepare_lohnas2014_data(path):
     """

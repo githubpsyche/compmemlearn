@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: Preparing Free Recall Data
       url: Preparing_Free_Recall_Data.html
+    - output: web,pdf
+      title: Benchmark Recall Phenomena
+      url: Benchmark_Analyses.html
     output: web
     title: compmemlearn
   output: web
