@@ -1,0 +1,9 @@
+                      ${\alpha}$          shared support            Amount of support items initially have for one another
+
+                      ${\delta}$          item support              Initial pre-experimental contextual self-associations
+
+                      ${\gamma}$          learning rate             Amount of experimental context retrieved by a recalled item
+
+                      ${\phi}_{s}$        primacy scale             Scaling of primacy gradient on trace activations
+
+                      ${\phi}_{d}$        primacy decay             Rate of decay of primacy gradient

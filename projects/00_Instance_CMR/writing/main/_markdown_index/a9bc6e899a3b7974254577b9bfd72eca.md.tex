@@ -1,0 +1,110 @@
+\markdownRendererHeadingOne{Context Maintenance and Retrieval within an Instance-Based Architecture}\markdownRendererInterblockSeparator
+{}Our instance-based implementation of the context maintenance and retrieval model (InstanceCMR) realizes the retrieved context account of memory search \markdownRendererCite{1}+{as\markdownRendererNbsp{}articulated\markdownRendererNbsp{}by}{}{morton2016predictive} within the instance-based MINERVA 2 model architecture \markdownRendererCite{1}+{}{}{hintzman1984minerva}. To make comparison of architectures as straightforward as possible, mechanisms were deliberately specified to be as similar to those of the original prototypical specification as possible except where required by the constraints of the instance-based architecture.\markdownRendererInterblockSeparator
+{}\markdownRendererTable{Parameters and structures specifying InstanceCMR}{19}{4}{llll}%
+{{Structure Type}%
+{Symbol}%
+{Name}%
+{Description}%
+}%
+{{Architecture}%
+{}%
+{}%
+{}%
+}%
+{{}%
+{$M$}%
+{memory}%
+{Array of accumulated memory traces}%
+}%
+{{}%
+{$C$}%
+{temporal context}%
+{A recency-weighted average of encoded items}%
+}%
+{{}%
+{$F$}%
+{item features}%
+{Current pattern of item feature unit activations}%
+}%
+{{Context Updating}%
+{}%
+{}%
+{}%
+}%
+{{}%
+{${\beta}_{enc}$}%
+{encoding drift rate}%
+{Rate of context drift during item encoding}%
+}%
+{{}%
+{${\beta}_{start}$}%
+{start drift rate}%
+{Amount of start-list context retrieved at start of recall}%
+}%
+{{}%
+{${\beta}_{rec}$}%
+{recall drift rate}%
+{Rate of context drift during recall}%
+}%
+{{Associative Structure}%
+{}%
+{}%
+{}%
+}%
+{{}%
+{${\alpha}$}%
+{shared support}%
+{Amount of support items initially have for one another}%
+}%
+{{}%
+{${\delta}$}%
+{item support}%
+{Initial pre-experimental contextual self-associations}%
+}%
+{{}%
+{${\gamma}$}%
+{learning rate}%
+{Amount of experimental context retrieved by a recalled item}%
+}%
+{{}%
+{${\phi}_{s}$}%
+{primacy scale}%
+{Scaling of primacy gradient on trace activations}%
+}%
+{{}%
+{${\phi}_{d}$}%
+{primacy decay}%
+{Rate of decay of primacy gradient}%
+}%
+{{Retrieval Dynamics}%
+{}%
+{}%
+{}%
+}%
+{{}%
+{${\tau}$}%
+{choice sensitivity}%
+{Exponential weighting of similarity-driven activation}%
+}%
+{{}%
+{${\theta}_{s}$}%
+{stop probability scale}%
+{Scaling of the stop probability over output position}%
+}%
+{{}%
+{${\theta}_{r}$}%
+{stop probability growth}%
+{Rate of increase in stop probability over output position}%
+}%
+\markdownRendererInterblockSeparator
+{}\markdownRendererHeadingTwo{Model Architecture}\markdownRendererInterblockSeparator
+{}Prototypical CMR stores associations between item feature representations (represented a pattern of weights in an item layer $F$) and temporal context (represented in a contextual layer $C$) by integrating prototypical mappings between the representations via Hebbian learning over the course of encoding. In contrast, InstanceCMR tracks the history of interactions between context and item features by storing a discrete record of each experience, even repeated ones, as separate traces within in a memory store for later inspection. Memory for each experience is encoded as a separate row in an $m$ by $n$ memory matrix $M$ where rows correspond to memory traces and columns correspond to features. Each trace representing a pairing $i$ of a presented item’s features $f_i$ and the temporal context of its presentation $c_i$ is encoded as a concatenated vector:\markdownRendererInterblockSeparator
+{}\begin{equation} \label{eq:14}M_i = (f_i, c_i)\end{equation}\markdownRendererInterblockSeparator
+{}\markdownRendererHeadingTwo{Initial State}\markdownRendererInterblockSeparator
+{}Structuring $M_i$ as a stack of concatenated item and contextual feature vectors $(f_i, c_i)$ makes it possible to define pre-experimental associations between items and contextual states similarly to the pattern by which PrototypeCMR's pre-experimental associations are specified in equations ~\ref{eq:1} and ~\ref{eq:2}. To set pre-experimental associations, a trace is encoded into memory $M$ for each relevant item. Each entry $j$ for each item feature component of pre-experimental memory traces trace $f_{pre}(i)$ is set according to\markdownRendererInterblockSeparator
+{}\begin{equation} \label{eq:14} f_{pre(i, j)} = \begin{cases} \begin{alignedat}{2} 1 - \gamma \text{, if } i=j \\ 0 \text{, if } i \neq j \end{alignedat} \end{cases} \end{equation}\markdownRendererInterblockSeparator
+{}This has the effect of relating each unit on $F$ to a unique unit on $C$ during retrieval. As within prototypical CMR, the $\gamma$ parameter controls the strength of these pre-experimental associations relative to experimental associations.\markdownRendererInterblockSeparator
+{}Similarly to control pre-experimental context-to-item associations, the content of each entry $j$ for the contextual component of each pre-experimental trace $c_{pre(i,j)}$ is set by:\markdownRendererInterblockSeparator
+{}\begin{equation} \label{eq:15} c_{pre(ij)} = \begin{cases} \begin{alignedat}{2} \delta \text{, if } i=j \\ \alpha \text{, if } i \neq j \end{alignedat} \end{cases} \end{equation}\markdownRendererInterblockSeparator
+{}Here, $\delta$ works similarly to $\gamma$ to connect indices on $C$ to the corresponding index on $F$ during retrieval from a partial or mixed cue. The $\alpha$ parameter additionally allows all the items to support one another in the recall competition in a uniform manner.\markdownRendererInterblockSeparator
+{}Before list-learning, context $C$ is initialized with a state orthogonal to the pre-experimental context associated with the set of items via the extra index that the representation vector has relative to items’ feature vectors. Following the convention established for prototypical specifications of CMR, item features are further assumed to be orthonormal with respect to one another such that each unique unit on $F$ corresponds to one item.\relax

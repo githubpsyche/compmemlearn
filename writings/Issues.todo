@@ -1,0 +1,194 @@
+Data Loaders:
+    I don't seem to be handling data loading in a conventional way.
+
+    - Reorganize data loaders to match pytorch conventions better. @2h
+    - Focus support on numpy arrays or on psifr dataframes @2h
+
+Update codebase to reflect centralized simulation approach:
+
+    ✔ Instead of unique likelihood functions for each model variant, we use and specify just one @done(21-10-24 01:25)
+    ✔ Instead of separate parameter arguments for model variants, we use a parameter typed dict @done(21-10-24 01:25)
+    ✔ Instead of unique item representations for model variants in client code, access model.items to select representations @done(21-10-24 01:25)
+    ✔ Instead of passing cues to model.activations, alway uses the current contextual state @done(21-10-24 01:25)
+    ✔ Integrate recent updates to CMR into full library @done(21-10-24 01:25)
+
+Benchmark statistics:
+
+    - Update lag-CRP plotting code to not stick to a specific grid @20m
+    - Pick one spot to demo lag-CRP
+
+Repetition Effects:
+    - Pick one spot to demo recall probability by lag
+    - Put randomize_dataset into better context
+    - Check if sim_recall_probability_by_lag still works after changes to normal recall_probability_by_lag
+    - OR score implementation
+    - Neighbor transition analysis implementation
+    - Update name/usage of alternative_contiguity_test
+    - Pick one spot to host a demo of the alternative_contiguity_test
+    - Put indices_of_repeated_items into better context
+    - Update alternative_contiguity_control to reflect recent changes
+    - Check if sim_alternative_contiguity_test still works after changes to normal alternative_contiguity_test
+    - Provide fuller documentation for recall_rate_by_lag
+
+Models:
+    - Include model demo/tests in initial specification so I can quickly check for breaking changes. Or maybe in a devoted notebook I can efficiently turn to
+    - Develop trace-based retrieval implementation
+
+Numba Extensions:
+    - Look for ways to avoid using numba datatypes inside numba functions so they still work when numba is turned off
+
+Writings:
+    - Review and clean up writings subdirectory
+
+NarrativeCMR:
+    - Integrate existing codebase into compmemlearn, update documentation
+
+InstanceCMR:
+    - Redo and simplify fitting analyses
+    - Update writeup and clarify place of writeup within repository
+    - Develop slide deck reviewing and discussing results
+
+RepetitionCMR:
+    - Develop and test trace-based retrieval implementation
+    - Pull together integrated review of all I've found so far
+    - Single subdirectory for all work
+    - Test codebase after all these changes
+
+Misc:
+    - My model visualization notebook is niche, maybe move to misc subdirectory.
+    - Improve function docstrings to clarify required commonalities across model structures, etc
+    - Put apply_and_concatenate in better context
+
+
+InstanceCMR States:
+    context:
+        array([1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0.])
+    first_item:
+        array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0.])
+    last_item:
+        array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 1.])
+    first_activation: 
+        array([0.99999907, 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ])
+    first memory norm:
+        array([0.99285341, 0.99285341, 0.99285341, 0.99285341, 0.99285341,
+       0.99285341, 0.99285341, 0.99285341, 0.99285341, 0.99285341,
+       0.99285341, 0.99285341, 0.99285341, 0.99285341, 0.99285341,
+       0.99285341, 0.99285341, 0.99285341, 0.99285341, 0.99285341])
+    first context input:
+        array([0.        , 0.99929265, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736, 0.00862736, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736, 0.00862736, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736, 0.00862736, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736])
+    first context update:
+        array([0.68833576, 0.72487912, 0.00625822, 0.00625822, 0.00625822,
+        0.00625822, 0.00625822, 0.00625822, 0.00625822, 0.00625822,
+        0.00625822, 0.00625822, 0.00625822, 0.00625822, 0.00625822,
+        0.00625822, 0.00625822, 0.00625822, 0.00625822, 0.00625822,
+        0.00625822])
+    first experimental trace:
+        array([0.        , 1.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.68833576, 0.72487912, 0.00625822, 0.00625822,
+       0.00625822, 0.00625822, 0.00625822, 0.00625822, 0.00625822,
+       0.00625822, 0.00625822, 0.00625822, 0.00625822, 0.00625822,
+       0.00625822, 0.00625822, 0.00625822, 0.00625822, 0.00625822,
+       0.00625822, 0.00625822])
+    first retrieval context:
+        array([0.00441953, 0.0251137 , 0.02535904, 0.02571961, 0.02624807,
+       0.02702099, 0.02814982, 0.02979685, 0.03219849, 0.03569915,
+       0.04080069, 0.04823477, 0.05906853, 0.07485981, 0.09788537,
+       0.13147826, 0.18052938, 0.25223928, 0.35725652, 0.51142168,
+       0.73846977])
+    first contextual cue:
+        array([0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.        , 0.        , 0.        , 0.        ,
+       0.        , 0.00441953, 0.0251137 , 0.02535904, 0.02571961,
+       0.02624807, 0.02702099, 0.02814982, 0.02979685, 0.03219849,
+       0.03569915, 0.04080069, 0.04823477, 0.05906853, 0.07485981,
+       0.09788537, 0.13147826, 0.18052938, 0.25223928, 0.35725652,
+       0.51142168, 0.73846977])
+    first outcome_probability echo (after power):
+        array([0.07594575, 0.02331939, 0.01386905, 0.01367241, 0.01502752,
+       0.01648196, 0.01786989, 0.01930736, 0.02098963, 0.02317791,
+       0.02624306, 0.03075037, 0.03760743, 0.04832479, 0.06548173,
+       0.09356531, 0.1404908 , 0.22037411, 0.35862816, 0.60142353])
+    first recall probability distribution:
+        array([0.03055371, 0.03952931, 0.01213761, 0.00721876, 0.00711641,
+       0.00782174, 0.00857876, 0.00930117, 0.01004937, 0.01092498,
+       0.01206397, 0.01365936, 0.01600539, 0.01957445, 0.02515277,
+       0.03408285, 0.04870019, 0.07312463, 0.11470341, 0.18666382,
+       0.31303737])
+
+New_Instance_CMR:
+    First Iteration:
+        context is:
+            array([1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0.])
+       shape:
+            (21,)   
+        Cue is:
+            array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+            0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+            0., 0., 0., 0., 0., 0., 0., 0.])
+        Echo is:
+            array([0.00000000e+00, 1.35117133e-03, 1.16637364e-05, 1.16637364e-05,
+        1.16637364e-05, 1.16637364e-05, 1.16637364e-05, 1.16637364e-05,
+        1.16637364e-05, 1.16637364e-05, 1.16637364e-05, 1.16637364e-05,
+        1.16637364e-05, 1.16637364e-05, 1.16637364e-05, 1.16637364e-05,
+        1.16637364e-05, 1.16637364e-05, 1.16637364e-05, 1.16637364e-05,
+        1.16637364e-05])
+        Normalized is:
+            array([0.        , 0.99929284, 0.00862621, 0.00862621, 0.00862621,
+        0.00862621, 0.00862621, 0.00862621, 0.00862621, 0.00862621,
+        0.00862621, 0.00862621, 0.00862621, 0.00862621, 0.00862621,
+        0.00862621, 0.00862621, 0.00862621, 0.00862621, 0.00862621,
+        0.00862621])
+        Rho is:
+            array([0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576])
+
+Old_Instance_CMR:
+    First Iteration:
+        context is:
+            array([1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0.])
+        shape:
+            (21,)
+        Cue is:
+            array([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+            0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+            0., 0., 0., 0., 0., 0., 0., 0.])
+        Echo is:
+            array([0.00000000e+00, 1.35117290e-03, 1.16653092e-05, 1.16653092e-05,
+       1.16653092e-05, 1.16653092e-05, 1.16653092e-05, 1.16653092e-05,
+       1.16653092e-05, 1.16653092e-05, 1.16653092e-05, 1.16653092e-05,
+       1.16653092e-05, 1.16653092e-05, 1.16653092e-05, 1.16653092e-05,
+       1.16653092e-05, 1.16653092e-05, 1.16653092e-05, 1.16653092e-05,
+       1.16653092e-05])
+        Normalized is:
+            array([0.        , 0.99929265, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736, 0.00862736, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736, 0.00862736, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736, 0.00862736, 0.00862736, 0.00862736, 0.00862736,
+       0.00862736])
+        Rho is:
+            array([0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576, 0.68833576, 0.68833576, 0.68833576, 0.68833576,
+       0.68833576])
+            

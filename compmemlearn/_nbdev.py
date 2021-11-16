@@ -2,32 +2,47 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"spec": "02_Instance_CMR.ipynb",
+index = {"icmr_spec": "02_Instance_CMR.ipynb",
          "Instance_CMR": "02_Instance_CMR.ipynb",
-         "icmr_murd_likelihood": "07_Comparing_Instance_and_Classic_CMR_Murdock1970.ipynb",
-         "icmr_murd_objective_function": "07_Comparing_Instance_and_Classic_CMR_Murdock1970.ipynb",
-         "cmr_rep_likelihood": "09_Comparing_Instance_and_Classic_CMR_Lohnas2015.ipynb",
-         "cmr_rep_objective_function": "09_Comparing_Instance_and_Classic_CMR_Lohnas2015.ipynb",
-         "icmr_rep_likelihood": "09_Comparing_Instance_and_Classic_CMR_Lohnas2015.ipynb",
-         "icmr_rep_objective_function": "09_Comparing_Instance_and_Classic_CMR_Lohnas2015.ipynb",
+         "lohnas_data_likelihood": "09_Comparing_Instance_and_Classic_CMR_Lohnas2015.ipynb",
+         "lohnas_objective_function": "09_Comparing_Instance_and_Classic_CMR_Lohnas2015.ipynb",
          "prepare_murdock1962_data": "00_Preparing_Free_Recall_Data.ipynb",
          "prepare_murdock1970_data": "00_Preparing_Free_Recall_Data.ipynb",
          "prepare_lohnas2014_data": "00_Preparing_Free_Recall_Data.ipynb",
+         "prepare_howakaha05_data": "00_Preparing_Free_Recall_Data.ipynb",
          "simulate_data": "00_Preparing_Free_Recall_Data.ipynb",
          "extended_apply_and_concatenate": "CMR_Configurations_Across_Lohnas2015_Conditions.ipynb",
-         "recall_probability_by_lag": "02_Measuring_Repetition_Effects.ipynb",
+         "familiarity_weighting": "Differential_Encoding_Mechanism.ipynb",
+         "randomize_dataset": "02_Measuring_Repetition_Effects.ipynb",
          "sim_recall_probability_by_lag": "02_Measuring_Repetition_Effects.ipynb",
+         "indices_of_repeated_items": "02_Measuring_Repetition_Effects.ipynb",
+         "alternative_contiguity_test": "02_Measuring_Repetition_Effects.ipynb",
+         "alternative_contiguity_control": "02_Measuring_Repetition_Effects.ipynb",
+         "sim_alternative_contiguity_test": "02_Measuring_Repetition_Effects.ipynb",
          "cmr_spec": "03_Classic_CMR.ipynb",
          "Classic_CMR": "03_Classic_CMR.ipynb",
-         "cmr_murd_likelihood": "04_Fitting_by_Likelihood.ipynb",
-         "cmr_murd_objective_function": "04_Fitting_by_Likelihood.ipynb",
-         "apply_and_concatenate": "04_Fitting_by_Likelihood.ipynb"}
+         "aic": "DE_Fitting_Benchmarks.ipynb",
+         "murdock_data_likelihood": "04_Fitting_by_Likelihood.ipynb",
+         "murdock_objective_function": "04_Fitting_by_Likelihood.ipynb",
+         "apply_and_concatenate": "04_Fitting_by_Likelihood.ipynb",
+         "encoding_states": "05_Model_Visualization.ipynb",
+         "plot_states": "05_Model_Visualization.ipynb",
+         "encoding_visualizations": "05_Model_Visualization.ipynb",
+         "latent_mfc_mcf": "05_Model_Visualization.ipynb",
+         "retrieval_states": "05_Model_Visualization.ipynb",
+         "outcome_probs_at_index": "05_Model_Visualization.ipynb",
+         "retrieval_visualizations": "05_Model_Visualization.ipynb",
+         "temporal_organization_analyses": "05_Model_Visualization.ipynb",
+         "recall_probability_by_lag": "Recall_Probability_by_Spacing.ipynb",
+         "serial_position_curve": "Serial_Position_Curve.ipynb"}
 
 modules = ["models.py",
            "fitting.py",
            "datasets.py",
            "model_fitting.py",
-           "analyses.py"]
+           "familiarity.py",
+           "analyses.py",
+           "model_analysis.py"]
 
 doc_url = "https://githubpsyche.github.io/compmemlearn/"
 
