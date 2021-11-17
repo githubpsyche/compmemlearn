@@ -24,6 +24,8 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    echo: false
+    code-fold: true
   pdf:
     header-includes: |
       \usepackage{arxiv}
