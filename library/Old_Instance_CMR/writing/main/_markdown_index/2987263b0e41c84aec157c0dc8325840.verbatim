@@ -1,5 +1,0 @@
-                      ${\beta}_{enc}$     encoding drift rate       Rate of context drift during item encoding
-
-                      ${\beta}_{start}$   start drift rate          Amount of start-list context retrieved at start of recall
-
-                      ${\beta}_{rec}$     recall drift rate         Rate of context drift during recall

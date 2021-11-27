@@ -1,5 +1,0 @@
-                      ${\tau}$            choice sensitivity        Exponential weighting of similarity-driven activation
-
-                      ${\theta}_{s}$      stop probability scale    Scaling of the stop probability over output position
-
-                      ${\theta}_{r}$      stop probability growth   Rate of increase in stop probability over output position

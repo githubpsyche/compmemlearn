@@ -1,5 +1,0 @@
-                      $M$                 memory                    Array of accumulated memory traces
-
-                      $C$                 temporal context          A recency-weighted average of encoded items
-
-                      $F$                 item features             Current pattern of item feature unit activations
