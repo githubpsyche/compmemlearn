@@ -1,0 +1,72 @@
+Paper Revisions:
+
+    General:
+        ✔ Number the equations @10m @done(21-08-10 06:55)
+
+    Introduction:
+        ✔ I need to rewrite my introduction of instance-based and prototype-based models such that I give them room to be outlined and for examples of each to be described before I start contrasting or otherwise analyzing them. @2h @started(21-08-03 01:54) @done(21-08-03 03:57) @lasted(2h3m48s)
+        In particular, I need to be clear about how the architectures handle abstraction differently, and clarify that concept thoroughly.
+
+        ✘ I will do that through a worked example of sorts based on category learning, perhaps paired with a helpful diagram (a better version of my talk figure) to reinforce conceptual relationships. @2h @cancelled(21-08-03 03:57)
+        That's the high-level overview I was worried about! 
+
+        ✔ Math stuff should ideally be moved to a later section. @2h @done(21-08-10 06:55)
+        I'm not sure how to dig into the flow correctly. I introduce the problem in my introduction using the diagram. But how am I engaging with nonlinear trace activation? That's like the distinction I'm presenting as a big deal between the models, right?
+
+        ☐ Also still need that deeper initial review of FR models, especially the instance-based ones. @30m
+
+        ✔ And a few edits breaking up or clarifying sentences. @15m @done(21-08-03 04:56)
+
+        5 action items, since a diagram is a whole thing.
+
+    Model Specification:
+        ✔ Most comments include the sentence he'd like it changed to or way he'd like a thing moved, so I could just implement these and click "Resolve". @1h @done(21-08-03 06:39)
+
+        ✔ In both sections, I need to clarify the relevant parts of the model specifications: how abstraction happens, how retrieval happens. @1h @done(21-08-10 06:55)
+        He suggests clear topic sentences; I might even try a subheading.
+
+        ☐ In particular, I need to work out how I'm going to talk about the distinction between prototype and instance-based models that Jamieson et al emphasize but CMR's specification complicates by having F representations be orthogonal @2h
+        (C representations aren't, though!). SS
+
+        ✔ But here direct reference to the CMR specification can clarify how InstanceCMR is different and avoid redundancy, particularly if I include equation numbering. @1h @done(21-08-10 06:55)
+        Sean once suggested that I should make the model specification sections kind of separate. But now I should implement this cross-reference stuff across the manuscript.
+
+        ✔ That part of the InstanceCMR with redundant equations has been an issue since I first wrote it up and I need to resolve a way to avoid it - either by just english-languaging some of it or rewriting things. @2h @done(21-08-10 06:55)
+        To be honest, every time I've looked at it I've wanted to redo the whole model. May discuss this part with Sean in meeting.
+
+    Methods:
+        ✘ Ditch initial paragraph, integrating content into later paragraphs @30m @cancelled(21-08-03 05:28)
+
+        ✘ If there are specific parameters that you adjusted in DE I think you can get away with just saying the name and values of those parameters without having to describe what they do @15m @cancelled(21-08-03 05:28)
+        Okay, I'll do that. Though I mainly used default parameters.
+
+        ✘ If we present AIC weights in the results, we should at least mention here that we use them for model comparison. @cancelled(21-08-03 05:28)
+        But the text here could simply refer the reader to other references that explain them in more detail, like that Wagenmakers and Farrell 2004 paper.
+
+        Okay, good to know reference. Suggests that I should maybe include information here about item repetitions, etc? 
+
+        ✘ Basically the analysis should be justified when it appears in the results, with a callback to the methods section if there are important details regarding how it was implemented. @1h @cancelled(21-08-03 05:28)
+        You don't necessarily have to justify each analysis here in the methods. I usually just save the methods for when I'm using a specialized analysis that might be hard for the reader to figure out otherwise.  Like SPC doesn't need justification or explanation.
+
+        Hmm, I get what he's saying, but I don't know if I agree here. Maybe ask him to elaborate on this point.
+
+    Baseline Comparison:
+        ☐ Make the first set of results also the section where I clarify how the model works. @2h
+        Reminds me of the Jamieson et al paper, okay. So to be clear, I first present results like I'm already doing. Then I clarify how models give rise to these phenomena okay. Cool yeah that's way better discourse.
+
+        ✘ Could use a table with the best fitting parameters @30m @cancelled(21-08-03 06:39)
+
+        ☐ Maybe there's another paragraph talking about the aspects of the data that both models don't get quite right @30m
+        Both models undershoot the recency effect in the SPC, both models predict a monotonic recency effect in the PFR but really it has a non-monotonic 'kink' in it, and both models underpredict the sharpness of the lag-CRP
+
+    Discussion:
+        As you are writing the earlier sections, sometimes you'll start explaining something and realize... I can make this part of the discussion so it doesn't clutter up this section. Then you can add a note here in the discussion that you wanted to explain that thing. Then when you are actually writing the discussion you get to decide whether or not you still feel like including it.
+
+        ☐ Possible discussion of Lehman and Malmberg model. @30m
+        It is a hybrid of REM (instance model) and SAM (simplified neural network model). I think the discussion here would center on whether the instance CMR implementation captures key behavioral effects in a similar way to L-M model. One point of interest is whether that model captures contiguity effect in the same way. If I recall it has a TCM-like temporal context that can give you contiguity but it also has the ability to make concatenated memory traces that associate items more directly. But I think this adds to the complexity of the model implementation, as you can store an item in different slots of a memory, and it may be like the memories in the matrix don't all have the same number of elements.
+
+        ☐ Could mention the Mewhort work looking at mathematics of instance models vs memory matrix models. @30m
+
+        ☐ For example, I really want to cover the Jamieson et al paper, since it's the most robust comparison between instance-based and prototype-based models I've seen so far, and my results settle on a meaningfully different conclusion. @30m
+
+        ☐ And I want to gesture at the further directions in which this model could be taken without being too starry eyed. @1h

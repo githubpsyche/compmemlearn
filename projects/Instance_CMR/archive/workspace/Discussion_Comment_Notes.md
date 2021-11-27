@@ -1,0 +1,11 @@
+**sean.polyn**: As you are writing the earlier sections, sometimes you'll start explaining something and realize... I can make this part of the discussion so it doesn't clutter up this section. Then you can add a note here in the discussion that you wanted to explain that thing. Then when you are actually writing the discussion you get to decide whether or not you still feel like including it.
+
+**sean.polyn**: Possible discussion of Lehman and Malmberg model. It is a hybrid of REM (instance model) and SAM (simplified neural network model). I think the discussion here would center on whether the instance CMR implementation captures key behavioral effects in a similar way to L-M model. One point of interest is whether that model captures contiguity effect in the same way. If I recall it has a TCM-like temporal context that can give you contiguity but it also has the ability to make concatenated memory traces that associate items more directly. But I think this adds to the complexity of the model implementation, as you can store an item in different slots of a memory, and it may be like the memories in the matrix don't all have the same number of elements.
+
+**sean.polyn**: Could mention the Mewhort work looking at mathematics of instance models vs memory matrix models. I'd be interested to see a paragraph summarizing that work and see your take on it. 
+
+I think I get his drift. I can talk about anything about my findings that I couldn't fit into the more tightly focused sections above - including the relationship between this model and works elsewhere in the literature. I shouldn't do new analyses per se but I can get pretty free-wheeling. At the same time, references to these works should probably occur in my background section if they're relevant enough for detailed attention in my Discussion section. 
+
+At least two action items here, but also a soft one that I should look through my notes and consider whether other work needs discussion. For example, I really want to cover the Jamieson et al paper, since it's the most robust comparison between instance-based and prototype-based models I've seen so far, and my results settle on a meaningfully different conclusion. 
+
+And I want to gesture at the further directions in which this model could be taken. 

@@ -1,0 +1,44 @@
+General:
+    ☐ Number the equations @10m
+
+This breaks up my intro rewrite into a clearer set of steps:
+    ☐ Rewrite paragraph introducing a definition and examples of instance-based memory models. @1h
+    Takes a bit of literature review, so I still shouldn't understate the likely duration.
+
+    ☐ Rewrite paragraph introducing a definition and examples of prototype-based models. @1h
+    Maybe focus on simpler examples (e.g. Hebbian learning) but also make reference to more complex examples.
+
+    ☐ Rewrite paragraph analyzing most obvious distinction between these architectures and linking it to deeper functional distinctions. @1h
+
+    ☐ Create diagram that clarifies how the architectures can be the same and how they can be different for reference in the contrastive paragraph. @1h
+
+    ☐ Also still need that deeper initial review of FR models, especially the instance-based ones. @45m
+
+    ☐ And a few edits breaking up or clarifying sentences. @15m
+
+Old Approach to Revising Introduction:
+    I need to rewrite my introduction of instance-based and prototype-based models such that I give them room to be outlined and for examples of each to be described before I start contrasting or otherwise analyzing them. @2h
+    In particular, I need to be clear about how the architectures handle abstraction differently, and clarify that concept thoroughly.
+
+    I will do that through a worked example of sorts based on category learning, perhaps paired with a helpful diagram (a better version of my talk figure) to reinforce conceptual relationships. @2h
+    That's the high-level overview I was worried about! 
+
+    Math stuff should ideally be moved to a later section. @2h
+    I'm not sure how to dig into the flow correctly. I introduce the problem in my introduction using the diagram. But how am I engaging with nonlinear trace activation? That's like the distinction I'm presenting as a big deal between the models, right?
+
+    Also still need that deeper initial review of FR models, especially the instance-based ones. @30m
+
+    And a few edits breaking up or clarifying sentences. @15m
+
+    This could conceivably be done in less than 7 hours, but means I have to work through the clarity faster.
+
+    Let's lean on Sean's suggestions again...
+
+    **sean.polyn**: Suggestion, start with paragraph describing instance-based models of memory, and giving citations and examples of memory-dependent behaviors.  Then second paragraph should transition to prototype-based models, explain what they are, and give summarized examples of behaviors they have been applied to.
+
+    **sean.polyn**: So then paragraph 3 can contrast the two approaches, using the logic that you're developing here. But if that logic follows from 2 orienting intro paragraphs setting up what each model is all about, it will be easier for the reader to process the key points about the distinction between the two model types / approaches. 
+
+    I could try the approach of outlining the two architectures and then starting a third paragraph stating that "the main thing these frameworks disagree about is the timing of abstraction". This timing distinction, however, contributes to meaningful functional differences. Retrieval-timed abstraction makes it possible to more liberally configure abstraction based on a cue. This is where I get into the dynamics introduced to distinguish the models.
+
+    Yeah, I like this. Example-based definitions, then a solid analysis of why the framework distinction matters that goes beyond the surface-level concern.
+
