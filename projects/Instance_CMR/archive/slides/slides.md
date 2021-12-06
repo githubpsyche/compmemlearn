@@ -109,8 +109,8 @@ Performs all **abstraction at encoding**, not retrieval.
 Examples: Linear Associator (right), LSA, word2vec
 <!--
 In other parts of the literature but not so much the one we just discussed, researchers have often set two basic types of memory models against one another. We can think of them as offering different answers to the question of what happens when you experience the same thing over and over again, but in different contexts - and later try to retrieve information about that contextual history. We can think of lots of situations where this sort of abstraction is really important. Maybe you're evaluating whether a person or potential food is a threat or not. Maybe you're just remembering what dogs are like.
-
-In one corner of the ring are what I'll stick to calling instance-based models. In prototype-based models, repeated experience of items under different contexts updates for each item a single prototypical representation of its contextual associations. Across many contexts, these representations becomes a distributed pattern of features that reflects each item's history of co-occurrence with other items, enabling you to retrieve information about one when later probed with information about the other.
+ 
+ In prototype-based models, repeated experience of items under different contexts updates for each item a single prototypical representation of its contextual associations. Across many contexts, these representations becomes a distributed pattern of features that reflects each item's history of co-occurrence with other items, enabling you to retrieve information about one when later probed with information about the other.
 
 Prototype-based models are hugely diverse and include most connectionist models, as well most of the distributional semantic models many of you may be familiar with such as LSA, word2vec, and so on. The key feature distinguishing prototype-based models is the correspondence of each item with a contextual representation that's static by the time retrieval happens.
 -->
