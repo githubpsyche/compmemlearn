@@ -14,8 +14,8 @@ Update codebase to reflect centralized simulation approach:
 
 Benchmark statistics:
 
-    - Update lag-CRP plotting code to not stick to a specific grid @20m
-    - Pick one spot to demo lag-CRP
+    ✔ Update lag-CRP plotting code to not stick to a specific grid @20m
+    ✔ Pick one spot to demo lag-CRP
 
 Repetition Effects:
     - Pick one spot to demo recall probability by lag
@@ -44,9 +44,9 @@ NarrativeCMR:
     - Integrate existing codebase into compmemlearn, update documentation
 
 InstanceCMR:
-    - Redo and simplify fitting analyses
-    - Update writeup and clarify place of writeup within repository
-    - Develop slide deck reviewing and discussing results
+    ✔ Redo and simplify fitting analyses
+    ✔ Update writeup and clarify place of writeup within repository
+    ✔ Develop slide deck reviewing and discussing results
 
 RepetitionCMR:
     - Develop and test trace-based retrieval implementation
