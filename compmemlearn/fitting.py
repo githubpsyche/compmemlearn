@@ -74,7 +74,9 @@ import numpy as np
 from numba import njit, prange
 from .models import Classic_CMR
 
-@njit(fastmath=True, nogil=True, parallel=True)
+
+#@njit(fastmath=True, nogil=True, parallel=True)
+@njit(nogil=True)
 def lohnas_data_likelihood(trials, presentations, model_class, parameters):
 
     list_length = len(presentations[0])
@@ -212,7 +214,9 @@ import numpy as np
 from numba import njit, prange
 from .models import Classic_CMR
 
-@njit(fastmath=True, nogil=True, parallel=True)
+
+#@njit(fastmath=True, nogil=True, parallel=True)
+@njit(nogil=True)
 def lohnas_data_likelihood(trials, presentations, model_class, parameters):
 
     list_length = len(presentations[0])
