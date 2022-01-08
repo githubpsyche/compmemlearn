@@ -1,10 +1,5 @@
 # compmemlearn
-> a demonstrative python library for computational memory science
-
-
-What is computational memory science and how do you do it? This library and its documentation aim to help track and make useful my best grasp of that question, outlining a reusable workflow for identifying worthwhile research questions given the context of pre-existing work; collecting, preparing, and visualizing relevant data; applying incisive statistical analyses; and communicating results to the broader research community. 
-
-I'm still early on in my career, so to start this library won't be worth much, and the understanding of computational memory science that it reflects will likely be amateurish and even ineffective. In practice, this repository mainly exists to help me avoid forgetting lessons or re-writing code across my efforts on similar research projects. Over time though, I hope evolve into a collection of tools, demonstrations, and tutorials valuable for building acquaintance with the field's research practices and/or bootstrapping any associated projects. At the very least I hope it will help my collaborators better understand what I'm up to!
+> a demonstrative python library for computational memory science, but in practice Jordan's working repo for modeling stuff
 
 ## Using as a Library
 
