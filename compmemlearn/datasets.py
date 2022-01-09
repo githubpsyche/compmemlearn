@@ -63,26 +63,26 @@ def simulate_array(model, experiment_count, first_recall_item=None):
 
 # Cell
 
-@njit(fastmath=True, nogil=True)
+@njit(nogil=True)
 def simulate_array_from_presentations(model_class, parameters, presentations, experiment_count):
 
-    # simulate retrieval for the specified number of times, tracking results in array
+    # simulate retrieval for the specified number of times, tracking results in trials array
     trials = np.zeros((experiment_count * len(presentations), np.max(presentations)+1), dtype=int32)
 
     for experiment in range(experiment_count):
         for trial_index in range(len(presentations)):
 
+            # retrieve presentation sequence for this trial and measure number of unique items
             presentation = presentations[trial_index]
             item_count = np.max(presentation)+1
-            model = model_class(item_count, len(presentation), parameters)
-            model.experience(model.items[presentation])
 
             # simulate recall and identify first study position of each recalled item
+            model = model_class(item_count, len(presentation), parameters)
+            model.experience(model.items[presentation])
             recalled = model.free_recall()
 
             for i in range(len(recalled)):
-                trials[experiment*len(presentations) + trial_index, i] = find_first(
-                    recalled[i], presentation) + 1
+                trials[experiment*len(presentations) + trial_index, i] = find_first(recalled[i], presentation) + 1
 
     return trials
 
