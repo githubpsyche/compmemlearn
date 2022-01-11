@@ -73,14 +73,15 @@ import numpy as np
 from numba import int32
 
 @njit(nogil=True)
-def fast_mixed_pfr(trials, presentations, item_count):
+def fast_mixed_pfr(trials, presentations):
 
-    result = np.zeros(item_count, dtype=int32)
+    list_length = len(presentations[0])
+    result = np.zeros(list_length, dtype=int32)
     alt_trials = recall_by_second_study_position(trials, presentations)
     first_recalls = np.hstack((trials[:, :1], alt_trials[:, :1]))
 
     for trial_index in range(len(trials)):
-        for i in range(item_count):
+        for i in range(list_length):
             result[i] += i+1 in first_recalls[trial_index]
 
     return result/len(trials)
@@ -524,14 +525,15 @@ import numpy as np
 from numba import int32
 
 @njit(nogil=True)
-def fast_mixed_pfr(trials, presentations, item_count):
+def fast_mixed_pfr(trials, presentations):
 
-    result = np.zeros(item_count, dtype=int32)
+    list_length = len(presentations[0])
+    result = np.zeros(list_length, dtype=int32)
     alt_trials = recall_by_second_study_position(trials, presentations)
     first_recalls = np.hstack((trials[:, :1], alt_trials[:, :1]))
 
     for trial_index in range(len(trials)):
-        for i in range(item_count):
+        for i in range(list_length):
             result[i] += i+1 in first_recalls[trial_index]
 
     return result/len(trials)
