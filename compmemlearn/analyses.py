@@ -117,14 +117,15 @@ def recall_by_second_study_position(trials, presentations):
     return result
 
 @njit(nogil=True)
-def fast_mixed_spc(trials, presentations, item_count):
-    result = np.zeros(item_count, dtype=int32)
+def fast_mixed_spc(trials, presentations):
+    list_length = len(presentations[0])
+    result = np.zeros(list_length, dtype=int32)
     alt_trials = recall_by_second_study_position(trials, presentations)
     trials = np.hstack((trials, alt_trials))
 
     for trial_index in range(len(trials)):
-        for i in range(item_count):
-            result[i] += i+1 in trials[trial_index]
+        for study_position in range(list_length):
+            result[study_position] += study_position+1 in trials[trial_index]
 
     return result/len(trials)
 
@@ -655,13 +656,14 @@ def recall_by_second_study_position(trials, presentations):
     return result
 
 @njit(nogil=True)
-def fast_mixed_spc(trials, presentations, item_count):
-    result = np.zeros(item_count, dtype=int32)
+def fast_mixed_spc(trials, presentations):
+    list_length = len(presentations[0])
+    result = np.zeros(list_length, dtype=int32)
     alt_trials = recall_by_second_study_position(trials, presentations)
     trials = np.hstack((trials, alt_trials))
 
     for trial_index in range(len(trials)):
-        for i in range(item_count):
-            result[i] += i+1 in trials[trial_index]
+        for study_position in range(list_length):
+            result[study_position] += study_position+1 in trials[trial_index]
 
     return result/len(trials)
