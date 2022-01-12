@@ -4,6 +4,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"fast_crp": "Lag_Contiguity_Effect.ipynb",
          "plot_lag_crp": "Lag_Contiguity_Effect.ipynb",
+         "fast_mixed_crp": "Lag_Contiguity_with_Repetition_Data.ipynb",
          "fast_mixed_pfr": "Probability_of_First_Recall_in_Repetition_Data.ipynb",
          "recall_by_second_study_position": "Serial_Position_Effect_in_Repetition_Datasets.ipynb",
          "fast_mixed_spc": "Serial_Position_Effect_in_Repetition_Datasets.ipynb",
