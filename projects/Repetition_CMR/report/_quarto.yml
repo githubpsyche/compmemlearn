@@ -2,20 +2,18 @@ project:
   type: book
 
 book:
-  title: "An Instance-Based Account of Context Maintenance and Retrieval"
+  title: "RepFR"
   lang: "en"
   execute: false
   chapters:
     - index.ipynb
-    - 00_Introduction.ipynb
-    - 01_Classic_CMR.ipynb
-    - 02_Instance_CMR.ipynb
-    - 03_Methods.ipynb
-    - 04_Baseline_Comparison.ipynb
-    - 05_Variable_List_Lengths.ipynb
-    - 06_Item_Repetitions.ipynb
-    - 07_Discussion.ipynb
-    - references.md
+    - Data_Overview.ipynb
+    - Likelihood_Based_Fitting.ipynb
+    - Likelihood_Based_Fitting_Without_Delay_Drift.ipynb
+    - Likelihood_Based_Fitting_Without_First_Recall.ipynb
+    - Likelihood_Based_Fitting_CMRDE.ipynb
+    - Statistic_Based_Fitting_to_Repetition_Effects.ipynb
+    - ClaireExpt6.ipynb
 
 bibliography: references.bib
 
@@ -31,12 +29,6 @@ format:
         | Vanderbilt University
         | Nashville, TN 37235
         | \texttt{jordan.gunn@vanderbilt.edu}
-      - |
-        | \textbf{Sean M. Polyn}
-        | Department of Psychological Sciences
-        | Vanderbilt University
-        | Nashville, TN 37235
-        | \texttt{sean.polyn@vanderbilt.edu}
     header-includes: |
       \usepackage{setspace}
       \onehalfspacing
