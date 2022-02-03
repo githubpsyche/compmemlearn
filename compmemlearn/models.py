@@ -782,10 +782,11 @@ trcmr_spec = [
     ('recall_items', float64[:,::1]),
     ('norm', float64[::1]),
     ('context_reinstatement', float64),
+    ('feature_drift_rate', float64),
+    ('features', float64[::1]),
 ]
 
 # Cell
-
 
 @jitclass(trcmr_spec)
 class Trace_Reinstatement_CMR:
@@ -809,13 +810,14 @@ class Trace_Reinstatement_CMR:
         self.context_sensitivity = parameters['context_sensitivity']
         self.feature_sensitivity = parameters['feature_sensitivity']
         self.context_reinstatement = parameters['context_reinstatement']
+        self.feature_drift_rate = parameters['feature_drift_rate']
 
         # at the start of the list context is initialized with a state
         # orthogonal to the pre-experimental context associated with the set of items
         self.context = np.zeros(item_count + 2)
         self.context[0] = 1
         self.preretrieval_context = self.context
-        self.recall = np.zeros(item_count, int32) # recalls has at most `item_count` entries
+        self.recall = np.zeros(item_count, dtype=int32) # recalls has at most `item_count` entries
         self.retrieving = False
         self.recall_total = 0
 
@@ -853,34 +855,56 @@ class Trace_Reinstatement_CMR:
         self.encoding_index = item_count
 
         # base
+        self.features = np.zeros((self.item_count+2))
         self.recall_items = np.hstack((np.eye(item_count, item_count + 2, 1), np.zeros((item_count, item_count+2))))
 
         # mixed cue
-        #self.items = np.hstack((np.eye(item_count, item_count + 2, 1), np.eye(item_count, item_count + 2, 1)))
+        self.items = np.hstack((np.eye(item_count, item_count + 2, 1), np.eye(item_count, item_count + 2, 1)))
 
         # contextual unit cue
         #self.items = np.hstack((np.zeros((item_count, item_count+2)), np.eye(item_count, item_count + 2, 1)))
 
         # parametrized mixed cue
-        self.items = np.hstack((np.eye(item_count, item_count + 2, 1), self.context_reinstatement*np.eye(item_count, item_count + 2, 1)))
+        #self.items = np.hstack(
+        #    (np.eye(item_count, item_count + 2, 1), self.context_reinstatement*np.eye(item_count,item_count + 2, 1)))
 
         #self.items /= np.sqrt(np.sum(np.square(self.items[0])))
 
     def experience(self, experiences):
 
         for i in range(len(experiences)):
-            self.memory[self.encoding_index] = experiences[i]
-            self.update_context(self.encoding_drift_rate, self.memory[self.encoding_index])
+
+            # configure contextual representation for trace
+            self.update_context(self.encoding_drift_rate, experiences[i])
             self.memory[self.encoding_index, self.item_count+2:] = self.context
+
+            # configure feature representation for trace
+            self.update_features(self.feature_drift_rate, experiences[i])
+            self.memory[self.encoding_index, :self.item_count+2] = self.features
+
             self.encoding_index += 1
+
+    def update_features(self, drift_rate, experience):
+
+        probe = experience.copy()
+        probe[:self.item_count+2] *= 0 #TODO: exclude if I'm including C information in cue
+        feature_input = self.echo(probe)[:self.item_count + 2]
+        assert(np.sqrt(np.sum(np.square(feature_input))) > 0)
+        feature_input = feature_input / np.sqrt(np.sum(np.square(feature_input))) # norm to length 1
+
+        self.features = experience[:self.item_count+2]
+        rho = np.sqrt(1 + np.square(drift_rate) * (np.square(self.features * feature_input) - 1)) - (
+                drift_rate * (self.features * feature_input))
+        self.features = (rho * self.features) + (drift_rate * feature_input)
+        self.features = self.features / np.sqrt(np.sum(np.square(self.features)))
 
     def update_context(self, drift_rate, experience):
 
         # first pre-experimental or initial context is retrieved
         if len(experience) == self.item_count * 2 + 4:
-            #probe = experience.copy()
-            #probe[:self.item_count+2] = 0
-            context_input = self.echo(experience)[self.item_count + 2:]
+            probe = experience.copy()
+            probe[self.item_count+2:] *= self.context_reinstatement
+            context_input = self.echo(probe)[self.item_count + 2:]
             context_input = context_input / np.sqrt(np.sum(np.square(context_input))) # norm to length 1
         else:
             context_input = experience
@@ -892,7 +916,6 @@ class Trace_Reinstatement_CMR:
         self.context = self.context / np.sqrt(np.sum(np.square(self.context)))
 
     def echo(self, probe):
-
         return np.dot(self.activations(probe), self.memory[:self.encoding_index])
 
     def activations(self, probe, probe_norm=1.0):
@@ -946,7 +969,7 @@ class Trace_Reinstatement_CMR:
 
         # some pre-list context is reinstated before initiating recall
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, dtype=int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
@@ -985,7 +1008,7 @@ class Trace_Reinstatement_CMR:
     def force_recall(self, choice=None):
 
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, dtype=int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
