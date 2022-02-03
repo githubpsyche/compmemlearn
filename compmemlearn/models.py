@@ -864,7 +864,7 @@ class Trace_Reinstatement_CMR:
         # parametrized mixed cue
         self.items = np.hstack((np.eye(item_count, item_count + 2, 1), self.context_reinstatement*np.eye(item_count, item_count + 2, 1)))
 
-        self.items /= np.sqrt(np.sum(np.square(self.items[0])))
+        #self.items /= np.sqrt(np.sum(np.square(self.items[0])))
 
     def experience(self, experiences):
 
@@ -878,6 +878,8 @@ class Trace_Reinstatement_CMR:
 
         # first pre-experimental or initial context is retrieved
         if len(experience) == self.item_count * 2 + 4:
+            #probe = experience.copy()
+            #probe[:self.item_count+2] = 0
             context_input = self.echo(experience)[self.item_count + 2:]
             context_input = context_input / np.sqrt(np.sum(np.square(context_input))) # norm to length 1
         else:
