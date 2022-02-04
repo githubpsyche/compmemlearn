@@ -404,7 +404,7 @@ class Instance_CMR:
             else:
                 activation = np.power(activation, self.context_sensitivity)
 
-        return activation + 10e-7
+        return activation
 
     def outcome_probabilities(self):
 
@@ -879,32 +879,26 @@ class Trace_Reinstatement_CMR:
             self.memory[self.encoding_index, self.item_count+2:] = self.context
 
             # configure feature representation for trace
-            self.update_features(self.feature_drift_rate, experiences[i])
+            # self.update_features(self.feature_drift_rate, experiences[i])
             self.memory[self.encoding_index, :self.item_count+2] = self.features
 
             self.encoding_index += 1
-
-    def update_features(self, drift_rate, experience):
-
-        probe = experience.copy()
-        probe[:self.item_count+2] *= 0 #TODO: exclude if I'm including C information in cue
-        feature_input = self.echo(probe)[:self.item_count + 2]
-        assert(np.sqrt(np.sum(np.square(feature_input))) > 0)
-        feature_input = feature_input / np.sqrt(np.sum(np.square(feature_input))) # norm to length 1
-
-        self.features = experience[:self.item_count+2]
-        rho = np.sqrt(1 + np.square(drift_rate) * (np.square(self.features * feature_input) - 1)) - (
-                drift_rate * (self.features * feature_input))
-        self.features = (rho * self.features) + (drift_rate * feature_input)
-        self.features = self.features / np.sqrt(np.sum(np.square(self.features)))
 
     def update_context(self, drift_rate, experience):
 
         # first pre-experimental or initial context is retrieved
         if len(experience) == self.item_count * 2 + 4:
+
+            # retrieve experience's contextual associations
             probe = experience.copy()
             probe[self.item_count+2:] *= self.context_reinstatement
-            context_input = self.echo(probe)[self.item_count + 2:]
+            context_input = self.echo(probe)
+
+            # use context input as probe to update feature representation
+            self.update_features(self.feature_drift_rate, experience, context_input)
+
+            # configure context_input for integration into context
+            context_input = context_input[self.item_count + 2:]
             context_input = context_input / np.sqrt(np.sum(np.square(context_input))) # norm to length 1
         else:
             context_input = experience
@@ -914,6 +908,19 @@ class Trace_Reinstatement_CMR:
                 drift_rate * (self.context * context_input))
         self.context = (rho * self.context) + (drift_rate * context_input)
         self.context = self.context / np.sqrt(np.sum(np.square(self.context)))
+
+    def update_features(self, drift_rate, experience, probe):
+
+        feature_input = probe.copy()
+        feature_input[:self.item_count+2] *= 0 #TODO: exclude if I'm including C information in cue
+        feature_input = self.echo(feature_input)[:self.item_count + 2]
+        feature_input = feature_input / np.sqrt(np.sum(np.square(feature_input))) # norm to length 1
+
+        self.features = experience[:self.item_count+2]
+        rho = np.sqrt(1 + np.square(drift_rate) * (np.square(self.features * feature_input) - 1)) - (
+                drift_rate * (self.features * feature_input))
+        self.features = (rho * self.features) + (drift_rate * feature_input)
+        self.features = self.features / np.sqrt(np.sum(np.square(self.features)))
 
     def echo(self, probe):
         return np.dot(self.activations(probe), self.memory[:self.encoding_index])
@@ -940,7 +947,7 @@ class Trace_Reinstatement_CMR:
             else:
                 activation = np.power(activation, self.context_sensitivity)
 
-        return activation + 10e-7
+        return activation # + 10e-7
 
     def outcome_probabilities(self):
 
