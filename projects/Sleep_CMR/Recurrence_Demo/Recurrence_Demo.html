@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.281">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Jordan Gunn">
+  <meta name="dcterms.date" content="2022-02-06">
+  <title>Exploring Recurrence in Instance-Based Modeling</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="recurrence_demo_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="recurrence_demo_files/libs/quarto-html/quarto.js"></script>
+  <script src="recurrence_demo_files/libs/quarto-html/popper.min.js"></script>
+  <script src="recurrence_demo_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="recurrence_demo_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="recurrence_demo_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="recurrence_demo_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="recurrence_demo_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="recurrence_demo_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="recurrence_demo_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="container-fluid page-layout-article">
+<div class="page-columns">
+<main class="content">
+<header id="title-block-header">
+<h1 class="title display-7">Exploring Recurrence in Instance-Based Modeling</h1>
+<p class="author">Jordan Gunn</p>
+<p class="date">February 6, 2022</p>
+</header>
+<ul>
+<li><p>A common feature of learning models is recurrence – where the outputs of the model are related back to the model as inputs. Here, we’re particularly interested in implementing and understanding the MINERVA 2 model’s recurrence mechanism. In MINERVA, recursion enables memory systems to confine activation to a particular subset of traces containing a particular pattern of weights. To study the efficacy of this mechanism, we’ll document the model’s capacity to account for tasks used to study rest-dependent memory consolidation. According to an account proposed by Foldes (2021), people replay memories of study events during rest, leading to improvements in recall performance. MINERVA 2’s recurrence mechanism is thought to be a good model of this sort of replay. We’ll present a specification of the model and apply it to simulate benchmark rest-dependent memory consolidation effects in three tasks: transitive inference, paired associate learning, and serial reaction time.</p></li>
+<li><p>From here, will give the mechanism a little more scrutiny. If we take as a given that the main effect of recurrence of recurrence in MINERVA 2 is to confine echo content to a particular subset of traces, then what distinguishes it from, say, applying an higher exponent during probing to each trace’s activation before aggregating traces to form an echo? By tradition, this exponent is held at 3, but higher values similarly concentrate activation to traces most similar to the item probe and is less computationally taxing. We’ll explore whether increasing MINERVA II’s nonlinear scaling parameter transforms retrieved model representations in the same way recurrence does or not.</p></li>
+<li><p>The context maintenance and retrieval model of free recall (CMR; Polyn &amp; Kahana, 2009) includes its own nonlinear activation scaling parameter. But if we do find that recurrence in MINERVA II has different effects on retrieval than increased nonlinear activation scaling, we’ll next explore the consequences of introducing MINERVA-style recurrence into an instance-based implementation of the model, identifying the kinds of predictions that the mechanism corresponds to. We’ll then relate these insights back to the rest-dependent memory consolidation tasks initially modeled.</p></li>
+</ul>
+<section id="the-minerva-2-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-minerva-2-model">The MINERVA 2 Model</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Hintzman1986fig2.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 2 from Hintzman, 1986.</figcaption><p></p>
+</figure>
+</div>
+<p>We start by specifying an <code>ExemplarModel</code> class that implements the instance-based model architecture. Under the architecture, every <code>experience</code> is represented as a vector - an ordered list of feature values along many dimensions. A record of each experience - called a <code>trace</code> is stored as a new, separate row in a m x n <code>memory</code> matrix where rows correspond to memory traces and columns correspond to feature dimensions.</p>
+<p>To retrieve information from memory, a feature vector can be presented as a <code>probe</code>. The probe activates all traces in memory in parallel. Each trace’s <code>activation</code> is a cubed function of its cosine <code>similarity</code> to the probe: <span class="math display">\[A(i) = S(i)^3\]</span> The sum of these traces weighted by their activation represents an <code>echo</code> summarizing the memory system’s response to the probe. The content and intensity of this echo can serve downstream behavior such as recognition, word sense disambiguation, and even free recall. For example, to compare memory representations associated with two probes, the model can compute the resemblance (cosine similarity) between the echoes associated with probes A and B.</p>
+<p>We will simulate the recurrence mechanism within this model by iteratively conversion of retrieved echo representations into new probe representations. For most experiments, though we’re studying recurrence as a mechanism of memory consolidation, we’ll generally directly compare recurrently-retrieved representations</p>
+<p>To represent items, we’ll follow the lead of Kelly, Mewhort, &amp; West (2017). We’ll use vectors of 64 dimensions whose values are randomly sampled from a normal distribution. And to represent co-encoding of items, we’ll use a sum of corresponding item vectors.</p>
+<p></p><details>
+<summary>code – an <code>ExemplarModel</code> class that implements the instance-based model architecture</summary><p></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy.linalg <span class="im">import</span> norm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExemplarModel:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    The basic exemplar model of memory as originated by Hintzman (1984, 1986, 1988) in MINERVA 2.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Under the architecture, every `experience` is represented as a vector - an ordered list of</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    feature values along many dimensions. A record of each experience - called a `trace` is stored</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    as a new, separate row in a m x n `memory` matrix where rows correspond to memory traces and</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    columns correspond to feature dimensions.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    To retrieve information from memory, a feature vector can be presented as a `probe`. The probe</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    activates all traces in memory in parallel. Each trace's `activation` is a cubed function of</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    its `similarity` to the probe. The sum of these traces weighted by their activation represents</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    an `echo` summarizing the memory system's response to the probe. The content and intensity of</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">    this echo can serve downstream behavior such as recognition, word sense disambiguation, and</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    even free recall. For example, to compare memory representations associated with two probes,</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">    the model can compute the resemblance (cosine similarity) between the echoes associated with</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">    probes A and B.</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">    - memory: array where rows correspond to accumulated memory traces and columns correspond to</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">    feature dims</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, experiences<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">        Inits exemplar model with initial set of experiences in memory (if any).</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.memory <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> experiences <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.experience(experiences)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> experience(<span class="va">self</span>, experiences):</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Adds new experience(s) to model memory, represented as new row(s) in the model's memory</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">        array.</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.memory <span class="op">=</span> (</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>            np.vstack((<span class="va">self</span>.memory, np.array(experiences)))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span>.memory</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span> np.array(experiences)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> probe(<span class="va">self</span>, probe):</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">        Presents a cue to memory system, fetching echo reflecting its pattern of activation across</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">        traces. The probe activates all traces in memory in parallel. Each trace's `activation` is</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">        a cubed function of its `similarity` to the probe. The sum of these traces weighted by</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">        their activation is an `echo` summarizing the memory system's response to the probe.</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">        Raises error if no traces are yet stored in memory.</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="co"># computes and cubes similarity value to find activation for each trace in memory</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        activation <span class="op">=</span> np.power(</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>            np.<span class="bu">sum</span>(<span class="va">self</span>.memory <span class="op">*</span> probe, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>            <span class="op">/</span> (norm(<span class="va">self</span>.memory, axis<span class="op">=</span><span class="dv">1</span>) <span class="op">*</span> norm(probe)),</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>            <span class="dv">3</span>,</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="co"># multiply each trace by its associated activation</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and take a column-wise sum to retrieve echo</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>        echo <span class="op">=</span> np.<span class="bu">sum</span>((<span class="va">self</span>.memory.T <span class="op">*</span> activation).T, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> echo</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compare_probes(<span class="va">self</span>, first_probe, second_probe):</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">        Compute the resemblance (cosine similarity) between the echoes associated with probes A</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">        and B.</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co">        Raises error if no traces are yet stored in memory.</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        echoes <span class="op">=</span> <span class="va">self</span>.probe(first_probe), <span class="va">self</span>.probe(second_probe)</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.<span class="bu">sum</span>(echoes[<span class="dv">0</span>] <span class="op">*</span> echoes[<span class="dv">1</span>]) <span class="op">/</span> (norm(echoes[<span class="dv">0</span>]) <span class="op">*</span> norm(echoes[<span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</section>
+<section id="the-transitive-inference-task" class="level2">
+<h2 class="anchored" data-anchor-id="the-transitive-inference-task">The Transitive Inference Task</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ellenbogen2007figure1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Figure 1 from Ellenbogen, 2007.</figcaption><p></p>
+</figure>
+</div>
+<p>In the transitive inference task, subjects start with a phase of premise pair learning. They may study six pairs of novel visual patterns, with each pair randomly assigned to a particular hierarchical order. Participants learned these individual premise pairs (represented schematically as A&gt;B, B&gt;C, C&gt;D, D&gt;E, and E&gt;F to a high degree of proficiency and were subsequently tested after the respective delay periods. Participants were instructed that they were learning individual comparisons (e.g., B&gt;C) but were not informed of the hierarchical structure (A&gt;B&gt;C&gt;D&gt;E&gt;F) from which inferences could be made (e.g., B&gt;D and C&gt;E – inference pairs with “1 degree of separation” – or B&gt;E, a pair with “2 degrees of separation”). After the time delay (20m, 12hrs, or 24hrs), premise pair performance was tested (e.g., B?C) together with novel item combinations never learned (e.g., B?E), thereby probing inferential ability.</p>
+<p>Participants were instructed that two visual objects would appear side by side on the screen, one at a time. On each trial, participants saw one of the five premise pairs (either A-B, B-C, C-D, D-E, or E-F). Subjects were instructed to select the correct item, at first by trial and error, but that with practice, they may be able to learn which of the two object items was correct, based on cued feedback. Participants were trained on the premise pairs until they reached a performance criterion. After delay, they did the same task but without any feedback.</p>
+<p>To model this task, we encode paired items as a sum of corresponding item representations, weighting this sum to prioritize the reinforced / hierarchically higher item. Then to measure recall upon presentation of a premise pair, we construct an unweighted sum of corresponding item representations and use it as a probe to the model. Recall is successful if the retrieved echo is more similar to the hierarchically higher item than to the hierarchically lower item in the probe.</p>
+<p></p><details>
+<summary>code – parameters for transitive inference experiment</summary><p></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">## recursion iterations to try out before doing similarity test</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>recursion_iteration_counts <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">10</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">## number of unique experiments to simulate</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>experiment_count <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">## reinforced item is `reinforcement_scale` times more prominent in encoded trace than distractor</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>reinforcement_scale <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">## item features including number of items, dimensionality, mean and std of sampled feature values</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>number_of_items <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>item_dimensionality <span class="op">=</span> <span class="dv">64</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>item_mean <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>item_standard_deviation <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">## trial features including number of blocks</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># in a block, participants encoded each premise pair twice</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># on average participants practiced ~13 blocks before obtaining threshold (&gt;80%) decision accuracy</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>block_count <span class="op">=</span> <span class="dv">13</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>repeats_per_block <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">## degrees of separation to consider</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># in Ellenbogen et al, 2007, researchers only go up to 2</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>considered_degrees_of_separation <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell" data-execution_count="64">
+<p></p><details>
+<summary>code – transitive inference simulation experiment</summary><p></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># results are binned by recursion_iteration_counts and considered_degree_of_separation</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>correct <span class="op">=</span> np.zeros((<span class="bu">len</span>(recursion_iteration_counts), <span class="bu">len</span>(considered_degrees_of_separation)))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> correct.copy()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> recurrence_index, recurrence_iterations <span class="kw">in</span> <span class="bu">enumerate</span>(recursion_iteration_counts):</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> experiment <span class="kw">in</span> <span class="bu">range</span>(experiment_count):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># generate item representations for this experiment</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        items <span class="op">=</span> np.random.normal(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            item_mean, item_standard_deviation, (number_of_items, item_dimensionality)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># initialize model memory based on specified block_count, item_count, and repeats_per_block</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        experiences <span class="op">=</span> []</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> block <span class="kw">in</span> <span class="bu">range</span>(block_count):</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> item_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(items) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> repeat_iteration <span class="kw">in</span> <span class="bu">range</span>(repeats_per_block):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># study event is weighted composite of item i and item i+1</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                    experiences.append(</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                        (reinforcement_scale <span class="op">*</span> items[item_index])</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                        <span class="op">+</span> items[item_index <span class="op">+</span> <span class="dv">1</span>]</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># initialize model with array representation of experiences</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ExemplarModel(np.array(experiences))</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># test memory for premise pairs after specified number of recurrence iterations</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> degree_index, degree_of_separation <span class="kw">in</span> <span class="bu">enumerate</span>(considered_degrees_of_separation):</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> item_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(items) <span class="op">-</span> (<span class="dv">1</span> <span class="op">+</span> degree_of_separation)):</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>                <span class="co"># this time the pairing is an unweighted composition</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>                item_pair <span class="op">=</span> items[item_index] <span class="op">+</span> items[item_index <span class="op">+</span> (<span class="dv">1</span> <span class="op">+</span> degree_of_separation)]</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>                <span class="co"># we find an initial echo and then perform recurrence through echo-probe conversion</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>                echo <span class="op">=</span> model.probe(item_pair)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(recurrence_iterations):</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>                    echo <span class="op">=</span> model.probe(echo)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>                <span class="co"># finally, we compare the echo to each item in the pair to form a decision</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>                target_similarity <span class="op">=</span> np.<span class="bu">sum</span>(echo <span class="op">*</span> items[item_index]) <span class="op">/</span> (</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>                    norm(echo) <span class="op">*</span> norm(items[item_index])</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>                distractor_similarity <span class="op">=</span> np.<span class="bu">sum</span>(echo <span class="op">*</span> items[item_index <span class="op">+</span> (<span class="dv">1</span> <span class="op">+</span> degree_of_separation)]) <span class="op">/</span> (</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>                    norm(echo) <span class="op">*</span> norm(items[item_index <span class="op">+</span> (<span class="dv">1</span> <span class="op">+</span> degree_of_separation)])</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>                correct[recurrence_index, degree_index] <span class="op">+=</span> target_similarity <span class="op">&gt;</span> distractor_similarity</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>                total[recurrence_index, degree_index] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> correct<span class="op">/</span>total</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>result_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Recurrence Iterations"</span>: recursion_iteration_counts <span class="op">*</span> <span class="dv">3</span>,</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Item Pair"</span>: [<span class="st">'Premise'</span>]<span class="op">*</span><span class="dv">3</span> <span class="op">+</span> [<span class="st">'1° Inference'</span>]<span class="op">*</span><span class="dv">3</span> <span class="op">+</span> [<span class="st">'2° Inference'</span>]<span class="op">*</span><span class="dv">3</span>,</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: result.flatten(),</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>result_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display" data-execution_count="64">
+<div>
+
+<table class="dataframe table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Recurrence Iterations</th>
+      <th>Item Pair</th>
+      <th>Accuracy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Premise</td>
+      <td>0.891750</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Premise</td>
+      <td>0.658333</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10</td>
+      <td>Premise</td>
+      <td>0.738500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1° Inference</td>
+      <td>0.909000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>1° Inference</td>
+      <td>0.655000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10</td>
+      <td>1° Inference</td>
+      <td>0.732500</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0</td>
+      <td>2° Inference</td>
+      <td>0.917500</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>2° Inference</td>
+      <td>0.659667</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10</td>
+      <td>2° Inference</td>
+      <td>0.742500</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="68">
+<p></p><details>
+<summary>bar plot visualization of experiment outcome</summary><p></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sns.catplot(x<span class="op">=</span><span class="st">"Item Pair"</span>, y<span class="op">=</span><span class="st">"Accuracy"</span>, col<span class="op">=</span><span class="st">'Recurrence Iterations'</span>, kind<span class="op">=</span><span class="st">'bar'</span>, data<span class="op">=</span>result_df)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Recurrence_Demo_files\figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main>
+<!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>

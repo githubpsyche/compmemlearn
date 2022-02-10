@@ -354,6 +354,7 @@ class Instance_CMR:
         self.norm[item_count:] = np.sqrt(2)
         self.encoding_index = item_count
         self.items = np.hstack((np.eye(item_count, item_count + 2, 1), np.zeros((item_count, item_count+2))))
+        self.items = self.items.astype(int32)
 
     def experience(self, experiences):
 
@@ -889,7 +890,6 @@ class Trace_Reinstatement_CMR:
         probe = experience.copy()
         probe[:self.item_count+2] *= 0 #TODO: exclude if I'm including C information in cue
         feature_input = self.echo(probe)[:self.item_count + 2]
-        assert(np.sqrt(np.sum(np.square(feature_input))) > 0)
         feature_input = feature_input / np.sqrt(np.sum(np.square(feature_input))) # norm to length 1
 
         self.features = experience[:self.item_count+2]
