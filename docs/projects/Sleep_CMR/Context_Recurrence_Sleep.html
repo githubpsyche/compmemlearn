@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.281">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>compmemlearn – context_recurrence_sleep</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">compmemlearn</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#context-recurrence-and-sleep" class="nav-link active" data-scroll-target="#context-recurrence-and-sleep">Context, Recurrence, and Sleep</a>
+<ul class="collapse">
+<li><a href="#tasks" class="nav-link" data-scroll-target="#tasks">Tasks</a></li>
+<li><a href="#transitive-inference-sleep-facilitates-inference-of-indirect-associations" class="nav-link" data-scroll-target="#transitive-inference-sleep-facilitates-inference-of-indirect-associations">Transitive Inference: Sleep Facilitates Inference of Indirect Associations</a>
+<ul class="collapse">
+<li><a href="#paired-associate-sleep-protects-against-interference-between-memory-traces" class="nav-link" data-scroll-target="#paired-associate-sleep-protects-against-interference-between-memory-traces">Paired Associate: Sleep Protects Against Interference Between Memory Traces</a></li>
+</ul></li>
+<li><a href="#serial-reaction-time-task" class="nav-link" data-scroll-target="#serial-reaction-time-task">Serial Reaction Time Task</a>
+<ul class="collapse">
+<li><a href="#number-reduction-task" class="nav-link" data-scroll-target="#number-reduction-task">Number reduction task</a></li>
+<li><a href="#other-tasks" class="nav-link" data-scroll-target="#other-tasks">Other tasks</a></li>
+</ul></li>
+<li><a href="#patterns-across-literature" class="nav-link" data-scroll-target="#patterns-across-literature">Patterns Across Literature</a></li>
+<li><a href="#proposed-accounts" class="nav-link" data-scroll-target="#proposed-accounts">Proposed Accounts</a>
+<ul class="collapse">
+<li><a href="#temporal-scaffolding-hypothesis" class="nav-link" data-scroll-target="#temporal-scaffolding-hypothesis">Temporal Scaffolding Hypothesis</a></li>
+<li><a href="#active-system-consolidation" class="nav-link" data-scroll-target="#active-system-consolidation">Active System Consolidation</a></li>
+<li><a href="#signal-boosting" class="nav-link" data-scroll-target="#signal-boosting">Signal-Boosting</a></li>
+</ul></li>
+<li><a href="#computational-mechanisms" class="nav-link" data-scroll-target="#computational-mechanisms">Computational Mechanisms?</a>
+<ul class="collapse">
+<li><a href="#recurrent-similarity-computation" class="nav-link" data-scroll-target="#recurrent-similarity-computation">Recurrent Similarity Computation</a></li>
+<li><a href="#tcm---items-are-tagged-w-contextual-codesassociations" class="nav-link" data-scroll-target="#tcm---items-are-tagged-w-contextual-codesassociations">TCM - Items are tagged w/ contextual codes/associations</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<!-- main -->
+<main class="content">
+
+<section id="context-recurrence-and-sleep" class="level1">
+<h1>Context, Recurrence, and Sleep</h1>
+<p>Tamas’s topic is sleep-dependent memory consolidation. His approach starts with the hypothesis that a variety of phenomena tied to sleep-dependent memory consolidation can be explained for in terms of replay, and in turn that replay within a memory system can be modeled as recurrence within instance-based architecture.</p>
+<p>Previous models like McClelland’s REMERGE already include recurrence-similarity mechanisms for modeling memory effects. And recurrence within instance-based architectures aren’t a novel idea. But in his work I’ve seen so far, he’s at least qualitatitively accounting for various effects across different tasks using MINERVA w/ recurrence. He’s also reported having a wealth of EEG and behavioral data (maybe FMRI, too) he hopes to relate with his models. He’s also using a bayesian technique to fit and evaluate the model that I think could be helpful to learn about, too.</p>
+<p>But what do we have to add to this project? Beyond our experience developing and evaluating instance-based models and accounting for sequences of recall events, I think there’s an interesting body of research exploring the possibility that temporal features have celebrity status when it comes to sleep-dependent consolidation. Howard and Kahana’s 2005 TCM paper includes proposal of a retrieved context account of transitive inference - one of the tasks central to this literature, and was noted by Kumaran &amp; McClelland in their REMERGE paper as offering a qualitatively distinct account of performance than the recurrence-based account they prefer. Lerner &amp; Gluck (2019) reports an extensive meta-analysis of research on sleep-dependent memory consolidation and find that sleep has an effect explicit detection of hidden temporal rules much more reliably than it does on detection of “stationary” rules.</p>
+<p>Since it composes the premises of retrieved context theory into an instance-based architecture, InstanceCMR is maybe uniquely suited for integrating TCM’s account of relation extraction with recurrence-based accounts of how sleep influences memory. A composite account of sleep-dependent memory consolidation might be able to explain variance across experimental results in the literature more effectively than a more focused model. But I dunno!</p>
+<section id="tasks" class="level2">
+<h2 class="anchored" data-anchor-id="tasks">Tasks</h2>
+<p>In general, the focus in this research is on how sleep affects people’s ability to extract hidden regularities from recently encoded stimuli. Across tasks though, there’s a common thread:</p>
+<blockquote class="blockquote">
+<p>In these studies, participants are asked to perform a simple task, which can be easily accomplished by following a given set of instructions; however, unknown to participants, the stimuli in the task embed some hidden regularities that, if discovered (either implicitly or explicitly), can lead to a marked improvement in performance.</p>
+</blockquote>
+<p>Across many influential studies using these tasks, sleep – particularly short-wave sleep – was found to “facilitate such incidental discovery more than simple time passed in wake”.</p>
+<p>Tamas focuses on three tasks: transitive inference, paired associate learning, and serial reaction time. Let’s review these tasks and the main sleep effects, then circle back to paradigms across the broader literature examined in Lerner &amp; Gluck’s (2019) review.</p>
+</section>
+<section id="transitive-inference-sleep-facilitates-inference-of-indirect-associations" class="level2">
+<h2 class="anchored" data-anchor-id="transitive-inference-sleep-facilitates-inference-of-indirect-associations">Transitive Inference: Sleep Facilitates Inference of Indirect Associations</h2>
+<p>Transitive inference is an ability to derive a relation “Mary is taller than Kate” from the premises “Mary is taller than Ann” and “Ann is taller than Kate”.</p>
+<p>One highly cited study examining this capacity (Ellenbogen et al, 2007) uses this approach:</p>
+<blockquote class="blockquote">
+<p>On each trial, subjects were presented with a pair of abstract images and asked to choose between them, after which they received feedback for their choice. Through trial and error, subjects needed to discover which image in each pair should be preferred over the other. The images were chosen from 6 stimuli with a hidden rule governing the preferences hierarchy: A &gt; B &gt; C &gt; D &gt; E &gt; F. Only adjacent pairs were presented during training (e.g., AB, BC, CD), in random order. At test, subjects needed to once again choose, without further feedback, the preferred stimuli from the learned pairs, but also from unlearned “inference” pairs (e.g., BD, CE, BE) for which the correct answer follows the same hierarchy rule (e.g., B &gt; E). Results showed that sleep facilitates performance for the inference pairs in an implicit way (i.e., more correct answers than in the wake condition), but does not benefit explicit recognition of the hidden rule (feedback condition).</p>
+</blockquote>
+<p>Another studied had subjects associate between sets of images A and B, and between images in sets B and C, and then tested for indirect associations (A and C). More SWS during a nap correlated with stronger indirect associations.</p>
+<p>Tamas modeled this by measuring cosine similarities between relevant echo representations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachment:cc8fe445-0e3c-4e6d-8e5e-5c783a320e8e.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">image.png</figcaption><p></p>
+</figure>
+</div>
+<section id="paired-associate-sleep-protects-against-interference-between-memory-traces" class="level3">
+<h3 class="anchored" data-anchor-id="paired-associate-sleep-protects-against-interference-between-memory-traces">Paired Associate: Sleep Protects Against Interference Between Memory Traces</h3>
+<p>Participants learn 60 paired associated (A-B) in two phases. First, study only. Second, anticipation-plus-study where a computer presents the A words and the participant gets feedback on their answer. After sleep (or just a delay), some participants do another study phase where they learn 20 A-C pairs, inducing retroactive interference for the A-B pairs. Then after a short ten minute delay, participants perform cued recall of associated B and associated C words for each A-cue.</p>
+<p>Interference is less harmful for recall of A-B and A-C pairs after sleep!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachment:9de26210-40c1-4abe-935c-5620790916b3.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">image.png</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="serial-reaction-time-task" class="level2">
+<h2 class="anchored" data-anchor-id="serial-reaction-time-task">Serial Reaction Time Task</h2>
+<p>Pariticipants learn two (12-item) sequences of button presses (A and B). For each trial, a visual cue appeared with a tone in one of four locations, corresponding to keys of the same configuration, and pressed the key as quickly as possible while minimizing errors. Cousins et al replayed tones associated with one learned sequence during slow-wave sleep for one group, but not another which instead did the replay while awake. After waking, participants with the sleep-based reactivation, demonstrated greater explicit knowledge (p 0.005) and more improved procedural skill (p 0.04) forthe cued sequence relative to the uncued sequence.</p>
+<p>To model reaction time, they took an idea from tje iterative resonance model. Exponent for activation is set to 1 at time 1. Then exponent is increased with each timestep. Exaggerates differences in similarity of probe to each trace. Count how many times it takes for model to retrieve trace that exceeds decision threshold of the model.</p>
+<p>This could prove an interesting way to model reaction times in free recall!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachment:1b6e7e11-be32-4d0c-a23c-995221d6c0cd.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">image.png</figcaption><p></p>
+</figure>
+</div>
+<section id="number-reduction-task" class="level3">
+<h3 class="anchored" data-anchor-id="number-reduction-task">Number reduction task</h3>
+<p>Not a focus of Andrei’s modeling but apparently the most cited paradigm used to suggest that sleep inspires insight, according to Lerner % McGluck.</p>
+<blockquote class="blockquote">
+<p>Subjects perform computations on a series of digit pairs in succession. For each pair (comprised of the digits 1, 4, and 9), they need to produce a third digit based on a simple pre-taught rule. In each trial, eight digits are presented, and subjects are required to go over them serially by first applying the rule to the first two digits; then applying the rule to their response together with the third digit; then to their new response and the fourth digit, and so on. Subjects thus produce a total of seven digits one after the other throughout each trial by continually employing the rule, with the final digit considered the ultimate answer for that trial. Subjects are told, however, that if they happen to realize what the last digit will be before having gone through all seven computations, they can respond with that answer immediately and end the trial early. Indeed, unrevealed to the subjects, there is a hidden rule that governs the required responses and which, if detected, allows the subjects to predict the last digit prematurely: The inputs are organized such that, for a given trial, the last three required responses always mirror the preceding three responses (e.g., 4, 9, 4, 1, 1, 4, 9). If subjects recognize this regularity, they can predict the final answer for the trial as soon as they compute the second response and thus considerably reduce their RT for that trial. Studying the effects of sleep on performance, it isregularly found that sleep dramatically increases the probability of subjects explicitly discovering the hidden rule (evident by both a large decrease in RTs and in stating the relation between the 2nd and 7th response in a follow-up questionnaire [9,31]), with some studies linking the effect specifically to SWS [12,31]. Implicit effects of sleep (i.e., gradual reduction of RTs to each of the three predictable responses before the insight occurs), in contrast, are rarely found.</p>
+</blockquote>
+</section>
+<section id="other-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="other-tasks">Other tasks</h3>
+<ul>
+<li><p><strong>Artificial grammar learning</strong>. subjects are exposed to sentences made of gibberish words or syllables. A hidden grammatical rule governs these sentences and restricts the order of words such that not all possible combinations are allowed (e.g., 3- word sentences in which the first word always determines the identity of the third word). Learning effect generally found implicitly but not explicitly.</p></li>
+<li><p><strong>Statistical learning</strong>. Weather Prediction Task. subjects are presented with abstract images and asked to learn, by trial and error, whether they predict Sun or Rain. Various combinations of 1, 2 or 3 images (out of possible 4) are displayed on different trials, with a complex and probabilistic relation linking each combination to the correct answer. Subjects can improve performance above chance even if not fully realizing the complex rule, by developing simple strategies that take under consideration only some of the images.</p></li>
+<li><p><strong>Information-integration</strong>. subjects are exposed to a set stimuli differing on two dimensions, both of which could be visual (e.g., a grating pattern differing on orientation and frequency), or one auditory and one visual (e.g., location of an image and an accompanying tone). The stimuli are differentiated to two groups based on a linear decision bound in the 2D stimuli space, such that information from both dimensions need be taken under consideration simultaneously for optimal performance. One study [30] found sleep enhances categorization performance. A second study [51] found sleep did not enhance performance immediately, but enhanced the effects of retraining on the same rule following sleep. An explicit test of rule knowledge (using a generation task) showed no sleep effects. A third study [29] found no facilitatory effects of sleep at all.</p></li>
+<li><p><strong>Generalization of categorical learning</strong>. subjects learn to classify a group of exemplars to two or more categories based on instructions or through trial and error; and are subsequently tested on their knowledge of the categories when required to classify new exemplars, or the never-seen category prototypes, without feedback. stimuli vary greatly, and Results were highly polarized.</p></li>
+</ul>
+</section>
+</section>
+<section id="patterns-across-literature" class="level2">
+<h2 class="anchored" data-anchor-id="patterns-across-literature">Patterns Across Literature</h2>
+<ul>
+<li>Overall, findings tended to be replicated across studies that used the same task.</li>
+<li>No simple effects of experimental design.</li>
+<li>Sleep facilitates explicit detection of temporal, not stationary regularities (MRT, SRTT – not transitive inference?)</li>
+<li>A facilitatory effect of sleep on implicit detection of a hidden regularity was common to all paradigms</li>
+</ul>
+<p>The common theme for both the NRT and SRTT is the use of a hidden regularity with a temporal (or sequential) nature: event x on time t predicts event y happening a few seconds later. The only other task to show a sleep-related effect on explicit detection of a hidden rule, the surveillance task, employed a similar type of regularity.</p>
+<p>(Knocks the idea that temporal contextual relations might be more explicit, as TCM has already been applied to model transitive inference.)</p>
+</section>
+<section id="proposed-accounts" class="level2">
+<h2 class="anchored" data-anchor-id="proposed-accounts">Proposed Accounts</h2>
+<section id="temporal-scaffolding-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="temporal-scaffolding-hypothesis">Temporal Scaffolding Hypothesis</h3>
+<p>when regularities have a temporal nature that depends on information occurring over several seconds or more, the typical timescale of Hebbian mechanisms (approximately 50e200 ms; [73]) may not be sufficient to create the necessary associations in real time. But One critical feature of memory replay in the hippocampus during SWS is that it does not occur in the same rate of the original experience; in fact, it is time-compressed, by a factor of up to 20 of the original speed.</p>
+<p>It is, however, important to note that since the evidence for timecompressed memory replay almost exclusively relies on rodent research, the temporal scaffolding model remains speculative until further corroboration from human studies.</p>
+</section>
+<section id="active-system-consolidation" class="level3">
+<h3 class="anchored" data-anchor-id="active-system-consolidation">Active System Consolidation</h3>
+<p>Hippocampal memories are reactivated during SWS in coordination with cortical activity (memory replay). suggests that memory reactivation supports the transformation of hippocampally-dependent episodic memories into cortically-dependent semantic ones [18]. Through this process, regularities embedded within the encoded memories are slowly extracted, avoiding catastrophic interference, and then distributed within existing knowledge structures for long-term memory storage [18,19].</p>
+</section>
+<section id="signal-boosting" class="level3">
+<h3 class="anchored" data-anchor-id="signal-boosting">Signal-Boosting</h3>
+<p>Based on data suggesting that SWS leads to a net reduction in synaptic strength within the hippocampus and cortex, sleep may act to maintain stable levels of synaptic strength (known as synaptic homeostasis) by reducing and even eliminating excessive connectivity created during wake. Such homeostasis has the potential to improve signal to noise ratio and maintain the important common aspects of memories while reducing the salience of their less relevant idiosyncratic features, thus creating generalized representations of the individual experiences.</p>
+<blockquote class="blockquote">
+<p>This article proposes a mechanism by which the reactivation of newly learned memories during sleep could actively underpin both schema formation and the addition of new knowledge to existing schemata. Under this model, the overlapping replay of related memories selectively strengthens shared elements. Repeated reactivation of memories in different combinations progressively builds schematic representations of the relationships between stimuli. We argue that this selective strengthening forms the basis of cognitive abstraction, and explain how it facilitates insight and false memory formation.</p>
+</blockquote>
+</section>
+</section>
+<section id="computational-mechanisms" class="level2">
+<h2 class="anchored" data-anchor-id="computational-mechanisms">Computational Mechanisms?</h2>
+<section id="recurrent-similarity-computation" class="level3">
+<h3 class="anchored" data-anchor-id="recurrent-similarity-computation">Recurrent Similarity Computation</h3>
+<p>Proposes recurrent similarity computation where two-way cexcitatory onnections between feature and conjunctive layers of a neural network enable recurrent reactivation that facilitates efficient discovery of higher-order relationships. Originally to account for generalization.</p>
+<p>Cited limitations: no learning algorithm proposed for how conjunctive layer is formed. Not clear how to model tasks where a priori conjunctive nodes arne’t obvious.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachment:2deed4cf-98b5-4003-b1c8-f0a3d760ea15.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">image.png</figcaption><p></p>
+</figure>
+</div>
+<p>Tamas et al show the same mechanisms work fine when implemented in MINERVA, where the echo retrieved by a probe is iteratively used as a probe to “sharpen” the echo, progressively retrieving a smaller and smaller subset of memories in way that improves retrieval. How? Protects against interference? Do we store echoes as traces or what?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachment:d49e6f05-b881-4ed7-9a1b-bf9b01d2744e.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">image.png</figcaption><p></p>
+</figure>
+</div>
+<p>Pulls replay and “sharpening” together into one neat mechanism!</p>
+</section>
+<section id="tcm---items-are-tagged-w-contextual-codesassociations" class="level3">
+<h3 class="anchored" data-anchor-id="tcm---items-are-tagged-w-contextual-codesassociations">TCM - Items are tagged w/ contextual codes/associations</h3>
+<p>TCM argues that contextual states, rather thanitem–item associations, act as the primary cues for recall of items. As such, items are retrieved as a function of their similarity to thecurrent state of context, which in turn is influenced by both theitems themselves and a general tendency to drift over time. <strong>Common features due to temporal co-occurrence enables generalization.</strong></p>
+<p>Don’t think Howard &amp; Kahana evaluate this idea very much, at least not in their 2005 paper, but it’s definitely very reasonable given our work on CMR and other work I’ve seen on recognition.</p>
+<p>But then what does this have to do with sleep? I suspect composing two qualitatively distinct mechanisms within one model could prove more robust than models encoding just one, and maybe obtain flexibility to account for discrepancies between task outcomes reviewed in Lerner &amp; Gluck’s meta-analysis (we could suppose one mechanism might prove more influential in some tasks than others).</p>
+
+
+</section>
+</section>
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

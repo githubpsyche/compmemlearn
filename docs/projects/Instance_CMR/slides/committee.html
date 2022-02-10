@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.281">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>compmemlearn – committee</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../../">
+  <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+  <script src="../../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <link rel="stylesheet" href="../../../styles.css">
+</head>
+<body>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">compmemlearn</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">About</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#whats-at-stake-when-you-choose-a-model-architecture" class="nav-link active" data-scroll-target="#whats-at-stake-when-you-choose-a-model-architecture">What’s At Stake When You Choose a Model Architecture?</a></li>
+<li><a href="#memory-associates-information-based-on-a-history-of-experiences" class="nav-link" data-scroll-target="#memory-associates-information-based-on-a-history-of-experiences">Memory <em>associates</em> information based on a history of experiences</a></li>
+<li><a href="#instance-based-models" class="nav-link" data-scroll-target="#instance-based-models">Instance-Based Models</a></li>
+<li><a href="#prototype-based-models" class="nav-link" data-scroll-target="#prototype-based-models">Prototype-based models</a></li>
+<li><a href="#model-architectures-trade-between-compression-and-flexibility" class="nav-link" data-scroll-target="#model-architectures-trade-between-compression-and-flexibility">Model Architectures Trade Between Compression and Flexibility</a></li>
+<li><a href="#current-focus-memory-search" class="nav-link" data-scroll-target="#current-focus-memory-search">Current Focus: Memory Search</a></li>
+<li><a href="#section" class="nav-link" data-scroll-target="#section">—</a></li>
+<li><a href="#section-1" class="nav-link" data-scroll-target="#section-1">—</a></li>
+<li><a href="#section-2" class="nav-link" data-scroll-target="#section-2">—</a></li>
+<li><a href="#section-3" class="nav-link" data-scroll-target="#section-3">—</a></li>
+<li><a href="#section-4" class="nav-link" data-scroll-target="#section-4"></a></li>
+</ul>
+</nav>
+<!-- main -->
+<main class="content">
+
+<section id="whats-at-stake-when-you-choose-a-model-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="whats-at-stake-when-you-choose-a-model-architecture">What’s At Stake When You Choose a Model Architecture?</h2>
+<!--
+
+
+Main ideas to highlight:
+- Question: What's at stake when you're choosing between instance- and prototype-based architectures to model how humans do memory search
+- To help find out, I developed an instance-based variant of an established prototype-based account of memory search called the context maintenance and retrieval model.
+-->
+<p>What’s at stake when you’re choosing between instance- and prototype-based architectures to model how humans do memory search? To help find out, I developed an instance-based variant of an established prototype-based account of memory search called the context maintenance and retrieval model. I compared the variant and the original’s capacity to account for human performance across various datasets using prediction-based model fitting and simulation of benchmark behavioral phenomena. Both variants performed similarly in my comparisons, demonstrating the architectural independence of the models’ theoretical commitments and laying the groundwork for deeper integration or crossover between instance- and prototype-based modeling practices.</p>
+</section>
+<section id="memory-associates-information-based-on-a-history-of-experiences" class="level2">
+<h2 class="anchored" data-anchor-id="memory-associates-information-based-on-a-history-of-experiences">Memory <em>associates</em> information based on a history of experiences</h2>
+<!--
+Slide visuals: 
+- black box memory model
+
+Main ideas to highlight:
+- Memory *associates* information based on feature co-occurrence over a history of experiences
+- Can be modeled with instance- or prototype-based frameworks
+-->
+<p>To get into what I’m talking about, we can start with a simplified idea of memory as a system that associates cues with responses based on co-occurence of features over some history of experiences. Seeing a flower can remind you of details from other times you’ve seen that flower, such as in a vase or while walking outside. Being in this meeting might remind you of similar meetings you’ve had, and so on.</p>
+<p>In the cognitive modeling literature, research often distinguishes between two basic frameworks summarizing how human memory systems pull this off – between <strong>instance</strong> and <strong>prototype</strong> theories.</p>
+</section>
+<section id="instance-based-models" class="level2">
+<h2 class="anchored" data-anchor-id="instance-based-models">Instance-Based Models</h2>
+<!--
+Slide visuals: 
+- Each piece of an instance-based model (traces, probe, activations, echo)
+- The nonlinear similarity equation!
+
+Main ideas to highlight:
+- Representation. Discrete traces stored for each experience.
+- Probe. An activation generated for each stored trace based on similarity to the reminder.
+- Echo. A blend of coactivated traces, weighted based on relevance to the probe.
+-->
+<p>Instance-based accounts of memory conceptualize learning as growing a collection of distinct memory traces, each a record of a unique event or experience. A reminder retrieves associations by activating each stored instance in parallel based on similarity. Traces highly similar to your reminder are especially activated, while very <em>dis</em>similar traces see their activations suppressed, thereby prioritizing relevant information. The weighted sum of representations retrieved from all these traces shouting at the same time is an “echo” your memory system replies with.</p>
+<p>The way I’m describing instance models here closely coheres with the architecture established in the 80s by Hintzman to account for performance like tasks like item recognition and frequency judgments without explicit storage of prototypes. But instance-based models are diverse and have been applied to account for a ambitious range of phenomena. Works such as the Generalized Context and Exemplar-Based Random Walk models pervade accounts of category learning and are about as paradigmatic. A line of integrative works like Gordon’s instance theory of attention and memory and more recent CRU model has even pushed the deceptively simple architecture to account for patterns and processes across many research domains at once, subsuming normally distinguished cognitive processes under a single umbrella.</p>
+</section>
+<section id="prototype-based-models" class="level2">
+<h2 class="anchored" data-anchor-id="prototype-based-models">Prototype-based models</h2>
+<!--
+Slide visuals: 
+- Each piece of an instance-based model (traces, probe, activations, echo)
+
+Main ideas to highlight:
+- Representations progressively update to reflect prototypical features common across past experience
+- Example: weights in a simple neural network
+-->
+<p>Rather than assuming we store each experience separately, prototype-based models assume experience updates memory representations to reflect prototypical features that are common across past experience. A simple and frequent example of what I’m talking about are the weights in linear associator network. In a linear associator, experiences activate units in an input layer to represent an array of features. These in turn pass activation to units in an output layer to form the memory system’s responses - which we’ll keep calling echoes for consistency. Weighted connections control the extent to which activation in an input unit drives activation in a given output unit, and get updated through some learning process with each new experience. For example, through the Hebbian learning rule, units that fire together, wire together, strengthening the connection between input and output units coactivated in a learning episode, thereby preserving a record of their correspondence during experience.</p>
+<p>Beginning the rise of connectionist modeling beginning with work on perceptrons and parallel distributed processing theory by researchers like Rosenblott and McClelland, prototype-based models have become super pervasive, though the domain distribution seems to me to differ from that of instance-based models. Prototype-based accounts of categorization such as the Additive-Prototype model have been proposed, but leading accounts are mostly exemplar-based, and for good reasons. Models of free recall along the tradition I’m familiar with though are largely though certainly not exclusively prototype-based, primarily representing encoded associations within accumulatory representations. Like instance-based models, they’ve also been applied to account for a range of behaviors, like recognition, emotional modulation, and financial decision-making, and undergone extensive iterative refinement.</p>
+</section>
+<section id="model-architectures-trade-between-compression-and-flexibility" class="level2">
+<h2 class="anchored" data-anchor-id="model-architectures-trade-between-compression-and-flexibility">Model Architectures Trade Between Compression and Flexibility</h2>
+<!--
+Slide visuals: 
+- Jamieson et al example + Homonym
+- 
+
+Main ideas to highlight:
+- Flexible retrieval. Discrete traces keeps it easy to contact individuals without interference.
+- Data Compression. Aggregated representations minimizes the costs of storage and retrieval.
+
+-->
+<p>However, some fundamental differences between the frameworks though have brought them into conflict. For example, instance-based models have faced criticism from theorists like the memory search scientist Mike Kahana for their lack of data compression. The multitrace account implies that the number of traces can increase without bound, and that they are all contacted simultaneously, and both ideas are difficult to accept given the biological constraints that face cognition.</p>
+<p>On the other hand and of more central focus for this project, this compressive aspect of prototype-based models has been criticized for collapsing the many contexts in which a item occurs to a single best-fitting representation. Researchers like Jamieson and Jones in 2018 have argued that this can constrain the models from accounting for the full flexibility humans exhibit in domains like semantic memory and categorization.</p>
+<p>An example by those researchers compared the architectures’ capacity to retrieve homonyms – words that carry multiple meanings, like the way “break” can describe stopping a car, reporting a story in the news, or smashing a plate, depending on the context you use it in. They took a few popular prototype-based models of semantic meaning including LSA - or latent semantic analysis - and compared them against an instance-based model of semantic memory. They encoded homonyms with other words in an artificial language, weighting the distribution of co-occurrence frequencies so that a word like “break” more frequently corresponds with the “stop”-based meaning of the word instead of the “smash” or “news-report”-based meanings. Then they compound-cued retrieval of different senses of the homonym and compared the retrieved representations to synonyms to each relevant word sense. These comparisons and others found that prototype-based models like LSA could not flexibly retrieve the distinct senses of homonyms as well as the instance model, and observation the authors explained in terms of compression and related to similar debates in the category learning literature.</p>
+</section>
+<section id="current-focus-memory-search" class="level2">
+<h2 class="anchored" data-anchor-id="current-focus-memory-search">Current Focus: Memory Search</h2>
+<!--
+Slide visuals: 
+- Memory search schematic
+- Free recall task
+
+Main ideas to highlight:
+- Flexible retrieval. Discrete traces keeps it easy to contact individuals without interference.
+- Data Compression. Aggregated representations minimizes the costs of storage and retrieval.
+
+-->
+<p>The significance of these differences have been examined in a few domains, but not our present focus – memory SEARCH, a concept that extends our initial conceptualization of memory to include an iterative process where you might remember a piece of information using a probe, and then use the retrieved information to <em>update</em> your probe so you can access more information in memory.</p>
+<p>Much of what we know about memory search is based on performance on the free recall task, where participants are presented a sequence of items (usually words) and then prompted to recall as many list items as possible in whatever order they want.</p>
+<p>In the recall phase of this task, participants tend to exhibit a pattern called the temporal contiguity effect, where participants tend to transition between temporally contiguous items on the study list. Analyses like the lag-CRP plot in the bottom right of this slide are applied to showcase this pattern. This is a paradigmatic example, not tied to any particular dataset. For each successive recall a subject makes, there’s a serial “lag” between that recall and the previous recall. The current item may have been studied at position 4 while the previous item may have been studied at position 5, making their “lag” 1. Researchers tabulate the frequency of transitions of each lag and plot the conditional probability of making a transition of a given lag across datasets. The high values within the red rectange of this plot where lags are close to zero illustrates the temporal contiguity effect.</p>
+<p>In turn, this pattern reinforces our view that participants iteratively evolve how they probe their memory based on previous probing to search for new items to retrieve.</p>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section">—</h2>
+<p>To account for phenomena like this temporal contiguity effect and how people might perform memory search, the formal literature has largely converged on retrieved context theories of memory search that centers a evolving representation of temporal context as the dynamicaly updating probe driving the process.</p>
+<p>By this account, during encoding, items are associated with states of temporal context in memory and vice versa. A key result of this is that items with other items based on temporal contiguity. During recall, the current state of temporal context serves as the main memory probe and items are retrieved based on their contextual associations. The contextual probe is then updated based on the contextual associations of the retrieved item, thereby constructing a cue biased toward items temporally contiguous to the last recalled item, accounting for the temporal contiguity effect - and many other interesting memory phenomena.</p>
+<p>For this project, I took an established specification of this theory - the context maintenance and retrieval model - and compared prototype- and instance-based implementations of its mechanisms across various datasets.</p>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1">—</h2>
+<p>The original implementation of CMR is prototype-based, encoding and retrieving item-to-context and context-to-item associations using a pair of simple linear associator memories called MFC and MCF, with F referring to item features and C to contextual features. Encoding item features retrieves contextual associations updates a contextual state. Coactivated contextual and item features update the weights of each network, establishing associations.</p>
+<p>After exploring various possibilities, I found that an instance-based variant of this model based in the MINERVA 2 architecture I reviewed earlier can be readily implemented by storing coactive item and contextual features within a single memory trace, otherwise preserving model mechanisms. During retrieval, instead of using a separate memory to contact item-to-context or context-to-item associations, the content of the probe decides which associations are retrieved. A probe with item features constructs an echo aggregating traces with similar item features, thus pulling an contextual representation, and vice versa otherwise.</p>
+<p>I do simplify the model a bit with this explanation, but the simplicity of this approach offers a surprisingly neat recipe for integrating RCT and account for temporal order effects into any pre-existing instance-based model: you sort of just have to track context across stimulus presentation and store its state along with a representation of a stimulus. Using and updating your contextual probe as specified by CMR is also key for model success, but yeah - it’s a portable model.</p>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2">—</h2>
+<p>Next though I outline how I know this approach actually works.</p>
+<p>We apply an evaluation technique for free recall data surprisingly only recently introduced by Morton and Polyn in 2016.</p>
+<p>To simulate free recall, CMR generates a probability distribution for each item that still hasn’t been recalled, given every simulated study and recall event that has happened so far in the trial.</p>
+<p>To evaluate a model, we can simulate and record the probability of each event in dataset, then pooling the probabilities into a log-likelihood score.</p>
+<p>Then using a genetic optimization algorithm called differential evolution, we can search for the model parameters that maximize the likelihood of our observed data.</p>
+<p>We can fit the model per participant to compare distributions of optimized log-likelihood scores between model variants. Alternatively, we can fit the models across an entire dataset and then produce a simulated dataset using model mechanisms, and compare important benchmark summary statistics between fitted models and the data. I do both!</p>
+</section>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3">—</h2>
+<p>First, I should clarify what I mean by benchmark summary statistics. These are the memory search phenomena that have received the most focus in the literature, rooted in the idea that free recall is composed by initiation, transitions, and then - though it’s not getting much focus here - termination.</p>
+<p>We’ve already talked about the lag-CRP and how it measures the temporal contiguity effect.</p>
+</section>
+<section id="section-4" class="level2">
+<h2 class="anchored" data-anchor-id="section-4"></h2>
+
+
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.2.281">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>compmemlearn – contiguity_tracing</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../../site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="../../">
+  <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="../../site_libs/quarto-search/fuse.min.js"></script>
+  <script src="../../site_libs/quarto-search/quarto-search.js"></script>
+  <script src="../../site_libs/quarto-html/quarto.js"></script>
+  <script src="../../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../../site_libs/quarto-html/anchor.min.js"></script>
+  <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "navbar",
+    "copy-button": false,
+    "collapse-after": 2,
+    "panel-placement": "end",
+    "type": "overlay",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">compmemlearn</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- toc -->
+    <nav id="TOC" role="doc-toc" class="sidebar sidebar-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#contiguity-tracing" class="nav-link active" data-scroll-target="#contiguity-tracing">Contiguity Tracing</a></li>
+<li><a href="#background-of-this-notebook" class="nav-link" data-scroll-target="#background-of-this-notebook">Background of This Notebook</a></li>
+<li><a href="#initial-fitting" class="nav-link" data-scroll-target="#initial-fitting">Initial Fitting</a>
+<ul class="collapse">
+<li><a href="#instance-cmr" class="nav-link" data-scroll-target="#instance-cmr">Instance CMR</a></li>
+<li><a href="#classic-cmr" class="nav-link" data-scroll-target="#classic-cmr">Classic CMR</a></li>
+<li><a href="#noisy_cmr" class="nav-link" data-scroll-target="#noisy_cmr">Noisy_CMR</a></li>
+</ul></li>
+<li><a href="#trace-visualization" class="nav-link" data-scroll-target="#trace-visualization">Trace Visualization</a></li>
+<li><a href="#latent-mfc-and-mcf" class="nav-link" data-scroll-target="#latent-mfc-and-mcf">Latent MFC and MCF</a></li>
+<li><a href="#memory-connectivity-by-lag" class="nav-link" data-scroll-target="#memory-connectivity-by-lag">Memory Connectivity by Lag</a>
+<ul class="collapse">
+<li><a href="#prototypecmr" class="nav-link" data-scroll-target="#prototypecmr">PrototypeCMR</a></li>
+<li><a href="#instancecmr" class="nav-link" data-scroll-target="#instancecmr">InstanceCMR</a></li>
+<li><a href="#noisycmr" class="nav-link" data-scroll-target="#noisycmr">NoisyCMR</a></li>
+<li><a href="#notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+</ul></li>
+<li><a href="#parameter-shifting" class="nav-link" data-scroll-target="#parameter-shifting">Parameter Shifting</a>
+<ul class="collapse">
+<li><a href="#notes-1" class="nav-link" data-scroll-target="#notes-1">Notes</a></li>
+</ul></li>
+</ul>
+</nav>
+<!-- main -->
+<main class="content">
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># default_exp model_analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="contiguity-tracing" class="level2">
+<h2 class="anchored" data-anchor-id="contiguity-tracing">Contiguity Tracing</h2>
+<p>Let’s try an analysis where I simulate a regular trial using the model and compute a representational CRP where for each serial position, I tabulate the corresponding item’s connectivity to items with graduating serial lag from the item.</p>
+</section>
+<section id="background-of-this-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="background-of-this-notebook">Background of This Notebook</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> compmemlearn.fitting <span class="im">import</span> murdock_objective_function, apply_and_concatenate</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> compmemlearn.datasets <span class="im">import</span> prepare_lohnas2014_data, simulate_array, simulate_df</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> compmemlearn.models <span class="im">import</span> Classic_CMR, Instance_CMR</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> differential_evolution</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numba.typed <span class="im">import</span> List, Dict</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numba <span class="im">import</span> njit, types</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> psifr <span class="im">import</span> fr</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>trials, events, list_length, presentations, list_types, rep_data, subjects <span class="op">=</span> prepare_lohnas2014_data(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'../../data/repFR.mat'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="initial-fitting" class="level2">
+<h2 class="anchored" data-anchor-id="initial-fitting">Initial Fitting</h2>
+<section id="instance-cmr" class="level3">
+<h3 class="anchored" data-anchor-id="instance-cmr">Instance CMR</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> np.finfo(<span class="bu">float</span>).eps</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ub <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>np.finfo(<span class="bu">float</span>).eps</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>icmr_free_parameters <span class="op">=</span> (</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'encoding_drift_rate'</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'start_drift_rate'</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'recall_drift_rate'</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'shared_support'</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_support'</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'learning_rate'</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'primacy_scale'</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'primacy_decay'</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'stop_probability_scale'</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'stop_probability_growth'</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#    'choice_sensitivity',</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'context_sensitivity'</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    'feature_sensitivity'</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'delay_drift_rate'</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>icmr_bounds <span class="op">=</span> [</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">100</span>),</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">100</span>),</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">10</span>),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">10</span>),</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">#    (lb, 10),</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">#    (lb, 10)</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co"># cost function to be minimized</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ours scales inversely with the probability that the data could have been </span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># generated using the specified parameters and our model</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="at">@njit</span>(fastmath<span class="op">=</span><span class="va">True</span>, nogil<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_icmr(item_count, presentation_count, parameters):</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Instance_CMR(item_count, presentation_count, parameters)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>cost_function <span class="op">=</span> murdock_objective_function(</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    (trials[list_types <span class="op">==</span> <span class="dv">1</span>], ), </span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    (list_length, ), </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    init_icmr,</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'choice_sensitivity'</span>: <span class="dv">1</span>, <span class="st">'feature_sensitivity'</span>: <span class="dv">1</span>},</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    icmr_free_parameters)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="co">#result = differential_evolution(cost_function, icmr_bounds, disp=True)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>icmr_result <span class="op">=</span> np.array([<span class="fl">7.66940287e-01</span>, <span class="fl">3.40249111e-01</span>, <span class="fl">9.48122676e-01</span>, <span class="fl">2.14378788e-03</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>       <span class="fl">1.42758234e-01</span>, <span class="fl">5.66283526e-01</span>, <span class="fl">2.20949851e+00</span>, <span class="fl">7.60228147e-01</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>       <span class="fl">2.40663552e-02</span>, <span class="fl">9.01763767e-02</span>, <span class="fl">1.82284478e+00</span>, <span class="fl">4.93091746e-01</span>])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(icmr_result)):</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    icmr_fitted_parameters[icmr_free_parameters[i]] <span class="op">=</span> icmr_result[i]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters[<span class="st">'choice_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters[<span class="st">'feature_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>model0 <span class="op">=</span> Instance_CMR(list_length, list_length, icmr_fitted_parameters)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>sim_df0 <span class="op">=</span> simulate_df(model0, <span class="dv">1000</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>true_df0 <span class="op">=</span> events.loc[events.condition<span class="op">==</span><span class="dv">1</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>icmr_spc0 <span class="op">=</span> apply_and_concatenate(fr.spc, sim_df0, true_df0, contrast_name<span class="op">=</span><span class="st">'source'</span>, labels<span class="op">=</span>[<span class="st">'InstanceCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>icmr_lag_crp0 <span class="op">=</span> apply_and_concatenate(fr.lag_crp, sim_df0, true_df0, <span class="st">'source'</span>, [<span class="st">'InstanceCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>icmr_pfr0 <span class="op">=</span> apply_and_concatenate(fr.pnr, sim_df0, true_df0, contrast_name<span class="op">=</span><span class="st">'source'</span>, labels<span class="op">=</span>[<span class="st">'InstanceCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>icmr_pfr0 <span class="op">=</span> icmr_pfr0.query(<span class="st">'output &lt;= 1'</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span><span class="op">/</span><span class="dv">3</span>), sharey<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># serial position curve</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">0</span>], data<span class="op">=</span>icmr_spc0, x<span class="op">=</span><span class="st">'input'</span>, y<span class="op">=</span><span class="st">'recall'</span>, err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Study Position'</span>, ylabel<span class="op">=</span><span class="st">'Recall Rate'</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">1</span>, list_length<span class="op">+</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co"># lag CRP</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>max_lag <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>filt_neg <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span><span class="op">-</span>max_lag<span class="sc">}</span><span class="ss"> &lt;= lag &lt; 0'</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>filt_pos <span class="op">=</span> <span class="ss">f'0 &lt; lag &lt;= </span><span class="sc">{</span>max_lag<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>icmr_lag_crp0.query(filt_neg), x<span class="op">=</span><span class="st">'lag'</span>, y<span class="op">=</span><span class="st">'prob'</span>, </span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>             err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>icmr_lag_crp0.query(filt_pos), x<span class="op">=</span><span class="st">'lag'</span>, y<span class="op">=</span><span class="st">'prob'</span>, </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>             err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Lag From Last Recalled Item'</span>, ylabel<span class="op">=</span><span class="st">'Conditional Recall Rate'</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="op">-</span><span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>))</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co"># pfr</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>icmr_pfr0, x<span class="op">=</span><span class="st">'input'</span>, y<span class="op">=</span><span class="st">'prob'</span>, err_style<span class="op">=</span><span class="st">'bars'</span>, ax<span class="op">=</span>axes[<span class="dv">2</span>], hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Study Position'</span>, ylabel<span class="op">=</span><span class="st">'Probability of First Recall'</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_xticks(np.arange(<span class="dv">1</span>, list_length<span class="op">+</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co"># set legend of axis 2 outside the plot, to the right</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="dv">2</span>, borderaxespad<span class="op">=</span><span class="fl">0.</span>)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(pad<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="classic-cmr" class="level3">
+<h3 class="anchored" data-anchor-id="classic-cmr">Classic CMR</h3>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cmr_free_parameters <span class="op">=</span> (</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'encoding_drift_rate'</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'start_drift_rate'</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'recall_drift_rate'</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'shared_support'</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_support'</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'learning_rate'</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'primacy_scale'</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'primacy_decay'</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'stop_probability_scale'</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'stop_probability_growth'</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'choice_sensitivity'</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'delay_drift_rate'</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> np.finfo(<span class="bu">float</span>).eps</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>ub <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>np.finfo(<span class="bu">float</span>).eps</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>cmr_bounds <span class="op">=</span> [</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">100</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">100</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">10</span>),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">10</span>),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="at">@njit</span>(fastmath<span class="op">=</span><span class="va">True</span>, nogil<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_cmr(item_count, presentation_count, parameters):</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Classic_CMR(item_count, presentation_count, parameters)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>cost_function <span class="op">=</span> murdock_objective_function(</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    (trials[list_types <span class="op">==</span> <span class="dv">1</span>], ), </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    (list_length, ), </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    init_cmr,</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'sampling_rule'</span>: <span class="dv">0</span>, <span class="st">'mfc_familiarity_scale'</span>: <span class="dv">0</span>, </span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>         <span class="st">'mcf_familiarity_scale'</span>: <span class="dv">0</span>, <span class="st">'drift_familiarity_scale'</span>: <span class="dv">0</span>}, </span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    cmr_free_parameters)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> differential_evolution(cost_function, cmr_bounds, disp<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>differential_evolution step 1: f(x)= 38886.5
+differential_evolution step 2: f(x)= 28748.4
+differential_evolution step 3: f(x)= 25562.1
+differential_evolution step 4: f(x)= 25562.1
+differential_evolution step 5: f(x)= 19949.3
+differential_evolution step 6: f(x)= 19949.3
+differential_evolution step 7: f(x)= 19949.3
+differential_evolution step 8: f(x)= 19949.3
+differential_evolution step 9: f(x)= 19949.3
+differential_evolution step 10: f(x)= 19949.3
+differential_evolution step 11: f(x)= 19949.3
+differential_evolution step 12: f(x)= 19562.1
+differential_evolution step 13: f(x)= 19562.1
+differential_evolution step 14: f(x)= 19349.4
+differential_evolution step 15: f(x)= 19311.6
+differential_evolution step 16: f(x)= 19196.3
+differential_evolution step 17: f(x)= 19196.3
+differential_evolution step 18: f(x)= 19106.7
+differential_evolution step 19: f(x)= 19106.7
+differential_evolution step 20: f(x)= 19106.7
+differential_evolution step 21: f(x)= 19106.7
+differential_evolution step 22: f(x)= 19106.7
+differential_evolution step 23: f(x)= 19106.7
+differential_evolution step 24: f(x)= 19106.7
+differential_evolution step 25: f(x)= 18975.8
+differential_evolution step 26: f(x)= 18975.8
+differential_evolution step 27: f(x)= 18975.8
+differential_evolution step 28: f(x)= 18912.9
+differential_evolution step 29: f(x)= 18912.9
+differential_evolution step 30: f(x)= 18895.5
+differential_evolution step 31: f(x)= 18895.5
+differential_evolution step 32: f(x)= 18895.5
+differential_evolution step 33: f(x)= 18895.5</code></pre>
+</div>
+</div>
+<p>For some reason, printing result.x and and directly using the array as <code>cmr_result</code> doesn’t work. So whatever.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cmr_result <span class="op">=</span> result.x</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(cmr_result)):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    cmr_fitted_parameters[cmr_free_parameters[i]] <span class="op">=</span> cmr_result[i]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'sampling_rule'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'mfc_familiarity_scale'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'mcf_familiarity_scale'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'drift_familiarity_scale'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>model0 <span class="op">=</span> Classic_CMR(list_length, list_length, cmr_fitted_parameters)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>sim_df0 <span class="op">=</span> simulate_df(model0, <span class="dv">1000</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>true_df0 <span class="op">=</span> events.loc[events.condition<span class="op">==</span><span class="dv">1</span>]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>cmr_spc0 <span class="op">=</span> apply_and_concatenate(fr.spc, sim_df0, true_df0, contrast_name<span class="op">=</span><span class="st">'source'</span>, labels<span class="op">=</span>[<span class="st">'PrototypeCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>cmr_lag_crp0 <span class="op">=</span> apply_and_concatenate(fr.lag_crp, sim_df0, true_df0, <span class="st">'source'</span>, [<span class="st">'PrototypeCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>cmr_pfr0 <span class="op">=</span> apply_and_concatenate(fr.pnr, sim_df0, true_df0, contrast_name<span class="op">=</span><span class="st">'source'</span>, labels<span class="op">=</span>[<span class="st">'PrototypeCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>cmr_pfr0 <span class="op">=</span> cmr_pfr0.query(<span class="st">'output &lt;= 1'</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span><span class="op">/</span><span class="dv">3</span>), sharey<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># serial position curve</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">0</span>], data<span class="op">=</span>cmr_spc0, x<span class="op">=</span><span class="st">'input'</span>, y<span class="op">=</span><span class="st">'recall'</span>, err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Study Position'</span>, ylabel<span class="op">=</span><span class="st">'Recall Rate'</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">1</span>, list_length<span class="op">+</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># lag CRP</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>max_lag <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>filt_neg <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span><span class="op">-</span>max_lag<span class="sc">}</span><span class="ss"> &lt;= lag &lt; 0'</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>filt_pos <span class="op">=</span> <span class="ss">f'0 &lt; lag &lt;= </span><span class="sc">{</span>max_lag<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>cmr_lag_crp0.query(filt_neg), x<span class="op">=</span><span class="st">'lag'</span>, y<span class="op">=</span><span class="st">'prob'</span>, </span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>             err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>cmr_lag_crp0.query(filt_pos), x<span class="op">=</span><span class="st">'lag'</span>, y<span class="op">=</span><span class="st">'prob'</span>, </span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>             err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Lag From Last Recalled Item'</span>, ylabel<span class="op">=</span><span class="st">'Conditional Recall Rate'</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="op">-</span><span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>))</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co"># pfr</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>cmr_pfr0, x<span class="op">=</span><span class="st">'input'</span>, y<span class="op">=</span><span class="st">'prob'</span>, err_style<span class="op">=</span><span class="st">'bars'</span>, ax<span class="op">=</span>axes[<span class="dv">2</span>], hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Study Position'</span>, ylabel<span class="op">=</span><span class="st">'Probability of First Recall'</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_xticks(np.arange(<span class="dv">1</span>, list_length<span class="op">+</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="co"># set legend of axis 2 outside the plot, to the right</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="dv">2</span>, borderaxespad<span class="op">=</span><span class="fl">0.</span>)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(pad<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-7-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="noisy_cmr" class="level3">
+<h3 class="anchored" data-anchor-id="noisy_cmr">Noisy_CMR</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remember to run nbdev_build_lib first! </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> compmemlearn</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> importlib</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>importlib.<span class="bu">reload</span>(compmemlearn.models)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> compmemlearn.models <span class="im">import</span> Noisy_CMR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_murdock_data_likelihood(data_to_fit, item_counts, model_class, parameters):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(item_counts)):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        item_count <span class="op">=</span> item_counts[i]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        trials <span class="op">=</span> data_to_fit[i]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        likelihood <span class="op">=</span> np.ones((<span class="bu">len</span>(trials), item_count))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> model_class(item_count, item_count, parameters)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        model.experience(model.items)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> trial_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(trials)):</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            trial <span class="op">=</span> trials[trial_index]</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>            model.force_recall()</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> recall_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(trial) <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                <span class="co"># identify index of item recalled; if zero then recall is over</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> recall_index <span class="op">==</span> <span class="bu">len</span>(trial) <span class="kw">and</span> <span class="bu">len</span>(trial) <span class="op">&lt;</span> item_count:</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>                    recall <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                    recall <span class="op">=</span> trial[recall_index]</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                <span class="co"># store probability of and simulate recall of indexed item </span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>                likelihood[trial_index, recall_index] <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>                    model.outcome_probabilities()[recall] <span class="op">+</span> <span class="fl">10e-7</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> recall <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>                model.force_recall(recall)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>            <span class="co"># reset model to its pre-retrieval (but post-encoding) state</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>            model.force_recall(<span class="dv">0</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        result <span class="op">-=</span> np.<span class="bu">sum</span>(np.log(likelihood))</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> slow_murdock_objective_function(data_to_fit, item_counts, model_class, fixed_parameters, free_parameters):</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co">    Configures cmr_likelihood for search over specified free/fixed parameters.</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, value <span class="kw">in</span> fixed_parameters.items():</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>        parameters[name] <span class="op">=</span> value</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> objective_function(x):</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(free_parameters)):</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>            parameters[free_parameters[i]] <span class="op">=</span> x[i]</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> slow_murdock_data_likelihood(data_to_fit, item_counts, model_class, parameters)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> objective_function</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> np.finfo(<span class="bu">float</span>).eps</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ub <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>np.finfo(<span class="bu">float</span>).eps</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>icmr_free_parameters <span class="op">=</span> (</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'encoding_drift_rate'</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'start_drift_rate'</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'recall_drift_rate'</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'shared_support'</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_support'</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'learning_rate'</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'primacy_scale'</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'primacy_decay'</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'stop_probability_scale'</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'stop_probability_growth'</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#    'choice_sensitivity',</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'context_sensitivity'</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    'feature_sensitivity'</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'delay_drift_rate'</span>,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>icmr_bounds <span class="op">=</span> [</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">100</span>),</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">100</span>),</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">10</span>),</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    (lb, <span class="dv">10</span>),</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co">#    (lb, 10),</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">#    (lb, 10)</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    (lb, ub),</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="co"># cost function to be minimized</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ours scales inversely with the probability that the data could have been </span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co"># generated using the specified parameters and our model</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="at">@njit</span>(fastmath<span class="op">=</span><span class="va">True</span>, nogil<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_ncmr(item_count, presentation_count, parameters):</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Noisy_CMR(item_count, presentation_count, parameters)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>cost_function <span class="op">=</span> murdock_objective_function(</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    (trials[list_types <span class="op">==</span> <span class="dv">1</span>], ), </span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    (list_length, ), </span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    init_ncmr,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'choice_sensitivity'</span>: <span class="dv">1</span>, <span class="st">'feature_sensitivity'</span>: <span class="dv">1</span>},</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    icmr_free_parameters)</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> differential_evolution(cost_function, icmr_bounds, disp<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>differential_evolution step 1: f(x)= 34339.7
+differential_evolution step 2: f(x)= 23934.4
+differential_evolution step 3: f(x)= 22650.8
+differential_evolution step 4: f(x)= 22238.9
+differential_evolution step 5: f(x)= 21860.8
+differential_evolution step 6: f(x)= 21860.8
+differential_evolution step 7: f(x)= 21860.8
+differential_evolution step 8: f(x)= 21786.2
+differential_evolution step 9: f(x)= 21728.2
+differential_evolution step 10: f(x)= 21728.2
+differential_evolution step 11: f(x)= 21728.2
+differential_evolution step 12: f(x)= 21728.2
+differential_evolution step 13: f(x)= 21633.9
+differential_evolution step 14: f(x)= 21633.9
+differential_evolution step 15: f(x)= 21633.9
+differential_evolution step 16: f(x)= 21633.9
+differential_evolution step 17: f(x)= 21633.9
+differential_evolution step 18: f(x)= 21633.9
+differential_evolution step 19: f(x)= 21633.9
+differential_evolution step 20: f(x)= 21633.9
+differential_evolution step 21: f(x)= 21629.2
+differential_evolution step 22: f(x)= 21629.2
+differential_evolution step 23: f(x)= 21629
+differential_evolution step 24: f(x)= 21595.1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ncmr_result <span class="op">=</span> result.x</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ncmr_fitted_parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(ncmr_result)):</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    ncmr_fitted_parameters[icmr_free_parameters[i]] <span class="op">=</span> ncmr_result[i]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ncmr_fitted_parameters[<span class="st">'choice_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ncmr_fitted_parameters[<span class="st">'feature_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>model0 <span class="op">=</span> Noisy_CMR(list_length, list_length, ncmr_fitted_parameters)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>sim_df0 <span class="op">=</span> simulate_df(model0, <span class="dv">1000</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>true_df0 <span class="op">=</span> events.loc[events.condition<span class="op">==</span><span class="dv">1</span>]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>ncmr_spc0 <span class="op">=</span> apply_and_concatenate(fr.spc, sim_df0, true_df0, contrast_name<span class="op">=</span><span class="st">'source'</span>, labels<span class="op">=</span>[<span class="st">'NoisyCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>ncmr_lag_crp0 <span class="op">=</span> apply_and_concatenate(fr.lag_crp, sim_df0, true_df0, <span class="st">'source'</span>, [<span class="st">'NoisyCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>ncmr_pfr0 <span class="op">=</span> apply_and_concatenate(fr.pnr, sim_df0, true_df0, contrast_name<span class="op">=</span><span class="st">'source'</span>, labels<span class="op">=</span>[<span class="st">'NoisyCMR'</span>, <span class="st">'data'</span>])</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>ncmr_pfr0 <span class="op">=</span> ncmr_pfr0.query(<span class="st">'output &lt;= 1'</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span><span class="op">/</span><span class="dv">3</span>), sharey<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># serial position curve</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">0</span>], data<span class="op">=</span>ncmr_spc0, x<span class="op">=</span><span class="st">'input'</span>, y<span class="op">=</span><span class="st">'recall'</span>, err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Study Position'</span>, ylabel<span class="op">=</span><span class="st">'Recall Rate'</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">1</span>, list_length<span class="op">+</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co"># lag CRP</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>max_lag <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>filt_neg <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span><span class="op">-</span>max_lag<span class="sc">}</span><span class="ss"> &lt;= lag &lt; 0'</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>filt_pos <span class="op">=</span> <span class="ss">f'0 &lt; lag &lt;= </span><span class="sc">{</span>max_lag<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>ncmr_lag_crp0.query(filt_neg), x<span class="op">=</span><span class="st">'lag'</span>, y<span class="op">=</span><span class="st">'prob'</span>, </span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>             err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>ncmr_lag_crp0.query(filt_pos), x<span class="op">=</span><span class="st">'lag'</span>, y<span class="op">=</span><span class="st">'prob'</span>, </span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>             err_style<span class="op">=</span><span class="st">'bars'</span>, hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Lag From Last Recalled Item'</span>, ylabel<span class="op">=</span><span class="st">'Conditional Recall Rate'</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="op">-</span><span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>))</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co"># pfr</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>ncmr_pfr0, x<span class="op">=</span><span class="st">'input'</span>, y<span class="op">=</span><span class="st">'prob'</span>, err_style<span class="op">=</span><span class="st">'bars'</span>, ax<span class="op">=</span>axes[<span class="dv">2</span>], hue<span class="op">=</span><span class="st">'source'</span>, legend<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'Study Position'</span>, ylabel<span class="op">=</span><span class="st">'Probability of First Recall'</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_xticks(np.arange(<span class="dv">1</span>, list_length<span class="op">+</span><span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_ylim((<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="co"># set legend of axis 2 outside the plot, to the right</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="dv">2</span>, borderaxespad<span class="op">=</span><span class="fl">0.</span>)</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(pad<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="trace-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="trace-visualization">Trace Visualization</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># export</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> matrix_heatmap(matrix, title<span class="op">=</span><span class="st">''</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">15</span>), savefig<span class="op">=</span><span class="va">False</span>, axis<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Plots an array of model states as a value-annotated heatmap with an arbitrary title.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">    **Arguments**:  </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">    - matrix: an array of model states, ideally with columns representing unique feature indices and rows</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">        representing unique update indices  </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">    - title: a title for the generated plot, ideally conveying what array values represent at each entry  </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">    - savefig: boolean deciding whether generated figure is saved (True if Yes)</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>figsize)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    sns.heatmap(matrix, annot<span class="op">=</span><span class="va">True</span>, linewidths<span class="op">=</span><span class="fl">.5</span>, ax<span class="op">=</span>axis)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    plt.title(title)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Feature Index'</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Update Index'</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> savefig:</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        plt.savefig(<span class="st">'figures/</span><span class="sc">{}</span><span class="st">.jpeg'</span>.<span class="bu">format</span>(title).replace(<span class="st">' '</span>, <span class="st">'_'</span>).lower(), bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> icmr_memory_heatmap(model, just_experimental<span class="op">=</span><span class="va">False</span>, just_context<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    memory_shape <span class="op">=</span> np.shape(model.memory)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    fig_size <span class="op">=</span> <span class="bu">list</span>(<span class="bu">reversed</span>(memory_shape))</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    plotted_memory <span class="op">=</span> model.memory.copy()</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    title <span class="op">=</span> <span class="st">"Memory Traces"</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> just_context:</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        fig_size[<span class="dv">0</span>] <span class="op">/=</span> <span class="dv">2</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        plotted_memory <span class="op">=</span> plotted_memory[:, <span class="bu">int</span>(memory_shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span>):]</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        title <span class="op">=</span> <span class="st">"Contextual "</span> <span class="op">+</span> title</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> just_experimental:</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>        fig_size[<span class="dv">1</span>] <span class="op">-=</span> model.item_count</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>        plotted_memory <span class="op">=</span> plotted_memory[<span class="bu">int</span>(memory_shape[<span class="dv">0</span>]<span class="op">/</span><span class="dv">2</span>):]</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>        title <span class="op">=</span> <span class="st">"Experimental "</span> <span class="op">+</span> title</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    matrix_heatmap(plotted_memory, title, figsize<span class="op">=</span>fig_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>icmr_result <span class="op">=</span> np.array([<span class="fl">7.66940287e-01</span>, <span class="fl">3.40249111e-01</span>, <span class="fl">9.48122676e-01</span>, <span class="fl">2.14378788e-03</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>       <span class="fl">1.42758234e-01</span>, <span class="fl">5.66283526e-01</span>, <span class="fl">2.20949851e+00</span>, <span class="fl">7.60228147e-01</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>       <span class="fl">2.40663552e-02</span>, <span class="fl">9.01763767e-02</span>, <span class="fl">1.82284478e+00</span>, <span class="fl">4.93091746e-01</span>])</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(icmr_result)):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    icmr_fitted_parameters[icmr_free_parameters[i]] <span class="op">=</span> icmr_result[i]</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters[<span class="st">'choice_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters[<span class="st">'feature_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Instance_CMR(list_length, list_length, icmr_fitted_parameters)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>sim_df <span class="op">=</span> simulate_df(model, <span class="dv">1</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>icmr_memory_heatmap(model, just_experimental<span class="op">=</span><span class="va">True</span>, just_context<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-13-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Noisy_CMR(list_length, list_length, ncmr_fitted_parameters)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sim_df <span class="op">=</span> simulate_df(model, <span class="dv">1</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>icmr_memory_heatmap(model, just_experimental<span class="op">=</span><span class="va">False</span>, just_context<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="latent-mfc-and-mcf" class="level2">
+<h2 class="anchored" data-anchor-id="latent-mfc-and-mcf">Latent MFC and MCF</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># export</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> latent_mfc_mcf(model):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Generates the latent $M^{FC}$ and $M^{CF}$ in the specified ICMR instance.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">    For exploring and demonstrating model equivalence, we can calculate for any state of ICMR's dual-store memory </span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">    array $M$ a corresponding $M^{FC}$ (or $M^{CF}$) by computing for each orthogonal $f_i$ (or $c_i$) the model's </span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">    corresponding echo representation. </span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># start by finding latent mfc: the contextual representation cued when each orthogonal $f_i$ is cued</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    latent_mfc <span class="op">=</span> np.zeros((model.item_count, model.item_count<span class="op">+</span><span class="dv">2</span>))</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(model.item_count):</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        latent_mfc[i] <span class="op">=</span> model.echo(model.items[i])[model.item_count <span class="op">+</span> <span class="dv">2</span>:]</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    latent_mcf <span class="op">=</span> np.zeros((model.item_count, model.item_count<span class="op">+</span><span class="dv">2</span>))</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    context_units <span class="op">=</span> np.hstack(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        (np.zeros((model.item_count, model.item_count<span class="op">+</span><span class="dv">2</span>)), </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>         np.eye(model.item_count, model.item_count <span class="op">+</span> <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(model.item_count):</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        latent_mcf[i] <span class="op">=</span> model.echo(context_units[i])[:model.item_count<span class="op">+</span><span class="dv">2</span>]</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> latent_mfc, latent_mcf</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mfc_heatmap(mfc):</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    matrix_heatmap(mfc, title<span class="op">=</span><span class="st">''</span>, figsize<span class="op">=</span><span class="bu">list</span>(<span class="bu">reversed</span>(np.shape(mfc))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>icmr_result <span class="op">=</span> np.array([<span class="fl">7.66940287e-01</span>, <span class="fl">3.40249111e-01</span>, <span class="fl">9.48122676e-01</span>, <span class="fl">2.14378788e-03</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>       <span class="fl">1.42758234e-01</span>, <span class="fl">5.66283526e-01</span>, <span class="fl">2.20949851e+00</span>, <span class="fl">7.60228147e-01</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>       <span class="fl">2.40663552e-02</span>, <span class="fl">9.01763767e-02</span>, <span class="fl">1.82284478e+00</span>, <span class="fl">4.93091746e-01</span>])</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(icmr_result)):</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    icmr_fitted_parameters[icmr_free_parameters[i]] <span class="op">=</span> icmr_result[i]</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters[<span class="st">'choice_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>icmr_fitted_parameters[<span class="st">'feature_sensitivity'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Instance_CMR(list_length, list_length, icmr_fitted_parameters)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>sim_df <span class="op">=</span> simulate_df(model, <span class="dv">1</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>latent_mfc, latent_mcf <span class="op">=</span> latent_mfc_mcf(model)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>mfc_heatmap(latent_mfc)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>mfc_heatmap(latent_mcf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-16-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-16-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Noisy_CMR(list_length, list_length, ncmr_fitted_parameters)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sim_df <span class="op">=</span> simulate_df(model, <span class="dv">1</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>noisy_latent_mfc, noisy_latent_mcf <span class="op">=</span> latent_mfc_mcf(model)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>mfc_heatmap(noisy_latent_mfc)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>mfc_heatmap(noisy_latent_mcf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-17-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-17-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters <span class="op">=</span> Dict.empty(key_type<span class="op">=</span>types.unicode_type, value_type<span class="op">=</span>types.float64)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(cmr_result)):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    cmr_fitted_parameters[cmr_free_parameters[i]] <span class="op">=</span> cmr_result[i]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'sampling_rule'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'mfc_familiarity_scale'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'mcf_familiarity_scale'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cmr_fitted_parameters[<span class="st">'drift_familiarity_scale'</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>cmr_model <span class="op">=</span> Classic_CMR(list_length, list_length, cmr_fitted_parameters)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>simulate_df(cmr_model, <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>mfc_heatmap(cmr_model.mfc)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>mfc_heatmap(cmr_model.mcf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-18-output-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-18-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="memory-connectivity-by-lag" class="level2">
+<h2 class="anchored" data-anchor-id="memory-connectivity-by-lag">Memory Connectivity by Lag</h2>
+<p>Connectivity here refers to “how much an item’s corresponding feature or contextual unit gets activated when another considered item’s corresponding contextual or feature unit is activated. <code>memory</code> argument should always be a 2D matrix mapping item connections, usually a subset of the corresponding memory matrix.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># export</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> connectivity_by_lag(item_connections, item_count):</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    lag_range <span class="op">=</span> item_count <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    total_connectivity <span class="op">=</span> np.zeros(lag_range <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    total_possible_lags <span class="op">=</span> np.zeros(lag_range <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    item_positions <span class="op">=</span> np.arange(item_count, dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tabulate bin totals for actual and possible lags</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this time instead of looping through trials and recall indices, we only loop once through each item index</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(item_count):</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># lag of each item from current item is item position - i, </span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and will always be in range [-lag_range, lag_range] so we keep position by adding lag_range</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        item_lags <span class="op">=</span> item_positions <span class="op">-</span> i <span class="op">+</span> lag_range</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        total_connectivity[item_lags] <span class="op">+=</span> item_connections[i]</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        total_possible_lags[item_lags] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># divide by possible lags to get average connectivity</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    connectivity <span class="op">=</span> total_connectivity <span class="op">/</span> total_possible_lags</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> connectivity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mixed_connectivity_by_lag(item_connections, presentation):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    item_count <span class="op">=</span> np.<span class="bu">max</span>(presentation)<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    lag_range <span class="op">=</span> <span class="bu">len</span>(presentation) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    total_connectivity <span class="op">=</span> np.zeros(lag_range <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    total_possible_lags <span class="op">=</span> np.zeros(lag_range <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    item_positions <span class="op">=</span> np.arange(<span class="bu">len</span>(presentation), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> item <span class="kw">in</span> <span class="bu">range</span>(item_count):</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># only consider items that are repeated</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        current_positions <span class="op">=</span> np.nonzero(presentation <span class="op">==</span> item)[<span class="dv">0</span>]</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># we consider each study position of repeated items separately</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> position_index <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(current_positions)):</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># lag of each item from current item is item_positions - current_position, </span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># and will always be in range [-lag_range, lag_range] so we keep position by adding lag_range</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>            item_lags <span class="op">=</span> item_positions <span class="op">-</span> current_positions[position_index] <span class="op">+</span> lag_range</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>            total_connectivity[item_lags] <span class="op">+=</span> item_connections[item, presentation]</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>            total_possible_lags[item_lags] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># divide by possible lags to get average connectivity</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    total_possible_lags[total_connectivity <span class="op">==</span> <span class="dv">0</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    connectivity <span class="op">=</span> total_connectivity <span class="op">/</span> total_possible_lags</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> connectivity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="prototypecmr" class="level3">
+<h3 class="anchored" data-anchor-id="prototypecmr">PrototypeCMR</h3>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">15</span><span class="op">/</span><span class="dv">2</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#test_crp = connectivity_by_lag(cmr_model.mcf[1:-1, :], cmr_model.item_count)</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> mixed_connectivity_by_lag(cmr_model.mcf[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>, :], np.arange(cmr_model.item_count, dtype<span class="op">=</span><span class="bu">int</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>test_crp[cmr_model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (cmr_model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'MCF'</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># same for MFC</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#test_crp = connectivity_by_lag(cmr_model.mfc[:, 1:-1], cmr_model.item_count)</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> mixed_connectivity_by_lag(cmr_model.mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], np.arange(cmr_model.item_count, dtype<span class="op">=</span><span class="bu">int</span>))</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>test_crp[cmr_model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (cmr_model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'MFC'</span>)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'PrototypeCMR Item Connectivity By Lag'</span>)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre><code>Text(0.5, 0.98, 'PrototypeCMR Item Connectivity By Lag')</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-21-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> (connectivity_by_lag(cmr_model.mcf[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>, :], cmr_model.item_count) <span class="op">+</span> connectivity_by_lag(cmr_model.mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], cmr_model.item_count))<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>test_crp[cmr_model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>axes.plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>axes.set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>axes.set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (cmr_model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>axes.set_title(<span class="st">'Mean'</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>test_crp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre><code>array([0.19768762, 0.19768767, 0.19768774, 0.19768784, 0.19768799,
+       0.19768822, 0.19768855, 0.19768903, 0.19768974, 0.1976908 ,
+       0.19769235, 0.19769463, 0.197698  , 0.19770296, 0.19771026,
+       0.19772103, 0.19773689, 0.19776027, 0.19779471, 0.19784545,
+       0.19792021, 0.19803037, 0.19819267, 0.19843182, 0.19878417,
+       0.19930334, 0.20006828, 0.20119534, 0.20285597, 0.20530276,
+       0.20890787, 0.21421967, 0.22204611, 0.23357766, 0.25056832,
+       0.27560249, 0.31248804, 0.36683547, 0.4469114 ,        nan,
+       0.4469114 , 0.36683547, 0.31248804, 0.27560249, 0.25056832,
+       0.23357766, 0.22204611, 0.21421967, 0.20890787, 0.20530276,
+       0.20285597, 0.20119534, 0.20006828, 0.19930334, 0.19878417,
+       0.19843182, 0.19819267, 0.19803037, 0.19792021, 0.19784545,
+       0.19779471, 0.19776027, 0.19773689, 0.19772103, 0.19771026,
+       0.19770296, 0.197698  , 0.19769463, 0.19769235, 0.1976908 ,
+       0.19768974, 0.19768903, 0.19768855, 0.19768822, 0.19768799,
+       0.19768784, 0.19768774, 0.19768767, 0.19768762])</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-22-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="instancecmr" class="level3">
+<h3 class="anchored" data-anchor-id="instancecmr">InstanceCMR</h3>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> connectivity_by_lag(latent_mcf[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>test_crp[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Context to Feature Associations (MCF)'</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># same for MFC</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> connectivity_by_lag(latent_mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>test_crp[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Feature to Context Associations (MFC)'</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'InstanceCMR Item Connectivity By Lag'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre><code>Text(0.5, 0.98, 'InstanceCMR Item Connectivity By Lag')</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-23-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> (connectivity_by_lag(latent_mcf[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count) <span class="op">+</span> connectivity_by_lag(latent_mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count))<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>test_crp[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>axes.plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>axes.set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>axes.set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>axes.set_title(<span class="st">'InstanceCMR Mean'</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>test_crp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre><code>array([0.0044123 , 0.00442927, 0.00439535, 0.00435875, 0.0043293 ,
+       0.00430716, 0.00429065, 0.00427818, 0.00426855, 0.00426094,
+       0.00425479, 0.00424974, 0.00424552, 0.00424197, 0.00423898,
+       0.0042365 , 0.00423451, 0.00423307, 0.0042323 , 0.00423243,
+       0.00423386, 0.00423727, 0.00424375, 0.00425509, 0.00427414,
+       0.00430555, 0.00435678, 0.00443984, 0.00457406, 0.00479056,
+       0.00513945, 0.00570143, 0.00660656, 0.00806467, 0.01041486,
+       0.01420667, 0.0203346 , 0.03026503, 0.04642974,        nan,
+       0.08096561, 0.03590036, 0.01818106, 0.01067097, 0.00731709,
+       0.00574602, 0.00497271, 0.004572  , 0.00435357, 0.00422872,
+       0.00415411, 0.00410753, 0.004077  , 0.00405579, 0.00403998,
+       0.00402722, 0.00401606, 0.00400556, 0.00399511, 0.00398428,
+       0.00397273, 0.00396015, 0.00394627, 0.00393077, 0.00391328,
+       0.00389336, 0.00387047, 0.00384388, 0.00381267, 0.00377558,
+       0.00373095, 0.00367647, 0.00360897, 0.00352402, 0.00341535,
+       0.00327409, 0.00308763, 0.00283816, 0.00250086])</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-24-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="noisycmr" class="level3">
+<h3 class="anchored" data-anchor-id="noisycmr">NoisyCMR</h3>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> connectivity_by_lag(noisy_latent_mcf[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>test_crp[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'MCF'</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># same for MFC</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>test_crp <span class="op">=</span> connectivity_by_lag(noisy_latent_mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>test_crp[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(np.arange(<span class="bu">len</span>(test_crp)), test_crp)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>))</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticklabels(np.arange(<span class="dv">0</span>, <span class="bu">len</span>(test_crp), <span class="dv">4</span>) <span class="op">-</span> (model.item_count <span class="op">-</span> <span class="dv">1</span>))</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'MFC'</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'InstanceCMR Item Connectivity By Lag'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<pre><code>Text(0.5, 0.98, 'InstanceCMR Item Connectivity By Lag')</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-25-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="notes" class="level3">
+<h3 class="anchored" data-anchor-id="notes">Notes</h3>
+<p>CMR seems to fit toward stronger MCF weights overall relative to MFC. But when you turn sharey off during plotting, it’s clear that the effect is more of a translation up the y-axis than a meaningful change in the pattern of connectivities (aside from the reflection along y-axis thing).</p>
+<p>InstanceCMR though seems to do no such translation, instead making its latent MCF “steeper” than its latent MFC.</p>
+<p>What if I take an average? CMR only gets assymetry if I do a weighted average that downweights MFC importance. InstanceCMR needs no such transformation. Neither of these CRPs exactly match what I see in the data, but that makes some sense. It’s unclear whether these observations imply more fundamental differences between model architectures.</p>
+</section>
+</section>
+<section id="parameter-shifting" class="level2">
+<h2 class="anchored" data-anchor-id="parameter-shifting">Parameter Shifting</h2>
+<p>Add experiments to this notebook tracing how changing relevant model parameters simulataneously shapes CRP structure and memory connections, focusing on learning and drift rates parameter-wise and contiguity and assymetry outcome-wise. I’m done when I know high-level (parametric) ways to control contiguity.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> compmemlearn.analyses <span class="im">import</span> fast_spc, fast_crp, fast_pfr</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>max_lag <span class="op">=</span> <span class="dv">13</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>score_ranges <span class="op">=</span> {</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'encoding_drift_rate'</span>: np.arange(<span class="fl">.001</span>, <span class="fl">.99</span>, <span class="fl">.1</span>),</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'recall_drift_rate'</span>: np.arange(<span class="fl">.001</span>, <span class="fl">.99</span>, <span class="fl">.1</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'shared_support'</span>: np.arange(<span class="fl">.001</span>, <span class="fl">.005</span>, <span class="fl">.001</span>),</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'item_support'</span>: np.arange(<span class="fl">.001</span>, <span class="fl">.01</span>, <span class="fl">.001</span>),</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'learning_rate'</span>: np.arange(<span class="fl">.001</span>, <span class="fl">.99</span>, <span class="fl">.1</span>),</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'choice_sensitivity'</span>: np.arange(<span class="fl">.001</span>, <span class="dv">5</span>, <span class="fl">.5</span>),</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model_class <span class="kw">in</span> [Classic_CMR]:</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> model_class.<span class="va">__name__</span> <span class="op">==</span> <span class="st">'Classic_CMR'</span>:</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>        parameters <span class="op">=</span> cmr_fitted_parameters</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>        parameters <span class="op">=</span> icmr_fitted_parameters</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> varied_parameter <span class="kw">in</span> score_ranges.keys():</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(varied_parameter, parameters[varied_parameter])</span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>        crps <span class="op">=</span> []</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>        spcs <span class="op">=</span> []</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>        pfrs <span class="op">=</span> []</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>        mfc_connectivities <span class="op">=</span> []</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>        mcf_connectivities <span class="op">=</span> []</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> parameter_value <span class="kw">in</span> tqdm(score_ranges[varied_parameter]):</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># simulate data with this parameter value modified</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>            sub_params <span class="op">=</span> parameters.copy()</span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>            sub_params[varied_parameter] <span class="op">=</span> parameter_value</span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>            model <span class="op">=</span> model_class(list_length, list_length, sub_params)</span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>            simulation <span class="op">=</span> simulate_array(model, <span class="dv">10000</span>)</span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a>            <span class="co"># accumulate spcs, crps, pfrs</span></span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>            spc <span class="op">=</span> fast_spc(simulation, list_length)</span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>            spc <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'Study Position'</span>: np.arange(<span class="bu">len</span>(spc)), <span class="st">'Recall Rate'</span>: spc, varied_parameter: parameter_value})</span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a>            spcs.append(spc)</span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>            crp <span class="op">=</span> fast_crp(simulation, list_length)</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a>            crp[list_length<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>            crp <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'Lag'</span>: np.arange(max_lag<span class="op">*</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">int</span>)<span class="op">-</span>max_lag, <span class="st">'Recall Rate'</span>: crp[list_length<span class="op">-</span>max_lag<span class="op">-</span><span class="dv">1</span>:list_length<span class="op">+</span>max_lag], varied_parameter: parameter_value})</span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a>            crps.append(crp)</span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a>            pfr <span class="op">=</span> fast_pfr(simulation, list_length)</span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a>            pfr <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'Study Position'</span>: np.arange(<span class="bu">len</span>(pfr)), <span class="st">'First Recall Rate'</span>: pfr, varied_parameter: parameter_value})</span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a>            pfrs.append(pfr)</span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> model_class.<span class="va">__name__</span> <span class="op">==</span> <span class="st">'Classic_CMR'</span>:</span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a>                mfc_connectivity <span class="op">=</span> connectivity_by_lag(model.mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a>                mcf_connectivity <span class="op">=</span> connectivity_by_lag(model.mcf[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>, :], model.item_count)</span>
+<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a>                latent_mfc, latent_mcf <span class="op">=</span> latent_mfc_mcf(model)</span>
+<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a>                mfc_connectivity <span class="op">=</span> connectivity_by_lag(latent_mfc[:, <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb32-63"><a href="#cb32-63" aria-hidden="true" tabindex="-1"></a>                mcf_connectivity <span class="op">=</span> connectivity_by_lag(latent_mcf[: , <span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], model.item_count)</span>
+<span id="cb32-64"><a href="#cb32-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-65"><a href="#cb32-65" aria-hidden="true" tabindex="-1"></a>            mfc_connectivity[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb32-66"><a href="#cb32-66" aria-hidden="true" tabindex="-1"></a>            mcf_connectivity[model.item_count<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb32-67"><a href="#cb32-67" aria-hidden="true" tabindex="-1"></a>            mfc_connectivity <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb32-68"><a href="#cb32-68" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'Lag'</span>: np.arange(max_lag<span class="op">*</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">int</span>)<span class="op">-</span>max_lag, <span class="st">'Recall Rate'</span>: mfc_connectivity[model.item_count<span class="op">-</span>max_lag<span class="op">-</span><span class="dv">1</span>:model.item_count<span class="op">+</span>max_lag], varied_parameter: parameter_value}</span>
+<span id="cb32-69"><a href="#cb32-69" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb32-70"><a href="#cb32-70" aria-hidden="true" tabindex="-1"></a>            mcf_connectivity <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb32-71"><a href="#cb32-71" aria-hidden="true" tabindex="-1"></a>                {<span class="st">'Lag'</span>: np.arange(max_lag<span class="op">*</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">int</span>)<span class="op">-</span>max_lag, <span class="st">'Recall Rate'</span>: mcf_connectivity[model.item_count<span class="op">-</span>max_lag<span class="op">-</span><span class="dv">1</span>:model.item_count<span class="op">+</span>max_lag], varied_parameter: parameter_value}</span>
+<span id="cb32-72"><a href="#cb32-72" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb32-73"><a href="#cb32-73" aria-hidden="true" tabindex="-1"></a>            mfc_connectivities.append(mfc_connectivity)</span>
+<span id="cb32-74"><a href="#cb32-74" aria-hidden="true" tabindex="-1"></a>            mcf_connectivities.append(mcf_connectivity)</span>
+<span id="cb32-75"><a href="#cb32-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-76"><a href="#cb32-76" aria-hidden="true" tabindex="-1"></a>        <span class="co"># concatenate result into a single table</span></span>
+<span id="cb32-77"><a href="#cb32-77" aria-hidden="true" tabindex="-1"></a>        spc <span class="op">=</span> pd.concat(spcs).reset_index()</span>
+<span id="cb32-78"><a href="#cb32-78" aria-hidden="true" tabindex="-1"></a>        crp <span class="op">=</span> pd.concat(crps).reset_index()</span>
+<span id="cb32-79"><a href="#cb32-79" aria-hidden="true" tabindex="-1"></a>        pfr <span class="op">=</span> pd.concat(pfrs).reset_index()</span>
+<span id="cb32-80"><a href="#cb32-80" aria-hidden="true" tabindex="-1"></a>        mfc_connectivity <span class="op">=</span> pd.concat(mfc_connectivities).reset_index()</span>
+<span id="cb32-81"><a href="#cb32-81" aria-hidden="true" tabindex="-1"></a>        mcf_connectivity <span class="op">=</span> pd.concat(mcf_connectivities).reset_index()</span>
+<span id="cb32-82"><a href="#cb32-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-83"><a href="#cb32-83" aria-hidden="true" tabindex="-1"></a>        sns.<span class="bu">set</span>(style<span class="op">=</span><span class="st">'darkgrid'</span>)</span>
+<span id="cb32-84"><a href="#cb32-84" aria-hidden="true" tabindex="-1"></a>        fig, axes <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">20</span>), sharey<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-85"><a href="#cb32-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-86"><a href="#cb32-86" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">0</span>], data<span class="op">=</span>spc, x<span class="op">=</span><span class="st">'Study Position'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb32-87"><a href="#cb32-87" aria-hidden="true" tabindex="-1"></a>        <span class="co">#axes[0].set_xlabel('Study Position')</span></span>
+<span id="cb32-88"><a href="#cb32-88" aria-hidden="true" tabindex="-1"></a>        <span class="co">#axes[0].set_ylabel('Probability Recall')</span></span>
+<span id="cb32-89"><a href="#cb32-89" aria-hidden="true" tabindex="-1"></a>        axes[<span class="dv">0</span>].set_title(<span class="st">'SPC'</span>)</span>
+<span id="cb32-90"><a href="#cb32-90" aria-hidden="true" tabindex="-1"></a>        axes[<span class="dv">0</span>].legend(np.<span class="bu">round</span>(score_ranges[varied_parameter], <span class="dv">5</span>), bbox_to_anchor<span class="op">=</span>(<span class="fl">1.05</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="dv">2</span>, borderaxespad<span class="op">=</span><span class="fl">0.</span>)</span>
+<span id="cb32-91"><a href="#cb32-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-92"><a href="#cb32-92" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">1</span>], data<span class="op">=</span>pfr, x<span class="op">=</span><span class="st">'Study Position'</span>, y<span class="op">=</span><span class="st">'First Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-93"><a href="#cb32-93" aria-hidden="true" tabindex="-1"></a>        axes[<span class="dv">1</span>].set_title(<span class="st">'PFR'</span>)</span>
+<span id="cb32-94"><a href="#cb32-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-95"><a href="#cb32-95" aria-hidden="true" tabindex="-1"></a>        filt_neg <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span><span class="op">-</span>max_lag<span class="sc">}</span><span class="ss"> &lt;= Lag &lt; 0'</span></span>
+<span id="cb32-96"><a href="#cb32-96" aria-hidden="true" tabindex="-1"></a>        filt_pos <span class="op">=</span> <span class="ss">f'0 &lt; Lag &lt;= </span><span class="sc">{</span>max_lag<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb32-97"><a href="#cb32-97" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">2</span>], data<span class="op">=</span>crp.query(filt_neg), x<span class="op">=</span><span class="st">'Lag'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-98"><a href="#cb32-98" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">2</span>], data<span class="op">=</span>crp.query(filt_pos), x<span class="op">=</span><span class="st">'Lag'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-99"><a href="#cb32-99" aria-hidden="true" tabindex="-1"></a>        axes[<span class="dv">2</span>].set_title(<span class="st">'Lag-CRP'</span>)</span>
+<span id="cb32-100"><a href="#cb32-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-101"><a href="#cb32-101" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">3</span>], data<span class="op">=</span>mfc_connectivity.query(filt_neg), x<span class="op">=</span><span class="st">'Lag'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-102"><a href="#cb32-102" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">3</span>], data<span class="op">=</span>mfc_connectivity.query(filt_pos), x<span class="op">=</span><span class="st">'Lag'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-103"><a href="#cb32-103" aria-hidden="true" tabindex="-1"></a>        axes[<span class="dv">3</span>].set_title(<span class="st">'MFC Lag-Connectivity'</span>)</span>
+<span id="cb32-104"><a href="#cb32-104" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb32-105"><a href="#cb32-105" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">4</span>], data<span class="op">=</span>mcf_connectivity.query(filt_neg), x<span class="op">=</span><span class="st">'Lag'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-106"><a href="#cb32-106" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(ax<span class="op">=</span>axes[<span class="dv">4</span>], data<span class="op">=</span>mcf_connectivity.query(filt_pos), x<span class="op">=</span><span class="st">'Lag'</span>, y<span class="op">=</span><span class="st">'Recall Rate'</span>, hue<span class="op">=</span>varied_parameter, ci<span class="op">=</span><span class="va">None</span>, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-107"><a href="#cb32-107" aria-hidden="true" tabindex="-1"></a>        axes[<span class="dv">4</span>].set_title(<span class="st">'MCF Lag-Connectivity'</span>)</span>
+<span id="cb32-108"><a href="#cb32-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-109"><a href="#cb32-109" aria-hidden="true" tabindex="-1"></a>        plt.tight_layout(pad<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb32-110"><a href="#cb32-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-111"><a href="#cb32-111" aria-hidden="true" tabindex="-1"></a>        fig.suptitle(varied_parameter.replace(<span class="st">'_'</span>, <span class="st">' '</span>).upper())</span>
+<span id="cb32-112"><a href="#cb32-112" aria-hidden="true" tabindex="-1"></a>        <span class="co">#plt.savefig('results/{}_{}.svg'.format(model.__name__, varied_parameter))</span></span>
+<span id="cb32-113"><a href="#cb32-113" aria-hidden="true" tabindex="-1"></a>        plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>  0%|          | 0/10 [00:00&lt;?, ?it/s]</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>encoding_drift_rate 0.7344167192532168</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>100%|██████████| 10/10 [00:10&lt;00:00,  1.00s/it]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-26-output-4.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-stderr">
+<pre><code>  0%|          | 0/10 [00:00&lt;?, ?it/s]</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>recall_drift_rate 0.9322928178785643</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>100%|██████████| 10/10 [00:06&lt;00:00,  1.46it/s]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-26-output-8.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-stderr">
+<pre><code>  0%|          | 0/4 [00:00&lt;?, ?it/s]</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>shared_support 0.39537504326174394</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>100%|██████████| 4/4 [00:02&lt;00:00,  1.55it/s]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-26-output-12.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-stderr">
+<pre><code>  0%|          | 0/9 [00:00&lt;?, ?it/s]</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>item_support 2.220446049250313e-16</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>100%|██████████| 9/9 [00:06&lt;00:00,  1.46it/s]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-26-output-16.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-stderr">
+<pre><code>  0%|          | 0/10 [00:00&lt;?, ?it/s]</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>learning_rate 0.9999999999999998</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>100%|██████████| 10/10 [00:06&lt;00:00,  1.46it/s]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-26-output-20.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-stderr">
+<pre><code>  0%|          | 0/10 [00:00&lt;?, ?it/s]</code></pre>
+</div>
+<div class="cell-output-stdout">
+<pre><code>choice_sensitivity 5.760897798064937</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>100%|██████████| 10/10 [00:07&lt;00:00,  1.42it/s]</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Contiguity_Tracing_files\figure-html/cell-26-output-24.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="notes-1" class="level3">
+<h3 class="anchored" data-anchor-id="notes-1">Notes</h3>
+<section id="icmr" class="level4">
+<h4 class="anchored" data-anchor-id="icmr">ICMR</h4>
+<ul>
+<li>Encoding drift rate messes with SPC height at high value for some reason. CRP sharpness grows with drift rate. With sharpness comes greater assymetry. Can I control one without the other?</li>
+<li>Recall drift rate has similar effect as encoding drift rate, except my high encoding drift rate seems protective of contiguity even with low recall drift rate. With low recall drift rate, contiguity is not so assymetric even though it’s there, so that’s a neat differentiation. Still, sharpness and assymetry are tied here.</li>
+<li>shared_support breaks the model unless configured to low value. Must return to this. Oh, as this increases, contiguity is suppressed. Assymetry largely untouched.</li>
+<li>item support configures initial mfc weights and seems to mainly control sharpness w/o affecting assymetry as much, idk.</li>
+<li>Learning rate specifically controls contiguity. High values balance CRP while low values make assymetry super strong. No direct control of mean CRP “height”, I think. This is maybe really valuable, but I haven’t had much success manipulating it in CMR-DE.</li>
+<li>choice sensitivity seems to control height of CRP w/o disrupting assymetry much except at very low values.</li>
+</ul>
+<p>So we have a lot of parameters that suppress contiguity in a way that also erases <em>apparent</em> assymetry at different rates. And we have a parameter that directly controls assymetry w/o controlling height. Any of these might prove useful tools for getting me toward the suppressed relative contiguity I’m looking for.</p>
+</section>
+<section id="cmr" class="level4">
+<h4 class="anchored" data-anchor-id="cmr">CMR</h4>
+<ul>
+<li>Encoding drift rate behavior is same as ICMR’s. Seems clearer that low values suppress assymetry and overall contiguity.</li>
+<li>Recall drift rate too. Clearer than before that recall drift rate is an avenue to impact assymetry w/o erasing contiguity as quickly as</li>
+<li>Relevant range for shared_support seems wildly different. Must return.</li>
+<li>Item support has a weird experiment I wanna return to but overall seems to drive greater negative assymetry at higher values rather than positive. Must compare with ICMR again. I need to consider a smaller range of values for CMR too since the parameter fits very close to 0. I wonder if I have the model implemented wrong?</li>
+<li>Learning rate works similarly. Fits to as sharp assymetry as possible, suggesting the model wishes it could go further.</li>
+<li>Model very noisy with choice sensitivity values below 1.0 apparently.</li>
+</ul>
+</section>
+<section id="lag_connectivity" class="level4">
+<h4 class="anchored" data-anchor-id="lag_connectivity">Lag_Connectivity</h4>
+<p>Encoding drift rate affects both MFC and MCF lag-connectivity. Low values make flat memories. As value increases, memory remains flat but grows in height. Then after some threshold, contiguity sharpness rather than memory strength is modified.</p>
+<p>Recall drift rate doesn’t affect memory, as it shouldn’t.</p>
+<p>Shared support especially impacts MFC lag-connecitivity, mainly more distal lags, effectively suppressing lag-contiguity at higher values.</p>
+<p>Item support affects both MFC and MCF lag-connectivity. Opposite transitions is a flat line that translate down as parameter value increases. Main contiguity starts in wrong direction at low values and increases to produce contiguity. Definitely not a parameter to mess with, this shit is weird.</p>
+<p>Learning rate exclusively impacts MFC. Which makes sense because MFC doesn’t affect learning the way MCF does. Wait, that’s not true. Why does higher learning rate suppress forward transitions if it doesn’t affect MCF? Guess because context gets more support for negative transitions, okay.</p>
+<p>Choice sensitivity similarly affects CRP without affecting memory representations.</p>
+<p>So we get an interesting divide! Recall-based mechanisms can constrain CRP</p>
+
+
+</section>
+</section>
+</section>
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</main> <!-- /main -->
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>
