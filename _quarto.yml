@@ -17,35 +17,35 @@ website:
     contents:
       - section: "Datasets"
         contents:
-          - Murdock1962.ipynb
-          - MurdockOkada1970.ipynb
-          - Lohnas2014.ipynb
-          - HowaKaha05.ipynb
-          - Data_Simulation.ipynb
-          - ClairExpt6.ipynb
-          - PEERS.ipynb
-      - section: "MOdels"
+          - library/datasets/Murdock1962.ipynb
+          - library/datasets/MurdockOkada1970.ipynb
+          - library/datasets/Lohnas2014.ipynb
+          - library/datasets/HowaKaha05.ipynb
+          - library/datasets/Data_Simulation.ipynb
+          - library/datasets/ClairExpt6.ipynb
+          - library/datasets/PEERS.ipynb
+      - section: "Models"
         contents:
-          - Classic_CMR.ipynb
-          - Instance_CMR.ipynb
-          - Noisy_CMR.ipynb
-          - Trace_Reinstatement_CMR.ipynb
+          - library/models/Classic_CMR.ipynb
+          - library/models/Instance_CMR.ipynb
+          - library/models/Noisy_CMR.ipynb
+          - library/models/Trace_Reinstatement_CMR.ipynb
       - section: "Data Analysis"
         contents:
-          - Serial_Position_Effect.ipynb
-          - Probability_of_First_Recall.ipynb
-          - Lag_Contiguity_Effect.ipynb
-          - Conditional_Stop_Probability.ipynb
-          - Alternative_Contiguity.ipynb
-          - Recall_Probability_by_Spacing.ipynb
-          - Serial_Position_Effect_in_Repetition_Datasets.ipynb
-          - Probability_of_First_Recall_in_Repetition_Data.ipynb
-          - Lag_Contiguity_Effect_with_Repetition_Data.ipynb
+          - library/analyses/Serial_Position_Effect.ipynb
+          - library/analyses/Probability_of_First_Recall.ipynb
+          - library/analyses/Lag_Contiguity_Effect.ipynb
+          - library/analyses/Conditional_Stop_Probability.ipynb
+          - library/analyses/Alternative_Contiguity.ipynb
+          - library/analyses/Recall_Probability_by_Spacing.ipynb
+          - library/analyses/Serial_Position_Effect_in_Repetition_Datasets.ipynb
+          - library/analyses/Probability_of_First_Recall_in_Repetition_Data.ipynb
+          - library/analyses/Lag_Contiguity_Effect_with_Repetition_Data.ipynb
       - section: "Model Analysis"
         contents:
-          - Data_Likelihood_Under_Model.ipynb
-          - Contiguity_Tracing.ipynb
-          - Model_Characterization.ipynb
+          - library/model_analysis/Data_Likelihood_Under_Model.ipynb
+          - library/model_analysis/Contiguity_Tracing.ipynb
+          - library/model_analysis/Model_Characterization.ipynb
 
 format:
   html:
