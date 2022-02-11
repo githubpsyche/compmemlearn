@@ -11,41 +11,41 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-    sidebar:
-      style: "docked"
-      search: true
-      contents:
-        - section: "Datasets"
-          contents:
-            - Murdock1962.ipynb
-            - MurdockOkada1970.ipynb
-            - Lohnas2014.ipynb
-            - HowaKaha05.ipynb
-            - Data_Simulation.ipynb
-            - ClairExpt6.ipynb
-            - PEERS.ipynb
-        - section: "MOdels"
-          contents:
-            - Classic_CMR.ipynb
-            - Instance_CMR.ipynb
-            - Noisy_CMR.ipynb
-            - Trace_Reinstatement_CMR.ipynb
-        - section: "Data Analysis"
-          contents:
-            - Serial_Position_Effect.ipynb
-            - Probability_of_First_Recall.ipynb
-            - Lag_Contiguity_Effect.ipynb
-            - Conditional_Stop_Probability.ipynb
-            - Alternative_Contiguity.ipynb
-            - Recall_Probability_by_Spacing.ipynb
-            - Serial_Position_Effect_in_Repetition_Datasets.ipynb
-            - Probability_of_First_Recall_in_Repetition_Data.ipynb
-            - Lag_Contiguity_Effect_with_Repetition_Data.ipynb
-        - section: "Model Analysis"
-          contents:
-            - Data_Likelihood_Under_Model.ipynb
-            - Contiguity_Tracing.ipynb
-            - Model_Characterization.ipynb
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Datasets"
+        contents:
+          - Murdock1962.ipynb
+          - MurdockOkada1970.ipynb
+          - Lohnas2014.ipynb
+          - HowaKaha05.ipynb
+          - Data_Simulation.ipynb
+          - ClairExpt6.ipynb
+          - PEERS.ipynb
+      - section: "MOdels"
+        contents:
+          - Classic_CMR.ipynb
+          - Instance_CMR.ipynb
+          - Noisy_CMR.ipynb
+          - Trace_Reinstatement_CMR.ipynb
+      - section: "Data Analysis"
+        contents:
+          - Serial_Position_Effect.ipynb
+          - Probability_of_First_Recall.ipynb
+          - Lag_Contiguity_Effect.ipynb
+          - Conditional_Stop_Probability.ipynb
+          - Alternative_Contiguity.ipynb
+          - Recall_Probability_by_Spacing.ipynb
+          - Serial_Position_Effect_in_Repetition_Datasets.ipynb
+          - Probability_of_First_Recall_in_Repetition_Data.ipynb
+          - Lag_Contiguity_Effect_with_Repetition_Data.ipynb
+      - section: "Model Analysis"
+        contents:
+          - Data_Likelihood_Under_Model.ipynb
+          - Contiguity_Tracing.ipynb
+          - Model_Characterization.ipynb
 
 format:
   html:
