@@ -289,7 +289,6 @@ icmr_spec = [
 
 # Cell
 
-
 @jitclass(icmr_spec)
 class Instance_CMR:
 
@@ -354,7 +353,7 @@ class Instance_CMR:
         self.norm[item_count:] = np.sqrt(2)
         self.encoding_index = item_count
         self.items = np.hstack((np.eye(item_count, item_count + 2, 1), np.zeros((item_count, item_count+2))))
-        self.items = self.items.astype(int32)
+        #self.items = self.items.astype(int32)
 
     def experience(self, experiences):
 

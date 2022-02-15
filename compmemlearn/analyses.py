@@ -603,20 +603,23 @@ def sim_alternative_contiguity_test(presentations, experiment_count, lag_thresho
 from numba import njit
 import numpy as np
 
+
 @njit(fastmath=True, nogil=True)
 def fast_pfr(trials, item_count):
-    return np.bincount(trials[:, 0], minlength=item_count+1)[1:]/len(trials)
+    return np.bincount(trials[:, 0], minlength=item_count + 1)[1:] / len(trials)
+
 
 # Cell
 import seaborn as sns
 from psifr import fr
 
+
 def plot_pfr(data, **facet_kws):
 
-    pfr_data = fr.pnr(data).query('output <= 1')
+    pfr_data = fr.pnr(data).query("output <= 1")
 
-    sns.lineplot(
-        data=pfr_data, x='input', y='prob', **facet_kws)
+    sns.lineplot(data=pfr_data, x="input", y="prob", **facet_kws)
+
 
 # Cell
 
