@@ -224,7 +224,7 @@ def prepare_howakaha05_data(path):
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
                 data += [[subjects[trial_index], list_index,
-                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index]
+                          'recall', recall_index+1, recall_event, list_types[trial_index]
                          ]]
 
     data = pd.DataFrame(data, columns=[
@@ -294,7 +294,7 @@ def prepare_lohnas2014_data(path):
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
                 data += [[subjects[trial_index], list_index,
-                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index]
+                          'recall', recall_index+1, recall_event, list_types[trial_index]
                          ]]
 
     data = pd.DataFrame(data, columns=[
