@@ -1,0 +1,10 @@
+numba
+numpy
+seaborn
+scipy
+matplotlib
+psifr
+pandas
+papermill
+tqdm
+https://github.com/githubpsyche/compmemlearn/archive/d92e0020d2ed1fa3173d228395cffbd361d416e8.tar.gz

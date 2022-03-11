@@ -901,14 +901,11 @@ class Instance_CMR:
             else:
                 # mfc weightings - scale by gamma for each experimental trace
                 activation *= self.item_weighting[:self.encoding_index]
-            activation = np.power(activation, self.context_sensitivity)
+            activation = np.power(activation, self.feature_sensitivity)
         else:
             # mcf weightings - scale by primacy/attention function based on experience position
             activation *= self.context_weighting[:self.encoding_index]
-            if self.feature_sensitivity != 1.0:
-                activation = np.power(activation, self.feature_sensitivity)
-            else:
-                activation = np.power(activation, self.context_sensitivity)
+            activation = np.power(activation, self.context_sensitivity)
 
         return activation
 

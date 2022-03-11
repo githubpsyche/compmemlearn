@@ -87,6 +87,7 @@ def simulate_df(model, experiment_count, first_recall_item=None):
         if first_recall_item is not None:
             model.force_recall(first_recall_item)
         data += [[experiment, 0, 'recall', i + 1, o] for i, o in enumerate(model.free_recall())]
+        model.force_recall(0)
     data = pd.DataFrame(data, columns=['subject', 'list', 'trial_type', 'position', 'item'])
     merged = fr.merge_free_recall(data)
 
@@ -108,6 +109,7 @@ def simulate_array(model, experiment_count, first_recall_item=None):
     for trial_index in range(len(trials)):
 
         recalled = model.free_recall()
+        model.force_recall(0)
         trials[trial_index, :len(recalled)] = recalled + 1
 
     return trials
@@ -146,6 +148,11 @@ def find_first(item, vec):
     return -1
 
 # Cell
+
+import numpy as np
+import pandas as pd
+from psifr import fr
+
 def prepare_howakaha05_data(path):
     """
     Prepares data formatted like `../data/HowaKaha05.dat` for fitting.
@@ -192,7 +199,8 @@ def prepare_howakaha05_data(path):
             try:
                 t = int(t)
                 if (t in pres_itemnos[i]):
-                    item = presentations[i][np.where(pres_itemnos[i] == t)[0][0]]+1
+                    #item = presentations[i][np.where(pres_itemnos[i] == t)[0][0]]+1
+                    item = np.where(pres_itemnos[i] == t)[0][0] + 1
                     if item not in trials[-1]:
                         trials[-1].append(item)
             except ValueError:
@@ -224,7 +232,7 @@ def prepare_howakaha05_data(path):
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
                 data += [[subjects[trial_index], list_index,
-                          'recall', recall_index+1, recall_event, list_types[trial_index]
+                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index]
                          ]]
 
     data = pd.DataFrame(data, columns=[

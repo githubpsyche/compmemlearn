@@ -11,11 +11,12 @@ from numba import njit, prange
 from numba.typed import Dict
 from numba.core import types
 
-@njit(fastmath=True, nogil=True, parallel=True)
+#@njit(fastmath=True, nogil=True, parallel=True)
 def murdock_data_likelihood(data_to_fit, item_counts, model_class, parameters):
 
     result = 0.0
-    for i in prange(len(item_counts)):
+    #for i in prange(len(item_counts)):
+    for i in range(len(item_counts)):
         item_count = item_counts[i]
         trials = data_to_fit[i]
         likelihood = np.ones((len(trials), item_count))
@@ -89,7 +90,7 @@ def lohnas_data_likelihood(trials, presentations, model_class, parameters):
         model.experience(model.items[presentations[trial_index]])
 
         model.force_recall()
-        for recall_index in range(len(trial) + 1):
+        for recall_index in range(min(len(trial) + 1, item_count)):
 
             # identify index of item recalled; if zero then recall is over
             if recall_index == len(trial) and len(trial) < item_count:
@@ -142,28 +143,32 @@ from numba.typed import List
 def generate_objective_function(events, model_class, fixed_parameters, free_parameters):
 
     if 'list length' in events.columns:
-        list_lengths = List(pd.unique(events["list length"]).tolist())
+        list_lengths = list_lengths = List([int(each) for each in pd.unique(events["list length"])])
 
         trials = []
         for list_length in list_lengths:
             subset = events[events["list length"] == list_length]
             trials_df = subset.pivot_table(
                     index=['subject', 'list'], columns='output', values='item')
-            trials.append(trials_df.to_numpy(na_value=0).astype('int64'))
+            trials_array = trials_df.to_numpy(na_value=0).astype('int32')
+            trials_array = np.hstack((trials_array, np.zeros((trials_array.shape[0], 1), dtype=np.int32)))
+            trials.append(trials_array)
         trials = List(trials)
 
     else:
-        list_lengths = List([np.max(events.input)])
+        list_lengths = List([int(np.max(events.input))])
         trials_df = events.pivot_table(
                     index=['subject', 'list'], columns='output', values='item')
-        trials = List([trials_df.to_numpy(na_value=0).astype('int64')])
+        trials_array = trials_df.to_numpy(na_value=0).astype('int32')
+        trials_array = np.hstack((trials_array, np.zeros((trials_array.shape[0], 1), dtype=np.int32)))
+        trials = List([trials_array])
 
     if events['input'].equals(events['item']):
         return murdock_objective_function(
             trials, list_lengths, model_class, fixed_parameters, free_parameters)
     else:
         presentations = events.pivot_table(index=['subject', 'list'], columns='input', values='item')
-        presentations = presentations.to_numpy(na_value=0).astype('int64')
+        presentations = presentations.to_numpy(na_value=0).astype('int32')
         return lohnas_objective_function(
             trials[0], presentations, model_class, fixed_parameters, free_parameters)
 
