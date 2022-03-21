@@ -758,6 +758,17 @@ class ICMR_DE:
 import numpy as np
 from numba import float64, int32, boolean
 from numba.experimental import jitclass
+from numba import njit
+
+# @njit
+# def familiarity_weighting(familiarity_scale, similarity):
+#     assert similarity >= 0
+#     if similarity > 0:
+#         return 1-familiarity_scale
+#     else:
+#         return 1.0
+#     #return np.power(1-similarity, familiarity_scale)
+
 
 icmr_spec = [
     ('item_count', int32),
@@ -790,6 +801,9 @@ icmr_spec = [
     ('encoding_index', int32),
     ('items', float64[:,::1]),
     ('norm', float64[::1]),
+    ('drift_familiarity_scale', float64),
+    ('mfc_familiarity_scale', float64),
+    ('mcf_familiarity_scale', float64),
 ]
 
 # Cell
@@ -814,6 +828,9 @@ class Instance_CMR:
         self.stop_probability_scale = parameters['stop_probability_scale']
         self.stop_probability_growth = parameters['stop_probability_growth']
         self.choice_sensitivity = parameters['choice_sensitivity']
+        self.drift_familiarity_scale = parameters['drift_familiarity_scale']
+        self.mfc_familiarity_scale = parameters['mfc_familiarity_scale']
+        self.mcf_familiarity_scale = parameters['mcf_familiarity_scale']
         self.context_sensitivity = parameters['context_sensitivity']
         self.feature_sensitivity = parameters['feature_sensitivity']
 
@@ -822,7 +839,7 @@ class Instance_CMR:
         self.context = np.zeros(item_count + 2)
         self.context[0] = 1
         self.preretrieval_context = self.context
-        self.recall = np.zeros(item_count, int32) # recalls has at most `item_count` entries
+        self.recall = np.zeros(item_count, np.int32) # recalls has at most `item_count` entries
         self.retrieving = False
         self.recall_total = 0
 
@@ -859,13 +876,22 @@ class Instance_CMR:
         self.norm[item_count:] = np.sqrt(2)
         self.encoding_index = item_count
         self.items = np.hstack((np.eye(item_count, item_count + 2, 1), np.zeros((item_count, item_count+2))))
-        #self.items = self.items.astype(int32)
 
     def experience(self, experiences):
 
         for i in range(len(experiences)):
+
+            drift_rate = self.encoding_drift_rate
+            if ((np.dot(experiences[i], np.sum(self.memory[:self.encoding_index], axis=0)[:len(experiences[i])]) > 1)
+                and ((self.mfc_familiarity_scale != 0) or (self.mcf_familiarity_scale != 0) or (
+                    self.drift_familiarity_scale != 0))):
+
+                self.context_weighting[self.encoding_index] *= 1-self.mcf_familiarity_scale
+                self.item_weighting[self.encoding_index] *= 1-self.mfc_familiarity_scale
+                #drift_rate *= 1-self.drift_familiarity_scale
+
             self.memory[self.encoding_index] = experiences[i]
-            self.update_context(self.encoding_drift_rate, self.memory[self.encoding_index])
+            self.update_context(drift_rate, self.memory[self.encoding_index])
             self.memory[self.encoding_index, self.item_count+2:] = self.context
             self.encoding_index += 1
 
@@ -875,6 +901,12 @@ class Instance_CMR:
         if len(experience) == self.item_count * 2 + 4:
             context_input = self.echo(experience)[self.item_count + 2:]
             context_input = context_input / np.sqrt(np.sum(np.square(context_input))) # norm to length 1
+
+            if not self.retrieving and (np.dot(experience, np.sum(self.memory[:self.encoding_index], axis=0)[:len(experience)]) > 1):
+                context_input = np.power(context_input, 1-self.drift_familiarity_scale)
+
+            context_input = context_input / np.sqrt(np.sum(np.square(context_input))) # norm to length 1
+
         else:
             context_input = experience
 
@@ -936,7 +968,7 @@ class Instance_CMR:
 
         # some pre-list context is reinstated before initiating recall
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, np.int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
@@ -957,7 +989,7 @@ class Instance_CMR:
             outcome_probabilities = self.outcome_probabilities()
             if np.any(outcome_probabilities[1:]):
                 choice = np.sum(
-                    np.cumsum(outcome_probabilities) < np.random.rand(), dtype=int32)
+                    np.cumsum(outcome_probabilities) < np.random.rand(), dtype=np.int32)
             else:
                 choice = 0
 
@@ -975,7 +1007,7 @@ class Instance_CMR:
     def force_recall(self, choice=None):
 
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, np.int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
