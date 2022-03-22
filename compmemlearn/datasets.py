@@ -167,7 +167,7 @@ def events_metadata(events, trial_query='subject > -1'):
     # build trials argument, careful to filter out recalls and presentations rows with same query
     trials = []
     presentations = []
-    trial_details = events.pivot_table(index=['subject', 'list'], dropna=False)
+    trial_details = events.pivot_table(index=['subject', 'list'], dropna=False).reset_index()
     for list_length in list_lengths:
         trial_filter = trial_details.eval(trial_query.format(list_length=list_length))
         trials_df = events.pivot_table(index=['subject', 'list'], columns='output', values='item', dropna=False)
@@ -187,7 +187,7 @@ def events_metadata(events, trial_query='subject > -1'):
     if len(presentations) == 1:
         presentations = presentations[0]
 
-    return trials, list_lengths, presentations, trial_details[trial_filter].reset_index()
+    return trials, list_lengths, presentations, trial_details[trial_filter]
 
 # Cell
 
@@ -477,12 +477,12 @@ def prepare_murdock1962_data(path, dataset_index=0):
         # add study events
         for i in range(list_length):
             data += [[subjects[trial_index],
-                      list_index, 'study', i+1, i+1]]
+                      list_index + (dataset_index * 1000), 'study', i+1, i+1]]
 
         # add recall events
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
-                data += [[subjects[trial_index], list_index,
+                data += [[subjects[trial_index], list_index + (dataset_index * 1000),
                           'recall', recall_index+1, recall_event]]
 
     data = pd.DataFrame(data, columns=[

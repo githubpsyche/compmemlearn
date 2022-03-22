@@ -2,4 +2,4 @@ numba
 seaborn
 psifr
 papermill
-https://github.com/githubpsyche/compmemlearn/archive/d92e0020d2ed1fa3173d228395cffbd361d416e8.tar.gz
+https://github.com/githubpsyche/compmemlearn/archive/c505f5616be2aee8a1892374e24e29dcd9261fc7.tar.gz

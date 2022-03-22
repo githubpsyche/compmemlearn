@@ -3,14 +3,14 @@
 #SBATCH --mail-type=ALL
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --mem=2G
-#SBATCH --time=0:20:00
-#SBATCH --output=pi.txt
+#SBATCH --mem=16G
+#SBATCH --time=20:00:00
 
 module load GCCcore/.10.2.0
 module load Python/3.8.6
 
-source ${HOME}/pi/bin/activate
+source ${HOME}/compmemlearn/bin/activate
 export PYTHONPATH=$(python -c 'import sys; print(sys.path[-1])'):${PYTHONPATH}
 
-python pi.py 1000000
+echo ${PARAMETER_SCRIPT}
+python ${PARAMETER_SCRIPT}.py
