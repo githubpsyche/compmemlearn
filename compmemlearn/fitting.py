@@ -145,10 +145,14 @@ def generate_objective_function(
 
     # generate function based on whether list contains item repetitions or not
     if events['input'].equals(events['item']):
-        if type(trials) != List:
+        if not isinstance(trials, list):
             trials = List([trials])
-        if type(list_lengths) != List:
+        else:
+            trials = List(trials)
+        if not isinstance(list_lengths, list):
             list_lengths = List([list_lengths])
+        else:
+            list_lengths = List(list_lengths)
         return murdock_objective_function(
             trials, list_lengths, model_class, fixed_parameters, free_parameters)
     else:
