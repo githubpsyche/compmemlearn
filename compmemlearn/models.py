@@ -494,14 +494,6 @@ class Classic_CMR:
 
 # Cell
 
-import numpy as np
-from numba import float64, int32, boolean
-from numba.experimental import jitclass
-from numba import njit
-from .models import icmr_spec
-
-# Cell
-
 @jitclass(icmr_spec)
 class Exp_ICMR:
     "InstanceCMR Except MFC Exponent-Based Activation Scaling Only Applied To Experimental Traces"
