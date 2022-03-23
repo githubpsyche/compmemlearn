@@ -157,11 +157,9 @@ def events_metadata(events, trial_query='subject > -1'):
     # build list lengths argument, careful to avoid including filtered-out list lengths
     if 'list length' in events.columns:
         list_lengths = [int(each) for each in pd.unique(events.query(trial_query)["list length"])]
-        if trial_query:
-            trial_query += ' & `list length` == {list_length}'
-        else:
-            trial_query = '`list length` == {list_length}'
+        ll_specific_trial_query = trial_query + ' & `list length` == {list_length}'
     else:
+        ll_specific_trial_query = trial_query
         list_lengths = [int(np.max(events.query(trial_query).input))]
 
     # build trials argument, careful to filter out recalls and presentations rows with same query
@@ -169,7 +167,7 @@ def events_metadata(events, trial_query='subject > -1'):
     presentations = []
     trial_details = events.pivot_table(index=['subject', 'list'], dropna=False).reset_index()
     for list_length in list_lengths:
-        trial_filter = trial_details.eval(trial_query.format(list_length=list_length))
+        trial_filter = trial_details.eval(ll_specific_trial_query.format(list_length=list_length))
         trials_df = events.pivot_table(index=['subject', 'list'], columns='output', values='item', dropna=False)
         trials_array = trials_df.to_numpy(na_value=0).astype('int32')[trial_filter]
         #trials_array = np.hstack((trials_array, np.zeros((trials_array.shape[0], 1), dtype=np.int32)))
@@ -187,7 +185,7 @@ def events_metadata(events, trial_query='subject > -1'):
     if len(presentations) == 1:
         presentations = presentations[0]
 
-    return trials, list_lengths, presentations, trial_details[trial_filter]
+    return trials, list_lengths, presentations, trial_details[trial_details.eval(trial_query)]
 
 # Cell
 
