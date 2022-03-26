@@ -168,9 +168,15 @@ def events_metadata(events, trial_query='subject > -1'):
     trial_details = events.pivot_table(index=['subject', 'list'], dropna=False).reset_index()
     for list_length in list_lengths:
         trial_filter = trial_details.eval(ll_specific_trial_query.format(list_length=list_length))
-        trials_df = events.pivot_table(index=['subject', 'list'], columns='output', values='item', dropna=False)
+
+        if 'first_input' in events.columns:
+            trials_df = events.pivot_table(
+                index=['subject', 'list'], columns='output', values='first_input', dropna=False)
+        else:
+            trials_df = events.pivot_table(
+                index=['subject', 'list'], columns='output', values='item', dropna=False)
+
         trials_array = trials_df.to_numpy(na_value=0).astype('int32')[trial_filter]
-        #trials_array = np.hstack((trials_array, np.zeros((trials_array.shape[0], 1), dtype=np.int32)))
         trials.append(trials_array)
 
         presentations_df = events.pivot_table(index=['subject', 'list'], columns='input', values='item', dropna=False)
@@ -291,6 +297,7 @@ def prepare_howakaha05_data(path):
     # build vectors/matrices tracking list types and presentation item numbers across trials
     list_types = np.array([int(lines[trial_info_inds[i]-1][2]) for i in range(subject_count * trial_count)])
     subjects = np.array([int(lines[trial_info_inds[i]-1][0]) for i in range(subject_count * trial_count)])
+
     pres_itemnos = np.array([[int(each) for each in lines[presentation_info_inds[i]-1][:-1]] for i in range(
         subject_count * trial_count)])
 
@@ -331,34 +338,41 @@ def prepare_howakaha05_data(path):
 
     # encode dataset into psifr format
     data = []
+    subject_counter = 0
     for trial_index, trial in enumerate(trials):
         presentation = presentations[trial_index]
 
         # every time the subject changes, reset list_index
         if not data or data[-1][0] != subjects[trial_index]:
+            subject_counter += 1
             list_index = 0
         list_index += 1
 
         # add study events
         for presentation_index, presentation_event in enumerate(presentation):
             data += [[subjects[trial_index],
-                      list_index, 'study', presentation_index+1, presentation_event,  list_types[trial_index]
+                      list_index, 'study', presentation_index+1, presentation_event,  list_types[trial_index], presentation_index+1
                      ]]
 
         # add recall events
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
                 data += [[subjects[trial_index], list_index,
-                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index]
+                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index], recall_event
                          ]]
 
     data = pd.DataFrame(data, columns=[
-        'subject', 'list', 'trial_type', 'position', 'item', 'condition'])
-    merged = fr.merge_free_recall(data, list_keys=['condition'])
+        'subject', 'list', 'trial_type', 'position', 'item', 'condition', 'first_input'])
+    merged = fr.merge_free_recall(data, list_keys=['condition', 'first_input'])
 
     return trials, merged, list_length, presentations, list_types, data, subjects
 
 # Cell
+
+import scipy.io as sio
+import numpy as np
+import pandas as pd
+from psifr import fr
 
 def prepare_lohnas2014_data(path):
     """
@@ -412,19 +426,19 @@ def prepare_lohnas2014_data(path):
         # add study events
         for presentation_index, presentation_event in enumerate(presentation):
             data += [[subjects[trial_index],
-                      list_index, 'study', presentation_index+1, presentation_event,  list_types[trial_index]
+                      list_index, 'study', presentation_index+1, presentation_event, list_types[trial_index], presentation_index+1
                      ]]
 
         # add recall events
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
                 data += [[subjects[trial_index], list_index,
-                          'recall', recall_index+1, recall_event, list_types[trial_index]
+                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index], recall_event
                          ]]
 
     data = pd.DataFrame(data, columns=[
-        'subject', 'list', 'trial_type', 'position', 'item', 'condition'])
-    merged = fr.merge_free_recall(data, list_keys=['condition'])
+        'subject', 'list', 'trial_type', 'position', 'item', 'condition', 'first_input'])
+    merged = fr.merge_free_recall(data, list_keys=['condition', 'first_input'])
 
     return trials, merged, list_length, presentations, list_types, data, subjects
 

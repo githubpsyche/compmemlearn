@@ -165,22 +165,42 @@ def fast_crp(trials, item_count):
     return total_actual_lags/total_possible_lags
 
 # Cell
-import seaborn as sns
-from psifr import fr
 
-def plot_lag_crp(data, max_lag=5, **facet_kws):
+from psifr import fr
+import seaborn as sns
+import matplotlib.pyplot as plt
+from .fitting import apply_and_concatenate
+
+def plot_lag_crp(data, list_length, axis=None, contrast_name=None, labels=None, max_lag=5):
+    if axis is None:
+        plt.figure()
+        axis = plt.gca()
+
+    color=None
+    if isinstance(data, list):
+        assert(len(labels) == len(data))
+        assert(contrast_name is not None)
+        data = apply_and_concatenate(fr.lag_crp, data, contrast_name, labels)
+    else:
+        data = fr.lag_crp(data)
+        color='blue'
+
 
     filt_neg = f'{-max_lag} <= lag < 0'
     filt_pos = f'0 < lag <= {max_lag}'
 
-    crp_data = fr.lag_crp(data)
+    sns.lineplot(ax=axis, data=data.query(filt_neg), x='lag', y='prob',
+                err_style='bars', hue=contrast_name, legend=False, color=color)
+    sns.lineplot(ax=axis, data=data.query(filt_pos), x='lag', y='prob',
+                err_style='bars', hue=contrast_name, color=color)
+    axis.set(xlabel='Item\'s Lag In Study List From Last Recalled Item', ylabel='Conditional Recall Rate')
+    axis.set_xticks(np.arange(-max_lag, max_lag+1, 1))
+    axis.set_ylim((0, 1))
 
-    sns.lineplot(
-        data=crp_data.query(filt_neg),
-        x='lag', y='prob', **facet_kws)
-    sns.lineplot(
-        data=crp_data.query(filt_pos),
-        x='lag', y='prob', **facet_kws)
+    if labels is not None:
+        axis.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    return axis
 
 # Cell
 
@@ -610,16 +630,36 @@ def fast_pfr(trials, item_count):
 
 
 # Cell
+
 import seaborn as sns
+import matplotlib.pyplot as plt
 from psifr import fr
+from .fitting import apply_and_concatenate
 
+def plot_pfr(data, list_length, axis=None, contrast_name=None, labels=None):
 
-def plot_pfr(data, **facet_kws):
+    if axis is None:
+        plt.figure()
+        axis = plt.gca()
 
-    pfr_data = fr.pnr(data).query("output <= 1")
+    if isinstance(data, list):
+        assert(len(labels) == len(data))
+        assert(contrast_name is not None)
+        data = apply_and_concatenate(fr.pnr, data, contrast_name, labels)
+        data = data.query("output <= 1")
+    else:
+        data = fr.pnr(data)
+        data = data.query("output <= 1")
 
-    sns.lineplot(data=pfr_data, x="input", y="prob", **facet_kws)
+    sns.lineplot(ax=axis, data=data, x='input', y='prob', err_style='bars', hue=contrast_name)
+    axis.set(xlabel='Study Position', ylabel='Probability of Recalling First')
+    axis.set_xticks(np.arange(1, list_length+int(list_length/10), int(list_length/10)))
+    axis.set_ylim((0, 1))
 
+    if labels is not None:
+        axis.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    return axis
 
 # Cell
 
@@ -735,13 +775,34 @@ def fast_spc(trials, item_count):
     return np.bincount(trials.flatten(), minlength=item_count+1)[1:]/len(trials)
 
 # Cell
-from psifr import fr
+
 import seaborn as sns
+import matplotlib.pyplot as plt
+from psifr import fr
+from .fitting import apply_and_concatenate
 
-def plot_spc(data, **facet_kws):
+def plot_spc(data, list_length, axis=None, contrast_name=None, labels=None):
 
-    sns.lineplot(
-        data=fr.spc(data), x='input', y='recall', **facet_kws)
+    if axis is None:
+        plt.figure()
+        axis = plt.gca()
+
+    if isinstance(data, list):
+        assert(len(labels) == len(data))
+        assert(contrast_name is not None)
+        data = apply_and_concatenate(fr.spc, data, contrast_name, labels)
+    else:
+        data = fr.spc(data)
+
+    sns.lineplot(ax=axis, data=data, x='input', y='recall', err_style='bars', hue=contrast_name)
+    axis.set(xlabel='Study Position', ylabel='Recall Rate')
+    axis.set_xticks(np.arange(1, list_length+int(list_length/10), int(list_length/10)))
+    axis.set_ylim((0, 1))
+
+    if labels is not None:
+        axis.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    return axis
 
 # Cell
 

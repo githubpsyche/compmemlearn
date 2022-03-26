@@ -1180,8 +1180,8 @@ class Instance_CMR:
             activation = np.power(activation, self.feature_sensitivity)
         else:
             # mcf weightings - scale by primacy/attention function based on experience position
-            activation *= self.context_weighting[:self.encoding_index]
             activation = np.power(activation, self.context_sensitivity)
+            activation *= self.context_weighting[:self.encoding_index]
 
         return activation
 

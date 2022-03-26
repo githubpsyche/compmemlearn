@@ -162,8 +162,8 @@ def generate_objective_function(
 # Cell
 import pandas as pd
 
-def apply_and_concatenate(function, df1, df2, contrast_name='contrast', labels='AB'):
+def apply_and_concatenate(function, dfs, contrast_name='contrast', labels='AB'):
     """
     Concatenates the results of a function applied to two dataframes and creates a new column identifying the contrast.
     """
-    return pd.concat([function(df1), function(df2)], keys=labels, names=[contrast_name]).reset_index()
+    return pd.concat([function(df) for df in dfs], keys=labels, names=[contrast_name]).reset_index()
