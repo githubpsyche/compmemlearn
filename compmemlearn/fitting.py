@@ -37,9 +37,12 @@ def murdock_data_likelihood(data_to_fit, item_counts, model_class, parameters):
 
                 # store probability of and simulate recall of indexed item
                 likelihood[trial_index, recall_index] = \
-                    model.outcome_probabilities()[recall] + 10e-7
+                    model.outcome_probabilities()[recall]
+                # if likelihood[trial_index, recall_index] <= 0:
+                #     print(trial_index, recall_index, recall, trial, model.outcome_probabilities())
+                assert(likelihood[trial_index, recall_index] > 0)
 
-                if recall == 0:
+                if recall == 0  or recall_index+1 == item_count:
                     break
                 model.force_recall(recall)
 
@@ -100,9 +103,12 @@ def lohnas_data_likelihood(trials, presentations, model_class, parameters):
 
             # store probability of and simulate recalling item with this index
             likelihood[trial_index, recall_index] = \
-                model.outcome_probabilities()[recall] + 10e-7
+                model.outcome_probabilities()[recall]
+            if likelihood[trial_index, recall_index] <= 0:
+                print(trial_index, recall_index, recall, trial, likelihood[trial_index, recall_index], model.outcome_probabilities())
+            assert(likelihood[trial_index, recall_index] > 0)
 
-            if recall == 0:
+            if recall == 0 or recall_index+1 == item_count:
                 break
             model.force_recall(recall)
 
