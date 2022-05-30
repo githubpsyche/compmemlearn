@@ -10,7 +10,7 @@ from numba import njit, prange
 from numba.typed import Dict
 from numba.core import types
 
-#@njit(fastmath=True, nogil=True, parallel=True)
+@njit(nogil=True, parallel=True)
 def murdock_data_likelihood(data_to_fit, item_counts, model_class, parameters):
 
     result = 0.0
@@ -42,7 +42,7 @@ def murdock_data_likelihood(data_to_fit, item_counts, model_class, parameters):
                 #      print(trial_index, recall_index, recall, trial, model.outcome_probabilities())
                 assert(likelihood[trial_index, recall_index] > 0)
 
-                if recall == 0  or recall_index+1 == item_count:
+                if recall == 0 or recall_index+1 == item_count:
                     break
                 model.force_recall(recall)
 
