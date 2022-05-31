@@ -699,7 +699,7 @@ class Dual_ICMR:
 
         # weight activations based on whether probe contains item or contextual features or both
         if np.any(probe[: self.item_count + 2]):  # if probe is an item feature cue as during contextual retrieval
-            if not self.learn_first:
+            if self.learn_first:
                 activation = np.power(activation, self.feature_sensitivity)
             if np.any(
                 probe[self.item_count + 2 :]
@@ -1133,8 +1133,8 @@ class Single_ICMR:
     def experience(self, experiences):
 
         for i in range(len(experiences)):
-            self.update_context(self.encoding_drift_rate, self.memory[self.encoding_index])
             self.memory[self.encoding_index] = experiences[i]
+            self.update_context(self.encoding_drift_rate, self.memory[self.encoding_index])
             self.memory[self.encoding_index, self.item_count+2:] = self.context
             self.encoding_index += 1
 
@@ -1164,16 +1164,13 @@ class Single_ICMR:
     def activations(self, probe, probe_norm=1.0):
 
         activation = np.dot(self.memory[: self.encoding_index], probe) / (
-            self.norm[: self.encoding_index] * probe_norm
-        )
+            self.norm[: self.encoding_index] * probe_norm)
 
         # weight activations based on whether probe contains item or contextual features or both
         if np.any(probe[: self.item_count + 2]):  # if probe is an item feature cue as during contextual retrieval
-            if not self.learn_first:
+            if self.learn_first:
                 activation = np.power(activation, self.feature_sensitivity)
-            if np.any(
-                probe[self.item_count + 2 :]
-            ):  # if probe is (also) a contextual cue as during item retrieval
+            if np.any(probe[self.item_count + 2:]):  # if probe is (also) a contextual cue as during item retrieval
                 # both mfc and mcf weightings, see below
                 activation *= self.all_weighting[: self.encoding_index]
             else:
@@ -1195,10 +1192,8 @@ class Single_ICMR:
     def outcome_probabilities(self):
 
         self.probabilities[0] = min(
-            self.stop_probability_scale
-            * np.exp(self.recall_total * self.stop_probability_growth),
-            1.0 - ((self.item_count - self.recall_total) * lb),
-        )
+            self.stop_probability_scale * np.exp(self.recall_total * self.stop_probability_growth),
+            1.0 - ((self.item_count - self.recall_total) * lb))
         self.probabilities[1:] = lb
         self.probabilities[self.recall[: self.recall_total] + 1] = 0
 
