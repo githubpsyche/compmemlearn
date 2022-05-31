@@ -509,7 +509,7 @@ class Classic_CMR_Alpha:
 import numpy as np
 from numba import float64, int32, boolean
 from numba.experimental import jitclass
-lb = np.finfo(float).eps
+lb = 10e-7 #np.finfo(float).eps
 
 dual_icmr_spec = [
     ("item_count", int32),
@@ -814,7 +814,8 @@ class Dual_ICMR:
 import numpy as np
 from numba import float64, int32, boolean
 from numba.experimental import jitclass
-lb = np.finfo(float).eps
+lb = 10e-7 #np.finfo(float).eps
+
 
 base_cmr_spec = [
     ("item_count", int32),
@@ -1025,7 +1026,7 @@ class Base_CMR:
 import numpy as np
 from numba import float64, int32, boolean
 from numba.experimental import jitclass
-lb = np.finfo(float).eps
+lb = 10e-7 #np.finfo(float).eps
 
 single_icmr_spec = [
     ("item_count", int32),
