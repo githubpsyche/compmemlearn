@@ -1,5 +1,0 @@
-numba
-seaborn
-psifr
-papermill
-https://github.com/githubpsyche/compmemlearn/archive/c505f5616be2aee8a1892374e24e29dcd9261fc7.tar.gz
