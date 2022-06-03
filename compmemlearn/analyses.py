@@ -218,7 +218,7 @@ def plot_crp(data, trial_query, contrast_name='', labels=None, axis=None, max_la
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     color = None if len(data) == 1 else 'blue'
     filt_neg = f'{-max_lag} <= lag < 0'
@@ -445,7 +445,7 @@ def plot_flex_crp(data, trial_query, contrast_name='', labels=None, axis=None, m
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     color = None if len(data) == 1 else 'blue'
     filt_neg = f'{-max_lag} <= lag < 0'
@@ -784,7 +784,7 @@ def plot_pfr(data, trial_query, contrast_name='', labels=None, axis=None):
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     sns.lineplot(ax=axis, data=result, x='input', y='recall', err_style='bars', hue=contrast_name)
     axis.set(xlabel='Study Position', ylabel='Recall Rate')
@@ -880,7 +880,7 @@ def plot_flex_pfr(data, trial_query, contrast_name='', labels=None, axis=None):
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     sns.lineplot(ax=axis, data=result, x='input', y='recall', err_style='bars', hue=contrast_name)
     axis.set(xlabel='Study Position', ylabel='Recall Rate')
@@ -987,7 +987,7 @@ def plot_rpl(data, trial_query, contrast_name='', labels=None, axis=None):
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     if contrast_name:
         sns.pointplot(ax=axis, data=result, x='lag', y='recall',  join=False, hue=contrast_name)
@@ -1086,7 +1086,7 @@ def plot_spc(data, trial_query, contrast_name='', labels=None, axis=None):
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     sns.lineplot(ax=axis, data=result, x='input', y='recall', err_style='bars', hue=contrast_name)
     axis.set(xlabel='Study Position', ylabel='Recall Rate')
@@ -1232,7 +1232,7 @@ def plot_flex_spc(data, trial_query, contrast_name='', labels=None, axis=None):
                 }
             ))
 
-    result = pd.concat(result)
+    result = pd.concat(result).reset_index()
 
     sns.lineplot(ax=axis, data=result, x='input', y='recall', err_style='bars', hue=contrast_name)
     axis.set(xlabel='Study Position', ylabel='Recall Rate')
