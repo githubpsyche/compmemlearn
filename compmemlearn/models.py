@@ -682,12 +682,12 @@ class Dual_ICMR:
                 activation = np.power(activation, self.feature_sensitivity)
         else:
             # mcf weightings - scale by primacy/attention function based on experience position
-            if not self.learn_first:
-                activation *= self.context_weighting[: self.encoding_index]
+            if self.learn_first:
                 activation = np.power(activation, self.context_sensitivity)
+                activation *= self.context_weighting[: self.encoding_index]
             else:
-                activation = np.power(activation, self.context_sensitivity)
                 activation *= self.context_weighting[: self.encoding_index]
+                activation = np.power(activation, self.context_sensitivity)
 
         return activation
 
@@ -713,12 +713,12 @@ class Dual_ICMR:
                 activation = np.power(activation, self.feature_sensitivity)
         else:
             # mcf weightings - scale by primacy/attention function based on experience position
-            if not self.learn_first:
-                activation *= self.context_weighting[: self.encoding_index]
+            if self.learn_first:
                 activation = np.power(activation, self.context_sensitivity)
+                activation *= self.context_weighting[: self.encoding_index]
             else:
-                activation = np.power(activation, self.context_sensitivity)
                 activation *= self.context_weighting[: self.encoding_index]
+                activation = np.power(activation, self.context_sensitivity)
 
         return activation
 
@@ -733,16 +733,16 @@ class Dual_ICMR:
 
         if self.probabilities[0] < (1.0 - ((self.item_count - self.recall_total) * lb)):
 
-            # measure the activation for each item; already recalled items have zero activation
+            # measure the support in echo for each item; already recalled items have zero activation
             activation_cue = np.hstack((np.zeros(self.item_count + 2), self.context))
-            activation = self.echo_mcf(activation_cue)[1:self.item_count + 1]
+            echo = self.echo_mcf(activation_cue)[1:self.item_count + 1]
 
-            # recall probability is a function of activation
-            if np.sum(activation) > 0:
-                activation = np.power(activation, self.choice_sensitivity)
-                activation[activation==0] = lb
-                activation[self.recall[:self.recall_total]] = 0
-                self.probabilities[1:] = (1 - self.probabilities[0]) * activation / np.sum(activation)
+            # recall probability is a function of support within echo
+            if np.sum(echo) > 0:
+                echo = np.power(echo, self.choice_sensitivity)
+                echo[echo==0] = lb
+                echo[self.recall[:self.recall_total]] = 0
+                self.probabilities[1:] = (1 - self.probabilities[0]) * echo / np.sum(echo)
 
         return self.probabilities
 
