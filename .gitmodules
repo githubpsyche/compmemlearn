@@ -4,3 +4,6 @@
 [submodule "projects/narrative_cmr"]
 	path = projects/narrative_cmr
 	url = https://github.com/githubpsyche/narrative_cmr
+[submodule "projects/repetition_cmr"]
+	path = projects/repetition_cmr
+	url = https://github.com/githubpsyche/repetition_cmr
