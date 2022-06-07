@@ -1,0 +1,6 @@
+[submodule "projects/instance_cmr"]
+	path = projects/instance_cmr
+	url = https://github.com/githubpsyche/instance_cmr
+[submodule "projects/narrative_cmr"]
+	path = projects/narrative_cmr
+	url = https://github.com/githubpsyche/narrative_cmr
