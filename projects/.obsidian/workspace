@@ -1,0 +1,175 @@
+{
+  "main": {
+    "id": "a11b3988dda10e29",
+    "type": "split",
+    "children": [
+      {
+        "id": "8497f12ba53dccfb",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "daily/2022-06-22.md",
+            "mode": "source",
+            "backlinks": true,
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f16a09026f766e3d",
+    "type": "split",
+    "children": [
+      {
+        "id": "32d98b075b696d1d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8baf089b02f826cf",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "511ca14180e68ecb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "backward",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "968702003bb2fd5d",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 487.99999809265137
+  },
+  "right": {
+    "id": "02b857f8ed947a05",
+    "type": "split",
+    "children": [
+      {
+        "id": "4364450a23f782e8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "021807ea95a329a0",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "daily/2022-06-22.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ff8fb9e230380198",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "daily/2022-06-22.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "235d9897e07a3866",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "2e579a58e44360db",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "daily/2022-06-22.md"
+              }
+            }
+          },
+          {
+            "id": "e57ebb25fcb95cc0",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "29f9d94ce53054f9",
+            "type": "leaf",
+            "state": {
+              "type": "mindmap",
+              "state": {}
+            }
+          },
+          {
+            "id": "92e0c18f55c12227",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daily/2022-06-19.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 6
+      }
+    ],
+    "direction": "horizontal",
+    "width": 445.4287109375,
+    "collapsed": true
+  },
+  "active": "8497f12ba53dccfb",
+  "lastOpenFiles": [
+    "daily/2022-06-22.md",
+    "daily/2022-06-23.md",
+    "issues/Make Sure Trial Index is Unique Within Subject.md",
+    "Report Templates README.md",
+    "daily/2022-06-21.md",
+    "daily/2022-06-19.md",
+    "daily/2022-06-20.md",
+    "issues/Refactor and finish analyses of landscape, scmr models.md",
+    "issues/Refactor and Document Picky_Lag_CRP.md",
+    "issues/document code for performing fits by phenomenal level mean squared error instead of log likelihood.md"
+  ]
+}
