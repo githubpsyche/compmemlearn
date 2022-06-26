@@ -1,6 +1,6 @@
 I'm interested in picking a singular project landing page for ICMR and deciding how I'll design landing pages going forward.
 
-The latter thing should be a separate issue to ensure I don't forget: [[issues/Specify Landing Page Design in Vault Workflow]]
+The latter thing should be a separate issue to ensure I don't forget: [[vault - Specify Landing Page Design in Vault Workflow]]
 
 ## Startup
 It looks like I have several files that try to do this, most primarily these two:

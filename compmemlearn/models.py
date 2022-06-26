@@ -1637,8 +1637,10 @@ class Semantic_CMR:
         # predefine contextual input vectors relevant for delay_drift_rate and start_drift_rate parameters
         self.start_context_input = np.zeros((self.item_count + 2))
         self.start_context_input[0] = 1
-        self.delay_context_input = np.zeros((self.item_count + 2))
-        self.delay_context_input[-1] = 1
+        self.delay_context_input = np.random.rand((self.item_count + 2))
+        self.delay_context_input /= np.sqrt(
+                np.sum(np.square(self.delay_context_input)))
+        #self.delay_context_input[-1] = 1
 
         # The two layers communicate with one another through two sets of
         # associative connections represented by matrices Mfc and Mcf.

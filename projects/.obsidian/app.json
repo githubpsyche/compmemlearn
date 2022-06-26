@@ -2,7 +2,7 @@
   "legacyEditor": false,
   "livePreview": true,
   "attachmentFolderPath": "./",
-  "fileSortOrder": "byCreatedTime",
+  "fileSortOrder": "alphabetical",
   "promptDelete": false,
   "alwaysUpdateLinks": true,
   "readableLineLength": false

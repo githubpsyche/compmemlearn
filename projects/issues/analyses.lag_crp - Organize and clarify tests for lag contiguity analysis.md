@@ -1,0 +1,1 @@
+Goal condition is "running this notebook convinces me that the code works across all kinds of scenarios that I haven't tried yet".

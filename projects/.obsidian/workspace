@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "daily/2022-06-22.md",
+            "file": "issues/instance_cmr - generate results section.md",
             "mode": "source",
             "backlinks": true,
             "source": false
@@ -62,7 +62,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 487.99999809265137
+    "width": 852.9999980926514
   },
   "right": {
     "id": "02b857f8ed947a05",
@@ -78,7 +78,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "daily/2022-06-22.md",
+                "file": "issues/instance_cmr - generate results section.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +95,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "daily/2022-06-22.md",
+                "file": "issues/instance_cmr - generate results section.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "daily/2022-06-22.md"
+                "file": "issues/instance_cmr - generate results section.md"
               }
             }
           },
@@ -161,15 +161,15 @@
   },
   "active": "8497f12ba53dccfb",
   "lastOpenFiles": [
-    "daily/2022-06-22.md",
-    "daily/2022-06-23.md",
-    "issues/Make Sure Trial Index is Unique Within Subject.md",
-    "Report Templates README.md",
-    "daily/2022-06-21.md",
-    "daily/2022-06-19.md",
-    "daily/2022-06-20.md",
-    "issues/Refactor and finish analyses of landscape, scmr models.md",
-    "issues/Refactor and Document Picky_Lag_CRP.md",
-    "issues/document code for performing fits by phenomenal level mean squared error instead of log likelihood.md"
+    "issues/instance_cmr - generate results section.md",
+    "issues/general - specify and optimize Report Templates Workflow.md",
+    "issues/vault - Specify Landing Page Design in Vault Workflow.md",
+    "contiguity_disruption/2022-06-22.md",
+    "instance_cmr/outline.md",
+    "instance_cmr/05_Variable_List_Length.md",
+    "issues/narrative_cmr - Refactor and finish analyses of landscape, scmr models.md",
+    "issues/reports - Refactor Generalization Test Code into Distinct Report Template.md",
+    "issues/models - Clear Up Outcome of Evaluation of Delay Drift Rate Parameter.md",
+    "issues/general - Don't leave numba jit on by default.md"
   ]
 }

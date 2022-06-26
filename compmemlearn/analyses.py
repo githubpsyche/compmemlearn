@@ -196,7 +196,6 @@ def plot_crp(data, trial_query, contrast_name='', labels=None, axis=None, max_la
         trial_mask = trial_mask[chose]
 
         lag_interval = np.arange(-max_lag, max_lag+1)
-        list_length = list_lengths[0]
         lag_range = list_length -1
         for subject in pd.unique(events.subject):
             subject_specific_trial_mask = np.logical_and(
@@ -423,7 +422,6 @@ def plot_flex_crp(data, trial_query, contrast_name='', labels=None, axis=None, m
         trial_mask = trial_mask[chose]
 
         lag_interval = np.arange(-max_lag, max_lag+1)
-        list_length = list_lengths[0]
         lag_range = list_length -1
         for subject in pd.unique(events.subject):
             subject_specific_trial_mask = np.logical_and(

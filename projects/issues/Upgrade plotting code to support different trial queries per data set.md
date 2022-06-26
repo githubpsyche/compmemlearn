@@ -1,1 +1,0 @@
-Seems to merely require making `trial_query` argument a list of queries. But an open question whether I should use `trial_query` argument here.

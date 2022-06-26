@@ -206,6 +206,6 @@ for model_index, model_class in enumerate(models):
         if analysis_name == 'crp':
             axis.set_ylim((0, .5))
         
-        plt.savefig(results_path+'{}_{}_{}_ll{}_{}.pdf'.format(title, section_tag, model_names[model_index], list_length, analysis_name), bbox_inches="tight")
+        plt.savefig(results_path+'{}_{}_{}_{}.pdf'.format(title, section_tag, model_names[model_index], analysis_name), bbox_inches="tight")
         plt.show()
 # %%

@@ -20,7 +20,7 @@ try:
 except:
   trial_query = "subject != -1"
   
-results_path = "reports/subjectwise_model_evaluation/results"
+results_path = "reports/subjectwise_model_evaluation/results/"
 
 
 model_paths = [
