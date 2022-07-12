@@ -121,3 +121,6 @@ ltpFR
 /.quarto/
 /report_templates/.obsidian/
 /report_templates/*notes/
+.idea/
+*sim_df.csv
+ltpFR2 Behavioral Data
