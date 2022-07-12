@@ -1150,7 +1150,7 @@ class Base_CMR:
         self.context = np.zeros(item_count + 2)
         self.context[0] = 1
         self.preretrieval_context = self.context
-        self.recall = np.zeros(item_count, int32)
+        self.recall = np.zeros(item_count, np.int32)
         self.retrieving = False
         self.recall_total = 0
 
@@ -1241,7 +1241,7 @@ class Base_CMR:
 
         # some amount of the pre-list context is reinstated before initiating the recall
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, np.int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
@@ -1280,7 +1280,7 @@ class Base_CMR:
     def force_recall(self, choice=None):
 
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, np.int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
@@ -1622,7 +1622,7 @@ class Semantic_CMR:
         self.context = np.zeros(item_count + 2)
         self.context[0] = 1
         self.preretrieval_context = self.context
-        self.recall = np.zeros(item_count, int32)
+        self.recall = np.zeros(item_count, np.int32)
         self.retrieving = False
         self.recall_total = 0
 
@@ -1715,7 +1715,7 @@ class Semantic_CMR:
 
         # some amount of the pre-list context is reinstated before initiating the recall
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, np.int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)
@@ -1754,7 +1754,7 @@ class Semantic_CMR:
     def force_recall(self, choice=None):
 
         if not self.retrieving:
-            self.recall = np.zeros(self.item_count, int32)
+            self.recall = np.zeros(self.item_count, np.int32)
             self.recall_total = 0
             self.preretrieval_context = self.context
             self.update_context(self.delay_drift_rate, self.delay_context_input)

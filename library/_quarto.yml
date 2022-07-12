@@ -1,0 +1,43 @@
+project:
+  type: book
+
+bibliography: references.bib
+csl: apa.csl
+
+format:
+  pdf:
+    author: 
+      - |
+        | Jordan B. Gunn
+        | Cognition and Cognitive Neuroscience Program
+        | Vanderbilt University
+        | Nashville, TN 37235
+        | \texttt{jordan.gunn@vanderbilt.edu}
+      - |
+        | \textbf{Sean M. Polyn}
+        | Department of Psychological Sciences
+        | Vanderbilt University
+        | Nashville, TN 37235
+        | \texttt{sean.polyn@vanderbilt.edu}
+    toc: false
+    keep-tex: true
+    echo: false
+    output: false
+    documentclass: scrreport
+    header-includes: |
+      %\usepackage{setspace}
+      %\onehalfspacing
+      %\doublespacing
+      %\usepackage{arxiv}
+    #classoption:  12pt
+
+book:
+  title: "Analysis Demos"
+  lang: "en"
+  execute: false
+  chapters:
+    - index.md
+    - analyses/Serial_Position_Effect.ipynb
+    - analyses/Lag_Contiguity_Effect.ipynb
+    - analyses/Probability_of_First_Recall.ipynb
+    - references.md
