@@ -109,7 +109,8 @@ def simulate_df_from_presentations(model_class, parameters, presentations, exper
             for presentation_index, presentation_event in enumerate(presentation):
                 data.append([
                     experiment, experiment*len(presentations)+trial_index, 
-                    'study', presentation_index+1, presentation_event, presentation_index+1])
+                    'study', presentation_index+1, presentation_event, 
+                    find_first(presentation_event, presentation) + 1])
 
             # simulate recall and identify first study position of each recalled item
             model = model_class(item_count, len(presentation), parameters)

@@ -1,0 +1,1 @@
+By changing the aggfunc to pick the first result instead of trying to compute a mean (the default), this works. But correctness presumes that the value in the column is the same across all trial events. 

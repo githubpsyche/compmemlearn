@@ -1,0 +1,1 @@
+predictability of story structures may make starting recall from the beginning easier thanks to forward inference
