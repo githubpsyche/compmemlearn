@@ -13,4 +13,4 @@ source ${HOME}/compmemlearn/bin/activate
 export PYTHONPATH=$(python -c 'import sys; print(sys.path[-1])'):${PYTHONPATH}
 
 echo ${PARAMETER_SCRIPT}
-python ${PARAMETER_SCRIPT}.py
+python ${PARAMETER_SCRIPT}.py "${DATA_PATH}" "${TRIAL_FILTER}" "${SECTION_TAG}" "${TARGET_PATH}"

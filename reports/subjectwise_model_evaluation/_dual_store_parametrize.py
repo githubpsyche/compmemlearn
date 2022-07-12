@@ -6,22 +6,26 @@ import sys
 print('sys.argv:', sys.argv)
 
 try:
+  data_path = sys.argv[1]
+except:
+  data_path = "C:/Users/gunnj/compmemlearn/data/LohnasKahanaCond1.csv"
+
+try:
+  trial_query = sys.argv[2]
+except:
+  trial_query = "condition == 1"
+
+try:
   section_tag = sys.argv[3]
 except:
   section_tag = "InstanceCMR_Evaluation"
 
 try:
-  data_path = sys.argv[1]
+    target_path = sys.argv[4]
 except:
-  data_path = "data/HealyKahana2014.csv"
-
-try:
-  trial_query = sys.argv[2]
-except:
-  trial_query = "subject != -1"
-  
-results_path = "reports/subjectwise_model_evaluation/results/"
-
+    target_path = os.path.abspath(__file__)
+ 
+results_path = "C:/Users/gunnj/compmemlearn/reports/subjectwise_model_evaluation/results/"
 
 model_paths = [
     "compmemlearn.models.Base_CMR",
@@ -205,7 +209,7 @@ fixed_parameters = [
 
 pm.execute_notebook(
     "reports/subjectwise_model_evaluation/_Subjectwise_Model_Evaluation.ipynb",
-    "reports/subjectwise_model_evaluation/Subjectwise_Model_Evaluation_Dual_Store_{section_tag}.ipynb".format(
+    target_path + "Subjectwise_Model_Evaluation_Dual_Store_{section_tag}.ipynb".format(
         section_tag=section_tag
     ),
     parameters=dict(
@@ -218,5 +222,6 @@ pm.execute_notebook(
         fixed_parameters=fixed_parameters,
         section_tag=section_tag,
     ),
+    cwd=os.path.dirname(target_path),
     request_save_on_cell_execute=True,
 )
