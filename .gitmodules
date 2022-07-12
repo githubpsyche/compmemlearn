@@ -7,3 +7,6 @@
 [submodule "projects/repetition_cmr"]
 	path = projects/repetition_cmr
 	url = https://github.com/githubpsyche/repetition_cmr
+[submodule "projects/cdcatmr-modeling-arXiv"]
+	path = projects/cdcatmr-modeling-arXiv
+	url = https://github.com/vucml/cdcatmr-modeling-arXiv
