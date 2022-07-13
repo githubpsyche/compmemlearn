@@ -47,7 +47,6 @@ import pandas as pd
 import numpy as np
 from sentence_transformers import util
 
-
 def simulate_df_from_events(
     model_class, parameters, events, trial_query, experiment_count, first_recall_item=None,
     string_embeddings=None):
@@ -162,15 +161,15 @@ def simulate_df_from_events(
                         'recall', recall_index+1,
                         presentation[recall_event-1], recall_event])
                     for label in item_labels:
-                        data[-1].append(item_labels[label]['recall'][trial_index][recall_index])
+                        data[-1].append(np.nan); #item_labels[label]['recall'][trial_index][recall_index])
                     for label in trial_labels:
-                        data[-1].append(trial_labels[label][trial_index])
+                        data[-1].append(np.nan) #trial_labels[label][trial_index])
 
     data = pd.DataFrame(data, columns=[
         'subject', 'list', 'trial_type', 'position', 'item', 'first_input'] + list(
             item_labels.keys()) + list(trial_labels.keys()))
     merged = fr.merge_free_recall(
-        data, list_keys=['first_input'] + list(item_labels.keys()) + list(trial_labels.keys()))
+        data, study_keys=['first_input'] + list(item_labels.keys()) + list(trial_labels.keys()))
     return merged
 
 # Cell
