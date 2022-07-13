@@ -50,7 +50,7 @@ from sentence_transformers import util
 
 def simulate_df_from_events(
     model_class, parameters, events, trial_query, experiment_count, first_recall_item=None,
-    language_model=None, item_strings=None):
+    string_embeddings=None):
     """
     Initialize a model with specified parameters and experience sequences and
     then populate a psifr-formatted dataframe with the outcomes of performing `free recall`.
@@ -64,14 +64,14 @@ def simulate_df_from_events(
     """
 
     trial_mask = generate_trial_mask(events, trial_query)
-    trials, list_lengths, presentations, item_strings = events_metadata(events)
+    trials, list_lengths, presentations, string_ids = events_metadata(events)
     chose = [i for i in range(len(trial_mask)) if np.sum(trial_mask[i]) != 0]
     assert(len(chose) == 1)
     chose = chose[0]
     trial_mask = trial_mask[chose]
     trials = trials[chose][trial_mask]
     presentations = presentations[chose][trial_mask]
-    item_strings = item_strings[chose][trial_mask]
+    string_ids = string_ids[chose][trial_mask]
 
     default_columns = ['subject', 'list', 'trial_type', 'item', 'input', 'output', 'study', 'recall', 'repeat', 'intrusion', 'first_input']
     extra_is_not_item_level = ['subject_id', 'older', 'session', 'session_list', 'task', 'list length', 'condition',]
@@ -126,7 +126,6 @@ def simulate_df_from_events(
 
             # retrieve presentation sequence for this trial and measure number of unique items
             presentation = presentations[trial_index]
-            string_sequence = item_strings[trial_index]
             item_count = np.max(presentation)+1
 
             # record presentation events
@@ -141,11 +140,11 @@ def simulate_df_from_events(
                     data[-1].append(trial_labels[label][trial_index])
 
             # simulate recall and identify first study position of each recalled item
-            if language_model is None:
+            if string_embeddings is None:
                 model = model_class(item_count, len(presentation), parameters)
             else:
-                embeddings = language_model.encode(string_sequence)
-                similarities = util.pytorch_cos_sim(embeddings, embeddings).numpy() + 1
+                trial_embeddings = string_embeddings[string_ids[trial_index]]
+                similarities = util.pytorch_cos_sim(trial_embeddings, trial_embeddings).numpy() + 1
                 np.fill_diagonal(similarities, 0)
                 model = model_class(similarities, len(presentation), parameters)
 
@@ -249,10 +248,10 @@ def events_metadata(events):
     # trials for efficient recall simulation
     trials = []
     presentations = []
-    if 'item_string' in events.columns:
-        item_strings = []
+    if 'item_string_index' in events.columns:
+        item_string_indices = []
     else:
-        item_strings = None
+        item_string_indices = None
 
     trial_details = events.pivot_table(index=['subject', 'list'], dropna=False, aggfunc='first').reset_index()
     for list_length in list_lengths:
@@ -271,13 +270,13 @@ def events_metadata(events):
         presentations_array = presentations_df.to_numpy(na_value=0).astype('int32')[list_length_mask]
         presentations.append(presentations_array[:, :min(list_length, presentations_array.shape[1])])
 
-        if item_strings is not None:
-            item_strings_df =  events.pivot_table(
-                index=['subject', 'list'], columns='item', values='item_string', aggfunc='first', dropna=False)
-            item_strings_array = item_strings_df.to_numpy()[list_length_mask]
-            item_strings.append(item_strings_array[:, :min(list_length, item_strings_array.shape[1])])
+        if item_string_indices is not None:
+            item_string_indices_df =  events.pivot_table(
+                index=['subject', 'list'], columns='input', values='item_string_index', dropna=False)
+            item_string_indices_array = item_string_indices_df.to_numpy().astype('int32')[list_length_mask]
+            item_string_indices.append(item_string_indices_array[:, :min(list_length, item_string_indices_array.shape[1])])
 
-    return trials, list_lengths, presentations, item_strings
+    return trials, list_lengths, presentations, item_string_indices
 
 # Cell
 

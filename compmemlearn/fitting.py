@@ -216,15 +216,15 @@ from sentence_transformers import util
 
 def generate_objective_function(
     trials, presentations, list_lengths, model_class, fixed_parameters, free_parameters,
-    language_model=None, item_strings=None):
+    string_embeddings=None, string_ids=None):
 
     list_lengths = [list_lengths[i] for i in range(len(list_lengths)) if len(trials[i]) > 0]
     trials = [t for t in trials if len(t) > 0]
     presentations = [p for p in presentations if len(p) > 0]
-    item_strings = [i for i in item_strings if len(i) > 0]
+    string_ids = [i for i in string_ids if len(i) > 0]
 
     # generate function based on whether list contains item repetitions or not and language model provided
-    if language_model is None:
+    if string_embeddings is None:
         if len(trials) == 1:
             if (presentations[0] == np.arange(list_lengths[0])).all():
                 return murdock_objective_function(
@@ -244,8 +244,8 @@ def generate_objective_function(
             similarities.append(np.zeros((len(trials[ll_index]), list_length, list_length)))
 
             for trial_index in range(len(trials[ll_index])):
-                embeddings = language_model.encode(item_strings[ll_index][trial_index])
-                cosine_scores = util.pytorch_cos_sim(embeddings, embeddings).numpy() + 1
+                trial_embeddings = string_embeddings[string_ids[ll_index][trial_index]]
+                cosine_scores = util.pytorch_cos_sim(trial_embeddings, trial_embeddings).numpy() + 1
                 np.fill_diagonal(cosine_scores, 0)
                 similarities[-1][trial_index] = cosine_scores
 

@@ -92,7 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "issues/semantics - support specification of array word pools for analyses.md",
+                "file": "daily/2022-07-12.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -109,7 +109,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "issues/semantics - support specification of array word pools for analyses.md",
+                "file": "daily/2022-07-12.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,7 +132,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "issues/semantics - support specification of array word pools for analyses.md"
+                "file": "daily/2022-07-12.md"
               }
             }
           },
@@ -173,10 +173,10 @@
     "width": 445.4287109375,
     "collapsed": true
   },
-  "active": "2df3532ef948c031",
+  "active": "e3fcc8827b749768",
   "lastOpenFiles": [
-    "issues/semantics - support specification of array word pools for analyses.md",
     "daily/2022-07-12.md",
+    "issues/semantics - support specification of array word pools for analyses.md",
     "instance_cmr/_quarto.yml",
     "cdcatbeh/references.md",
     "instance_cmr/references.md",
