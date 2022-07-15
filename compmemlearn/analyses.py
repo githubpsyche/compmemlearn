@@ -3,8 +3,8 @@
 __all__ = ['alternative_contiguity', 'fast_sem_crp', 'plot_sem_crp', 'fast_crp', 'flex_mixed_crp', 'plot_crp',
            'randomize_dataset', 'indices_of_repeated_items', 'alternative_contiguity_test',
            'alternative_contiguity_control', 'sim_alternative_contiguity_test', 'fast_pfr', 'flex_mixed_pfr',
-           'plot_pfr', 'fast_rpl', 'plot_rpl', 'rpl', 'recall_by_all_study_positions', 'fast_spc', 'flex_mixed_spc',
-           'plot_spc', 'fast_csp', 'plot_csp']
+           'plot_pfr', 'fast_rpl', 'plot_rpl', 'rpl', 'fast_sem_pfr', 'plot_sem_pfr', 'recall_by_all_study_positions',
+           'fast_spc', 'flex_mixed_spc', 'plot_spc', 'fast_csp', 'plot_csp']
 
 # Cell
 
@@ -861,6 +861,104 @@ def rpl(presentations, trials, subjects, trial_count, list_length, max_lag=8):
         result['prob'] += binned.tolist()
 
     return pd.DataFrame(result)
+
+# Cell
+#| code-summary: --specify semantic probability of first recall analysis code
+
+
+from .datasets import events_metadata, generate_trial_mask
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+from scipy.spatial.distance import squareform
+from sentence_transformers import util
+from numba import njit
+
+@njit(nogil=True)
+def fast_sem_pfr(item_index_by_trial, item_index_by_presentation, distances, edges, buffer=2):
+
+    first_recalls = item_index_by_trial[:, 0]
+    first_presentations = item_index_by_presentation[:, :1+buffer]
+    last_presentations = item_index_by_presentation[:, -1-buffer:]
+    total_actual_distances = np.zeros(len(edges))
+
+    # For each item recalled first in a trial that is outside an initial presentation buffer,
+    # compute its similarity to the initially studied item in each trial.
+    for i in range(buffer, len(first_recalls)):
+        if first_recalls[i] < 0:
+            continue
+        if np.sum(first_recalls[i] == first_presentations[i]) > 0:
+            continue
+        if np.sum(first_recalls[i] == last_presentations[i]) > 0:
+            continue
+        distanceA = distances[first_recalls[i], first_presentations[i, 0]]
+        distanceB = distances[first_recalls[i], last_presentations[i, 0]]
+        distance_bin = np.sum(edges < (distanceA + distanceB)/2 , dtype=np.int32)
+        total_actual_distances[distance_bin] += 1
+
+    return total_actual_distances / np.sum(total_actual_distances)
+
+# Cell
+#| code-summary: -- specify semantic contiguity effect plotting code
+
+def plot_sem_pfr(data, trial_query, string_embeddings, contrast_name=None, labels=None, axis=None):
+
+    if axis is None:
+        plt.figure()
+        axis = plt.gca()
+
+    if labels is None:
+        labels = [''] * len(data)
+
+    result = []
+    for data_index, events in enumerate(data):
+
+        # generate and subset trials array and list of list_lengths based on trial_query
+        trials, list_lengths, _, item_index_by_pres, item_index_by_trial = events_metadata(events)[:6]
+        trial_mask = generate_trial_mask(events, trial_query)
+        chose = [i for i in range(len(trial_mask)) if np.sum(trial_mask[i]) != 0]
+        assert(len(chose) == 1)
+        chose = chose[0]
+        trials = trials[chose]
+        list_length = list_lengths[chose]
+        item_index_by_trial = item_index_by_trial[chose]
+        item_index_by_pres = item_index_by_pres[chose]
+        trial_mask = trial_mask[chose]
+
+        # set edges based on distances between unique item_index_by_trial in current dataset
+        if data_index == 0:
+            distances = 1-util.pytorch_cos_sim(string_embeddings, string_embeddings).numpy()
+            distances[np.eye(len(distances), dtype=int)] = np.nan
+            edges = np.nanpercentile(distances, np.linspace(1, 100, 10))
+
+        for subject in pd.unique(events.subject):
+            subject_specific_trial_mask = np.logical_and(
+                generate_trial_mask(events, f"subject == {subject}")[chose], trial_mask
+            )
+
+            if np.sum(subject_specific_trial_mask) == 0:
+                continue
+
+            res = fast_sem_pfr(item_index_by_trial, item_index_by_pres, distances, edges)
+            result.append(pd.DataFrame.from_dict(
+                {
+                    "subject": subject,
+                    "bin": edges,
+                    "prob": res,
+                    contrast_name: labels[data_index],
+                }
+            ))
+
+    result = pd.concat(result).reset_index()
+    sns.lineplot(ax=axis, data=result, x='bin', y='prob', err_style='bars', hue=contrast_name, legend=False)
+    axis.set(xlabel='Semantic Distance', ylabel='Probability of First Recall')
+
+    if contrast_name:
+        axis.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+    return axis, result
+
 
 # Cell
 #| code-summary: -- specify serial position effect analysis code

@@ -63,7 +63,7 @@ def simulate_df_from_events(
     """
 
     trial_mask = generate_trial_mask(events, trial_query)
-    trials, list_lengths, presentations, string_ids = events_metadata(events)
+    trials, list_lengths, presentations, string_ids = events_metadata(events)[:4]
     chose = [i for i in range(len(trial_mask)) if np.sum(trial_mask[i]) != 0]
     assert(len(chose) == 1)
     chose = chose[0]
@@ -170,6 +170,7 @@ def simulate_df_from_events(
             item_labels.keys()) + list(trial_labels.keys()))
     merged = fr.merge_free_recall(
         data, study_keys=['first_input'] + list(item_labels.keys()) + list(trial_labels.keys()))
+    assert(np.sum(merged.intrusion.values) == 0)
     return merged
 
 # Cell
@@ -248,9 +249,10 @@ def events_metadata(events):
     trials = []
     presentations = []
     if 'item_string_index' in events.columns:
-        item_string_indices = []
+        pres_item_string_indices = []
+        trial_item_string_indices = []
     else:
-        item_string_indices = None
+        pres_item_string_indices = None
 
     trial_details = events.pivot_table(index=['subject', 'list'], dropna=False, aggfunc='first').reset_index()
     for list_length in list_lengths:
@@ -269,13 +271,20 @@ def events_metadata(events):
         presentations_array = presentations_df.to_numpy(na_value=0).astype('int32')[list_length_mask]
         presentations.append(presentations_array[:, :min(list_length, presentations_array.shape[1])])
 
-        if item_string_indices is not None:
-            item_string_indices_df =  events.pivot_table(
+        if pres_item_string_indices is not None:
+            pres_item_string_indices_df =  events.pivot_table(
                 index=['subject', 'list'], columns='input', values='item_string_index', dropna=False)
-            item_string_indices_array = item_string_indices_df.to_numpy().astype('int32')[list_length_mask]
-            item_string_indices.append(item_string_indices_array[:, :min(list_length, item_string_indices_array.shape[1])])
+            pres_item_string_indices_array = pres_item_string_indices_df.to_numpy().astype('int32')[list_length_mask]
+            pres_item_string_indices.append(
+                pres_item_string_indices_array[:, :min(list_length, pres_item_string_indices_array.shape[1])])
 
-    return trials, list_lengths, presentations, item_string_indices
+            trial_item_string_indices_df = events.pivot_table(
+                index=['subject', 'list'], columns='output', values='item_string_index', dropna=False)
+            trial_item_string_indices_array = trial_item_string_indices_df.to_numpy().astype('int32')[list_length_mask]
+            trial_item_string_indices.append(
+                trial_item_string_indices_array[:, :min(list_length, trial_item_string_indices_array.shape[1])])
+
+    return trials, list_lengths, presentations, pres_item_string_indices, trial_item_string_indices
 
 # Cell
 
