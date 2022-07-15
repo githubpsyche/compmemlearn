@@ -249,10 +249,10 @@ def events_metadata(events):
     trials = []
     presentations = []
     if 'item_string_index' in events.columns:
-        pres_item_string_indices = []
-        trial_item_string_indices = []
+        pres_item_string_ids = []
+        trial_item_string_ids = []
     else:
-        pres_item_string_indices = None
+        pres_item_string_ids = None
 
     trial_details = events.pivot_table(index=['subject', 'list'], dropna=False, aggfunc='first').reset_index()
     for list_length in list_lengths:
@@ -271,20 +271,20 @@ def events_metadata(events):
         presentations_array = presentations_df.to_numpy(na_value=0).astype('int32')[list_length_mask]
         presentations.append(presentations_array[:, :min(list_length, presentations_array.shape[1])])
 
-        if pres_item_string_indices is not None:
-            pres_item_string_indices_df =  events.pivot_table(
+        if pres_item_string_ids is not None:
+            pres_item_string_ids_df =  events.pivot_table(
                 index=['subject', 'list'], columns='input', values='item_string_index', dropna=False)
-            pres_item_string_indices_array = pres_item_string_indices_df.to_numpy().astype('int32')[list_length_mask]
-            pres_item_string_indices.append(
-                pres_item_string_indices_array[:, :min(list_length, pres_item_string_indices_array.shape[1])])
+            pres_item_string_ids_array = pres_item_string_ids_df.to_numpy().astype('int32')[list_length_mask]
+            pres_item_string_ids.append(
+                pres_item_string_ids_array[:, :min(list_length, pres_item_string_ids_array.shape[1])])
 
-            trial_item_string_indices_df = events.pivot_table(
+            trial_item_string_ids_df = events.pivot_table(
                 index=['subject', 'list'], columns='output', values='item_string_index', dropna=False)
-            trial_item_string_indices_array = trial_item_string_indices_df.to_numpy().astype('int32')[list_length_mask]
-            trial_item_string_indices.append(
-                trial_item_string_indices_array[:, :min(list_length, trial_item_string_indices_array.shape[1])])
+            trial_item_string_ids_array = trial_item_string_ids_df.to_numpy().astype('int32')[list_length_mask]
+            trial_item_string_ids.append(
+                trial_item_string_ids_array[:, :min(list_length, trial_item_string_ids_array.shape[1])])
 
-    return trials, list_lengths, presentations, pres_item_string_indices, trial_item_string_indices
+    return trials, list_lengths, presentations, pres_item_string_ids, trial_item_string_ids
 
 # Cell
 
@@ -354,9 +354,9 @@ def prepare_healkaha2014_data(path):
     subjects = mat_data[0].astype('int64')
     session = mat_data[1].astype('int64')
     pres_item_strings = mat_data[2]
-    pres_item_numbers = mat_data[3].astype('int64')
+    pres_item_numbers = mat_data[3].astype('int64')-1
     rec_item_strings = mat_data[4]
-    rec_item_numbers = mat_data[5].astype('int64')
+    rec_item_numbers = mat_data[5].astype('int64')-1
     trials = mat_data[6].astype('int64')
     intrusions = mat_data[7]
     list_length = mat_data[8]
@@ -510,7 +510,8 @@ def prepare_lohnas2014_data(path):
     # load all the data
     matfile = sio.loadmat(path, squeeze_me=True)['data'].item()
     subjects = matfile[0]
-    pres_itemnos = matfile[4]
+    pres_itemnos = matfile[4].astype('int64')-1
+    rec_itemnos = matfile[2].astype('int64')-1
     recalls = matfile[6]
     list_types = matfile[7]
     list_length = matfile[12]
@@ -528,13 +529,17 @@ def prepare_lohnas2014_data(path):
 
     # discard intrusions from recalls
     trials = []
+    trial_items = []
     for i in range(len(recalls)):
         trials.append([])
 
         trial = list(recalls[i])
-        for t in trial:
+        for j in range(len(trial)):
+            t = trial[j]
+            trial_item = rec_itemnos[i][j]
             if (t > 0) and (t not in trials[-1]):
                 trials[-1].append(t)
+                trial_items.append(trial_item)
 
         while len(trials[-1]) < list_length:
             trials[-1].append(0)
@@ -545,6 +550,8 @@ def prepare_lohnas2014_data(path):
     data = []
     for trial_index, trial in enumerate(trials):
         presentation = presentations[trial_index]
+        item_presentations = pres_itemnos[trial_index]
+        item_recalls = rec_itemnos[trial_index]
 
         # every time the subject changes, reset list_index
         if not data or data[-1][0] != subjects[trial_index]:
@@ -555,19 +562,19 @@ def prepare_lohnas2014_data(path):
         for presentation_index, presentation_event in enumerate(presentation):
             data += [[subjects[trial_index],
                       list_index, 'study', presentation_index+1, presentation_event, list_types[trial_index],
-                      find_first(presentation_event, presentation) + 1
-                     ]]
+                      find_first(presentation_event, presentation) + 1, item_presentations[presentation_index]
+                      ]]
 
         # add recall events
         for recall_index, recall_event in enumerate(trial):
             if recall_event != 0:
                 data += [[subjects[trial_index], list_index,
-                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index], recall_event
-                         ]]
+                          'recall', recall_index+1, presentation[recall_event-1], list_types[trial_index], recall_event, item_recalls[recall_index]
+                          ]]
 
     data = pd.DataFrame(data, columns=[
-        'subject', 'list', 'trial_type', 'position', 'item', 'condition', 'first_input'])
-    merged = fr.merge_free_recall(data, list_keys=['condition', 'first_input'])
+        'subject', 'list', 'trial_type', 'position', 'item', 'condition', 'first_input', 'item_string_index'])
+    merged = fr.merge_free_recall(data, list_keys=['condition', 'first_input', 'item_string_index'])
 
     return trials, merged, list_length, presentations, list_types, data, subjects
 
