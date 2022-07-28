@@ -1,8 +1,8 @@
 {
   "translucency": false,
-  "cssTheme": "Atom",
+  "cssTheme": "",
   "theme": "obsidian",
   "baseFontSizeAction": true,
-  "baseFontSize": 18,
+  "baseFontSize": 17,
   "interfaceFontFamily": ""
 }

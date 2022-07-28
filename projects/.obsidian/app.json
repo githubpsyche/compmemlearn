@@ -5,5 +5,7 @@
   "fileSortOrder": "alphabetical",
   "promptDelete": false,
   "alwaysUpdateLinks": true,
-  "readableLineLength": false
+  "readableLineLength": true,
+  "showLineNumber": false,
+  "useMarkdownLinks": true
 }

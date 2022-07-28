@@ -18,6 +18,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import importlib
 import os
+from tqdm import tqdm
 
 lb = np.finfo(float).eps
 ub = 1 - np.finfo(float).eps
@@ -25,9 +26,9 @@ ub = 1 - np.finfo(float).eps
 title = "VARIABLE_PRACTICE"
 section_tag = "HealyKahana2014"
 trial_query = "subject > -1"
-results_path = "reports/subjectwise_model_evaluation/results/"
+results_path = "../../reports/subjectwise_model_evaluation/results/"
 
-model_names = ["PrototypeCMR"]
+model_names = ["Base_CMR"]
 model_paths = [
     "compmemlearn.models.Semantic_CMR",
 ]
@@ -55,13 +56,13 @@ fixed_parameters = [
 
 analysis_names = ['spc', 'crp', 'pfr']
 analysis_paths = [
-    'compmemlearn.analyses.plot_flex_spc', 
-    'compmemlearn.analyses.plot_flex_crp', 
-    'compmemlearn.analyses.plot_flex_pfr'
+    'compmemlearn.analyses.plot_spc', 
+    'compmemlearn.analyses.plot_crp', 
+    'compmemlearn.analyses.plot_pfr'
 ]
 
 list_length = 16
-experiment_count = 10
+experiment_count = 100
 
 # %% 
 #| code-summary: code -- retrieve specified models and analyses and individual fits
@@ -135,13 +136,13 @@ def simulate_df_from_presentations(model_class, parameters, presentations, exper
 #| echo: false
 #| output: false
 
-sns.set(style='darkgrid')
+sns.set(style='ticks')
 
 # for each unique model
 for model_index, model_class in enumerate(models):
 
     sim_dfs = []
-    for practice_index in range(2):
+    for practice_index in range(3):
 
         # load sim_df from csv if it exists
         sim_df_path = results_path + '{}_{}_{}_practice{}_sim_df.csv'.format(
@@ -161,7 +162,7 @@ for model_index, model_class in enumerate(models):
 
             # for each unique matching entry in individual df
             subject_specific_sim_dfs = []
-            for subject in pd.unique(individual_fits.subject):
+            for subject in tqdm(pd.unique(individual_fits.subject)):
 
                 # specify presentation sequence for this practice index
                 if practice_index == 0:
@@ -173,9 +174,9 @@ for model_index, model_class in enumerate(models):
                     presentations = np.hstack((presentationsA, presentationsB.T))
 
                 elif practice_index == 2:
-                    presentations = np.expand_dims(np.hstack((
-                        np.arange(list_length, dtype=int), np.arange(list_length-1, -1, -1, dtype=int))), 
-                        axis=0)
+                    presentationsA = np.expand_dims(np.arange(list_length, dtype=int), axis=0)
+                    presentationsB = np.expand_dims(np.arange(list_length, dtype=int), axis=0)
+                    presentations = np.hstack((presentationsA, presentationsB))
                 
                 fit_result = individual_fits.query(f'subject == {subject} & model == "{model_names[model_index]}"')
 
@@ -210,12 +211,24 @@ for model_index, model_class in enumerate(models):
 
         analysis_name = analysis_names[analysis_index]
 
-        axis = analysis_function(
-            sim_dfs, 'subject > -1', contrast_name="Practice", labels=['Without Practice', 'With Practice'])
+        if analysis_name != 'crp':
+            axis, result = analysis_function(
+                sim_dfs, 'subject > -1', contrast_name="Practice", labels=['Without Practice', 'Shuffled Practice', 'Preserved Order Practice'])
+        else:
+            axis, result = analysis_function(
+                sim_dfs, 'subject > -1', contrast_name="Practice", labels=['Without Practice', 'Shuffled Practice', 'Preserved Order Practice'], handle_repetitions=False)
 
         # list_length variation: customize crp axis to curb whitespace
-        # if analysis_name == 'crp':
-        #     axis.set_ylim((0, .5))
+        if analysis_name == 'crp':
+            axis.legend(handles=axis.lines[::4], labels=['Without Practice', 'Shuffled Practice', 'Preserved Order Practice'], bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+            #axis.set_ylim((0, .5))
+
+        #axis.legend().remove()
+        # adjust spines to match other figures
+        axis.spines.top.set_visible(True)
+        axis.spines.right.set_visible(True)
+        axis.tick_params(labeltop=False, top=True, direction='in')
+        axis.tick_params(labelright=False, right=True) 
         
         plt.savefig(results_path+'{}_{}_{}_{}.pdf'.format(title, section_tag, model_names[model_index], analysis_name), bbox_inches="tight")
         plt.show()

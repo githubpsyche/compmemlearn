@@ -18,6 +18,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import importlib
 import os
+from tqdm import tqdm
 
 lb = np.finfo(float).eps
 ub = 1 - np.finfo(float).eps
@@ -27,7 +28,7 @@ section_tag = "HealyKahana2014"
 trial_query = "subject > -1"
 results_path = "../../reports/subjectwise_model_evaluation/results/"
 
-model_names = ["PrototypeCMR"]
+model_names = ["Base_CMR"]
 model_paths = [
     "compmemlearn.models.Semantic_CMR",
 ]
@@ -55,12 +56,12 @@ fixed_parameters = [
 
 analysis_names = ['spc', 'crp', 'pfr']
 analysis_paths = [
-    'compmemlearn.analyses.plot_flex_spc', 
-    'compmemlearn.analyses.plot_flex_crp', 
-    'compmemlearn.analyses.plot_flex_pfr'
+    'compmemlearn.analyses.plot_spc', 
+    'compmemlearn.analyses.plot_crp', 
+    'compmemlearn.analyses.plot_pfr'
 ]
 
-experiment_count = 10
+experiment_count = 100
 
 list_lengths = [15, 30, 45, 60, 75, 90]
 
@@ -136,7 +137,7 @@ def simulate_df_from_presentations(model_class, parameters, presentations, exper
 #| echo: false
 #| output: false
 
-sns.set(style='darkgrid')
+sns.set(style='ticks')
 
 # for each unique model
 for model_index, model_class in enumerate(models):
@@ -165,7 +166,7 @@ for model_index, model_class in enumerate(models):
 
             # for each unique matching entry in individual df
             subject_specific_sim_dfs = []
-            for subject in pd.unique(individual_fits.subject):
+            for subject in tqdm(pd.unique(individual_fits.subject)):
                 
                 fit_result = individual_fits.query(f'subject == {subject} & model == "{model_names[model_index]}"')
 
@@ -200,13 +201,22 @@ for model_index, model_class in enumerate(models):
 
         analysis_name = analysis_names[analysis_index]
 
-        axis = analysis_function(
+        axis, result = analysis_function(
             sim_dfs, 'subject > -1', contrast_name="list length", labels=list_lengths)
 
         # list_length variation: customize crp axis to curb whitespace
         if analysis_name == 'crp':
+            axis.legend(handles=axis.lines[::4], labels=list_lengths, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
             axis.set_ylim((0, .5))
+
+        #axis.legend().remove()
         
+        # adjust spines to match other figures
+        axis.spines.top.set_visible(True)
+        axis.spines.right.set_visible(True)
+        axis.tick_params(labeltop=False, top=True, direction='in')
+        axis.tick_params(labelright=False, right=True) 
+
         plt.savefig(results_path+'{}_{}_{}_{}.pdf'.format(title, section_tag, model_names[model_index], analysis_name), bbox_inches="tight")
         plt.show()
 # %%

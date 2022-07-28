@@ -10,12 +10,14 @@
   "daily-notes",
   "note-composer",
   "command-palette",
+  "slash-command",
   "editor-status",
   "starred",
   "markdown-importer",
   "random-note",
   "outline",
   "word-count",
+  "audio-recorder",
   "file-recovery",
   "sync"
 ]

@@ -3,8 +3,6 @@
 #| echo: false
 #| output: false
 
-# TODO: ctrl f "delay" for details to manipulate for variation
-
 from compmemlearn.fitting import generate_objective_function
 from compmemlearn.datasets import events_metadata, generate_trial_mask, find_first
 from scipy.optimize import differential_evolution
@@ -28,7 +26,7 @@ section_tag = "HealyKahana2014"
 trial_query = "subject > -1"
 results_path = "../../reports/subjectwise_model_evaluation/results/"
 
-model_names = ["PrototypeCMR"]
+model_names = ["Base_CMR"]
 model_paths = [
     "compmemlearn.models.Semantic_CMR",
 ]
@@ -56,16 +54,16 @@ fixed_parameters = [
 
 analysis_names = ['spc', 'crp', 'pfr']
 analysis_paths = [
-    'compmemlearn.analyses.plot_flex_spc', 
-    'compmemlearn.analyses.plot_flex_crp', 
-    'compmemlearn.analyses.plot_flex_pfr'
+    'compmemlearn.analyses.plot_spc', 
+    'compmemlearn.analyses.plot_crp', 
+    'compmemlearn.analyses.plot_pfr'
 ]
 
 experiment_count = 100
 list_length = 90
 category_count = 15
 category_size = int(list_length/category_count)
-scales = [0, .4, .8, 1.2, 1.6, 2]
+scales = [0, .5, 1] #[0, .4, .8, 1.2, 1.6, 2]
 
 # %% 
 #| code-summary: code -- retrieve specified models and analyses and individual fits
@@ -141,7 +139,7 @@ def simulate_df_from_presentations(model_class, parameters, item_count, presenta
 #| echo: false
 #| output: false
 
-sns.set(style='darkgrid')
+sns.set(style='ticks')
 
 # for each unique model
 for model_index, model_class in enumerate(models):
@@ -216,12 +214,19 @@ for model_index, model_class in enumerate(models):
 
         analysis_name = analysis_names[analysis_index]
 
-        axis = analysis_function(
-            sim_dfs, 'subject > -1', contrast_name="semantic scale", labels=scales)
+        axis, result = analysis_function(
+            sim_dfs, 'subject > -1', contrast_name="semantic scale", labels=['Low', 'Medium', 'High'])
 
         # list_length variation: customize crp axis to curb whitespace
         if analysis_name == 'crp':
+            axis.legend(handles=axis.lines[::4], labels=['Low', 'Medium', 'High'], bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
             axis.set_ylim((0, .5))
+
+        # adjust spines to match other figures
+        axis.spines.top.set_visible(True)
+        axis.spines.right.set_visible(True)
+        axis.tick_params(labeltop=False, top=True, direction='in')
+        axis.tick_params(labelright=False, right=True) 
         
         plt.savefig(results_path+'{}_{}_{}_{}.pdf'.format(
             title, section_tag, model_names[model_index], analysis_name), bbox_inches="tight")
